@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="14135" systemVersion="17F77" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+    <entity name="AnytimeMO" representedClassName="AnytimeMO" parentEntity="TimeMO" syncable="YES">
+        <attribute name="name" optional="YES" attributeType="String" defaultValueString="anytime" syncable="YES"/>
+    </entity>
+    <entity name="AnytimeOfDayMO" representedClassName="AnytimeOfDayMO" parentEntity="TimeMO" syncable="YES">
+        <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
+    </entity>
+    <entity name="DateMO" representedClassName="DateMO" parentEntity="TimeMO" syncable="YES">
+        <attribute name="date" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
+    </entity>
+    <entity name="TasklistMO" representedClassName="TasklistMO" syncable="YES">
+        <attribute name="name" attributeType="String" syncable="YES"/>
+        <relationship name="tasks" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="TaskMO" syncable="YES"/>
+    </entity>
+    <entity name="TaskMO" representedClassName="TaskMO" syncable="YES">
+        <attribute name="desc" attributeType="String" syncable="YES"/>
+        <attribute name="frequency" attributeType="String" syncable="YES"/>
+        <attribute name="name" attributeType="String" syncable="YES"/>
+        <attribute name="priority" attributeType="String" syncable="YES"/>
+        <attribute name="status" attributeType="String" syncable="YES"/>
+        <relationship name="when" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="TimeMO" syncable="YES"/>
+    </entity>
+    <entity name="TimeMO" representedClassName="TimeMO" isAbstract="YES" syncable="YES"/>
+    <entity name="TimeOfDayMO" representedClassName="TimeOfDayMO" parentEntity="TimeMO" syncable="YES">
+        <attribute name="nSeconds" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
+    </entity>
+    <elements>
+        <element name="AnytimeMO" positionX="63" positionY="144" width="128" height="60"/>
+        <element name="AnytimeOfDayMO" positionX="72" positionY="153" width="128" height="60"/>
+        <element name="DateMO" positionX="54" positionY="135" width="128" height="60"/>
+        <element name="TasklistMO" positionX="81" positionY="162" width="128" height="75"/>
+        <element name="TaskMO" positionX="-63" positionY="-18" width="128" height="135"/>
+        <element name="TimeMO" positionX="126" positionY="225" width="128" height="45"/>
+        <element name="TimeOfDayMO" positionX="45" positionY="126" width="128" height="60"/>
+    </elements>
+</model>
