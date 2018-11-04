@@ -6,21 +6,39 @@
 //  Copyright © 2018 Mana Roy Studio. All rights reserved.
 //
 
-import Foundation
+import CoreMotion
 
 class TripTracker {
     var trip: Trip
-    var output: Output
+    var altimeter: CMAltimeter?
+    var pedometer: CMPedometer?
     var log: Log
+    var errors: ErrorList = ErrorList()
     
-    init(_ trip: Trip, output: Output, log: Log) {
+    init(_ trip: Trip, log: Log) {
         self.trip = trip
-        self.output = output
+        self.altimeter = CMAltimeter()
+        self.pedometer = CMPedometer()
         self.log = log
     }
     
-    func start() {
+    func start() throws {
         trip.startTrip()
+        if CMAltimeter.authorizationStatus() == .authorized {
+            if CMAltimeter.isRelativeAltitudeAvailable() {
+                altimeter?.startRelativeAltitudeUpdates(to: OperationQueue.main) {
+                    data, error in {
+                        
+                    }
+                }
+            }
+            else {
+                errors.add(AltimeterError.notAvailable)
+            }
+        }
+        else {
+            errors.add(AltimeterError.notAvailable)
+        }
     }
     
     func stop() {
