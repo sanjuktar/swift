@@ -29,6 +29,11 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
             else if editVC.currentChildVC is TextEditViewController {
                 saveSettingFromTextEdit(editVC.textEditVC, ignore: editVC.ignoreStatus == .ignore(true))
             }
+            do {
+                try Settings.save()
+            } catch {
+                output?.out(.error, error.localizedDescription)
+            }
             tableView.reloadRows(at: [tableView.indexPathForSelectedRow!], with: .none)
         }
     }

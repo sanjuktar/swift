@@ -8,8 +8,14 @@
 
 import Foundation
 
-protocol OnYoFeetError {
+protocol OnYoFeetError: Error {
     var message: String {get}
+}
+
+extension OnYoFeetError {
+    func throwError() throws {
+        throw GenericError(message)
+    }
 }
 
 class GenericError : Error {

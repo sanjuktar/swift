@@ -8,7 +8,7 @@
 
 import Foundation
 
-class Trip {
+class Trip: CodableObj {
     var name: String?
     var start: Date?
     var end: Date?
@@ -33,6 +33,9 @@ class Trip {
     var averagePace: Double {
         let d = duration
         return d == 0 ? 0 : distance/d
+    }
+    var id: String {
+        return createId(with: name!)
     }
     
     init(_ name: String = "") {

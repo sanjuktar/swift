@@ -48,6 +48,8 @@
 		33BCF3AB218193B500A3EC83 /* EditValueViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33BCF3AA218193B500A3EC83 /* EditValueViewController.swift */; };
 		33BCF3AD2181940700A3EC83 /* OptionsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33BCF3AC2181940700A3EC83 /* OptionsTableViewController.swift */; };
 		33BCF3AF2181943D00A3EC83 /* TextEditViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33BCF3AE2181943D00A3EC83 /* TextEditViewController.swift */; };
+		33C1A106218D7EE1003003F5 /* Storage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33C1A105218D7EE1003003F5 /* Storage.swift */; };
+		33C1A108218D8154003003F5 /* DiskStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33C1A107218D8154003003F5 /* DiskStorage.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -115,6 +117,8 @@
 		33BCF3AA218193B500A3EC83 /* EditValueViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditValueViewController.swift; sourceTree = "<group>"; };
 		33BCF3AC2181940700A3EC83 /* OptionsTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OptionsTableViewController.swift; sourceTree = "<group>"; };
 		33BCF3AE2181943D00A3EC83 /* TextEditViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextEditViewController.swift; sourceTree = "<group>"; };
+		33C1A105218D7EE1003003F5 /* Storage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Storage.swift; path = OnYoFeet/controller/dataEdit/Storage.swift; sourceTree = SOURCE_ROOT; };
+		33C1A107218D8154003003F5 /* DiskStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = DiskStorage.swift; path = OnYoFeet/controller/dataEdit/DiskStorage.swift; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -200,6 +204,7 @@
 		33BAAAD02127B20800B3DB35 /* model */ = {
 			isa = PBXGroup;
 			children = (
+				33C1A104218D7E80003003F5 /* storage */,
 				33BCF328215DA96A00A3EC83 /* error */,
 				33BCF336215DD29600A3EC83 /* measurements */,
 				33BCF32E215DB4B800A3EC83 /* settings */,
@@ -329,6 +334,16 @@
 				338C70292182F3730093F944 /* TextType.swift */,
 			);
 			path = dataEdit;
+			sourceTree = "<group>";
+		};
+		33C1A104218D7E80003003F5 /* storage */ = {
+			isa = PBXGroup;
+			children = (
+				33C1A105218D7EE1003003F5 /* Storage.swift */,
+				33C1A107218D8154003003F5 /* DiskStorage.swift */,
+			);
+			name = storage;
+			path = "New Group";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -493,8 +508,10 @@
 				33BCF3AB218193B500A3EC83 /* EditValueViewController.swift in Sources */,
 				33BCF31F215C659100A3EC83 /* Console.swift in Sources */,
 				33BCF34C215F543300A3EC83 /* Measurement.swift in Sources */,
+				33C1A106218D7EE1003003F5 /* Storage.swift in Sources */,
 				33BCF32B215DAA7400A3EC83 /* OutputTypeList.swift in Sources */,
 				338C702A2182F3730093F944 /* TextType.swift in Sources */,
+				33C1A108218D8154003003F5 /* DiskStorage.swift in Sources */,
 				33BCF33A215DDF7200A3EC83 /* Settings.swift in Sources */,
 				33BCF3AF2181943D00A3EC83 /* TextEditViewController.swift in Sources */,
 				33BCF3AD2181940700A3EC83 /* OptionsTableViewController.swift in Sources */,

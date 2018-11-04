@@ -8,23 +8,29 @@
 
 import Foundation
 
-class MeasurementUnits {
+class MeasurementUnits: CodableObj {
     typealias UnitList = [MeasurementType:MeasurementUnit]
     
-    static var current: MeasurementUnits = (Settings.current?.units)!    
+    static var current: MeasurementUnits = (Settings.current?.units)!
+    var name: String
     var distance: DistanceUnit
     var pace: SpeedUnit
     var duration: TimeUnit
     var altitude: DistanceUnit
+    var id: String {
+        return createId(with: name)
+    }
     
     static func metric(shortTrip: Bool = false) -> MeasurementUnits {
         if shortTrip {
-            return MeasurementUnits(distance: DistanceUnit.meters,
+            return MeasurementUnits("metricShortTrip",
+                                    distance: DistanceUnit.meters,
                                     pace: SpeedUnit.kmPerHr,
                                     duration: TimeUnit.seconds,
                                     altitude: DistanceUnit.meters)
         }
-        return MeasurementUnits(distance: DistanceUnit.km,
+        return MeasurementUnits("metric",
+                                distance: DistanceUnit.km,
                                 pace: SpeedUnit.kmPerHr,
                                 duration: TimeUnit.seconds,
                                 altitude: DistanceUnit.meters)
@@ -32,18 +38,21 @@ class MeasurementUnits {
     
     static func imperial(shortTrip: Bool = false) -> MeasurementUnits {
         if shortTrip {
-            return MeasurementUnits(distance: DistanceUnit.yards,
+            return MeasurementUnits("inperialShortTrip",
+                                    distance: DistanceUnit.yards,
                                     pace: SpeedUnit.milesPerHr,
                                     duration: TimeUnit.seconds,
                                     altitude: DistanceUnit.feet)
         }
-        return MeasurementUnits(distance: DistanceUnit.miles,
+        return MeasurementUnits("imperial",
+                                distance: DistanceUnit.miles,
                                 pace: SpeedUnit.milesPerHr,
                                 duration: TimeUnit.seconds,
                                 altitude: DistanceUnit.feet)
     }
     
-    init(distance: DistanceUnit, pace: SpeedUnit, duration: TimeUnit, altitude: DistanceUnit) {
+    init(_ name: String = "", distance: DistanceUnit, pace: SpeedUnit, duration: TimeUnit, altitude: DistanceUnit) {
+        self.name = name
         self.distance = distance
         self.pace = pace
         self.duration = duration

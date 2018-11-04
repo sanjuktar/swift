@@ -10,13 +10,22 @@ import UIKit
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
-
+    static var category = "Application setup"
     var window: UIWindow?
     var settings: Settings?
+    var docs: Documents?
+    var cache: Cache?
+    var output: Output?
+    var log: Log?
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
-        // Override point for customization after application launch.
-        settings = Settings()
+        output = MessageWindow((window?.rootViewController)!)
+        docs = Documents()
+        do {
+            try settings = docs?.retrieve(Settings.filename, as: Settings.self)
+        } catch {
+            output?.out(.error, "Unable to get settings: error.localizedDescription\nUsing defaults")
+        }
         return true
     }
 
