@@ -29,6 +29,23 @@ extension Int {
     }
 }
 
+extension Double {
+    var durationString: String {
+        let (allMinutes,seconds) = Int(self).quotientAndRemainder(dividingBy: 60)
+        let (hours, minutes) = allMinutes.quotientAndRemainder(dividingBy: 60)
+        return String(format:"%02d:%02d:%02d", hours, minutes, seconds)
+    }
+}
+
+extension Date {
+    var formatted: String {
+        let formatter = DateFormatter()
+        formatter.dateStyle = .short
+        formatter.timeStyle = .short
+        return String("\(formatter.string(from: self))")
+    }
+}
+
 enum TimeUnit : String, MeasurementUnit {
     case seconds = "seconds"
     case minutes = "minutes"

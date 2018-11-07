@@ -27,6 +27,7 @@ class TripTrackerViewController: UIViewController, UITableViewDelegate, UITableV
     var target: TripTemplate?
     var output: Output?
     var log: Log?
+    var updateTimer: Timer?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -65,10 +66,21 @@ extension TripTrackerViewController {
                 throw error
             }
             useStopButton()
+            updateTimer = Timer.scheduledTimer(withTimeInterval: 0.1, repeats: true) {
+                timer in
+                if !(self.tracker?.errors.list.isEmpty)! {
+                    self.output?.out(.error, (self.tracker?.errors.list.map{$0.message}.joined(separator: "\n"))!)
+                }
+                self.tableView.reloadData()
+                self.tracker?.errors.clear()
+            }
         }
         else {
             tracker?.stop()
             useStartButton()
+            if updateTimer != nil && (updateTimer?.isValid)! {
+                updateTimer?.invalidate()
+            }
         }
     }
     
@@ -80,9 +92,5 @@ extension TripTrackerViewController {
     func useStopButton() {
         startStopButton.backgroundColor = UIColor(displayP3Red: 1, green: 0.3, blue: 0.3, alpha: 1)
         startStopButton.setTitle("STOP", for: .normal)
-    }
-    
-    func updateTrackerView() {
-        tableView.reloadData()
     }
 }

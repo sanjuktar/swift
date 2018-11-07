@@ -37,7 +37,7 @@ enum TripDataItem : String {
         let units = MeasurementUnits.current
         switch self {
         case .name:
-            return trip.name!.isEmpty ? "Unnamed" : trip.name!
+            return trip.name!
         case .duration:
             return String(duration: trip.duration)
         case .start:

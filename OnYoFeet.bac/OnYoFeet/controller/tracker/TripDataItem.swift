@@ -23,6 +23,7 @@ enum TripDataItem : String {
     case distance = "Distance"
     
     static var cases: [TripDataItem] = [.name, .start, .duration, .currentPace, .averagePace, .distance]
+    static var dataNotAvailable = "Data not available"
     var dataFromTemplate: Bool {
         switch self {
         case .targetPace:
@@ -33,6 +34,7 @@ enum TripDataItem : String {
     }
     
     func data(from trip: Trip) -> String {
+        let units = MeasurementUnits.current
         switch self {
         case .name:
             return trip.name!.isEmpty ? "Unnamed" : trip.name!
@@ -45,17 +47,42 @@ enum TripDataItem : String {
         case .state:
             return trip.inProgress ? "In progress" : "Stopped"
         case .currentPace:
-            return MeasurementUnits.current.pace.string(trip.currentPace)
+            if SpeedUnit.notAvailable(trip.currentPace) {
+                return TripDataItem.dataNotAvailable
+            }
+            else {
+                return units.pace.string(trip.currentPace)
+            }
         case .averagePace:
-            return MeasurementUnits.current.pace.string(trip.averagePace)
+            if SpeedUnit.notAvailable(trip.averagePace) {
+                return TripDataItem.dataNotAvailable
+            }
+            else {
+                return units.pace.string(trip.averagePace)
+            }
         case .climb:
-            return MeasurementUnits.current.distance.string(trip.climb)
+            if DistanceUnit.notAvailable(trip.climb) {
+                return TripDataItem.dataNotAvailable
+            }
+            else {
+                return units.altitude.string(trip.climb)
+            }
         case .incline:
-            return "\(trip.incline)%"
+            if DistanceUnit.notAvailable(trip.incline) {
+                return TripDataItem.dataNotAvailable
+            }
+            else {
+                return "\(trip.incline)%"
+            }
         case .distance:
-            return MeasurementUnits.current.distance.string(trip.distance)
+            if DistanceUnit.notAvailable(trip.distance) {
+                return TripDataItem.dataNotAvailable
+            }
+            else {
+                return MeasurementUnits.current.distance.string(trip.distance)
+            }
         default:
-            return "Dont know"
+            return TripDataItem.dataNotAvailable
         }
     }
     

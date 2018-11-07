@@ -13,7 +13,6 @@ class TripTrackerViewController: UIViewController, UITableViewDelegate, UITableV
     @IBOutlet weak var startStopButton: UIButton!
     
     @IBAction func startStopButtonPressed(_ sender: Any) {
-        print("here")
         do {
             try toggleStartStop()
         } catch {
@@ -28,16 +27,23 @@ class TripTrackerViewController: UIViewController, UITableViewDelegate, UITableV
     var output: Output?
     var log: Log?
     var updateTimer: Timer?
+    var dataItems: [TripDataItem]?
     
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.delegate = self
         tableView.dataSource = self
         useStartButton()
-        trip = Trip("Unnamed")
+        trip = Trip("")
         output = MessageWindow(self)
         log = Log(TripTrackerViewController.outputCategory)
         tracker = TripTracker(trip!, log: log!)
+        dataItems = TripDataItem.cases
+        if (trip?.name?.isEmpty)! {
+            let indx = TripDataItem.cases.index(of: .name)!
+            print("Indx of name: \(indx)")
+            TripDataItem.cases.remove(at: indx)
+        }
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {
@@ -53,6 +59,12 @@ class TripTrackerViewController: UIViewController, UITableViewDelegate, UITableV
         let item = TripDataItem.cases[indexPath.row]
         cell?.textLabel?.text = item.rawValue
         cell?.detailTextLabel?.text = item.dataFromTemplate ? item.data(from: target!) : item.data(from: trip!)
+        if cell?.detailTextLabel?.text == TripDataItem.dataNotAvailable {
+            cell?.detailTextLabel?.textColor = UIColor.gray
+        }
+        else {
+            cell?.detailTextLabel?.textColor = UIColor.gray
+        }
         return cell!
     }
 }
