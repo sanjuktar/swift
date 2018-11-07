@@ -25,13 +25,3 @@ protocol MeasurementUnit: Codable {
     var index: Int {get}
     func string(_ val: Double) -> String
 }
-
-extension MeasurementUnit {
-    static var valueUnavailable: Double {
-        return -1
-    }
-    
-    static func notAvailable(_ val: Double) -> Bool {
-        return val < 0
-    }
-}

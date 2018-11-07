@@ -42,7 +42,7 @@ enum DistanceUnit : String, MeasurementUnit {
     case miles = "miles"
     
     static var cases: [MeasurementUnit] = [DistanceUnit.cm, DistanceUnit.inches, DistanceUnit.feet, DistanceUnit.yards, DistanceUnit.meters, DistanceUnit.km, DistanceUnit.miles]
-    static var defaut: MeasurementUnit = DistanceUnit.meters
+    static var defaut :MeasurementUnit = DistanceUnit.meters
     var name: String {
         return rawValue
     }
