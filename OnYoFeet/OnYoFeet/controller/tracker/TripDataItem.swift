@@ -39,11 +39,11 @@ enum TripDataItem : String {
         case .name:
             return trip.name!
         case .duration:
-            return String(duration: trip.duration)
+            return trip.duration.durationString
         case .start:
-            return trip.start == nil ? "Not started" : String(date: trip.start!)
+            return trip.start == nil ? "Not started" : trip.start!.formatted
         case .end:
-            return trip.end == nil ? "Not ended" : String(date: trip.end!)
+            return trip.end == nil ? "Not ended" : trip.end!.formatted
         case .state:
             return trip.inProgress ? "In progress" : "Stopped"
         case .currentPace:

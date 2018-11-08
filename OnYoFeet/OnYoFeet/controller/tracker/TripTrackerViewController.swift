@@ -41,7 +41,6 @@ class TripTrackerViewController: UIViewController, UITableViewDelegate, UITableV
         dataItems = TripDataItem.cases
         if (trip?.name?.isEmpty)! {
             let indx = TripDataItem.cases.index(of: .name)!
-            print("Indx of name: \(indx)")
             TripDataItem.cases.remove(at: indx)
         }
     }

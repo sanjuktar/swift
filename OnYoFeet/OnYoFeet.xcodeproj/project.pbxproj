@@ -35,7 +35,6 @@
 		33BCF340215DF57A00A3EC83 /* DistanceUnit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33BCF33F215DF57A00A3EC83 /* DistanceUnit.swift */; };
 		33BCF342215DF58900A3EC83 /* SpeedUnit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33BCF341215DF58900A3EC83 /* SpeedUnit.swift */; };
 		33BCF344215DF5B300A3EC83 /* TimeUnit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33BCF343215DF5B300A3EC83 /* TimeUnit.swift */; };
-		33BCF348215E048800A3EC83 /* String.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33BCF347215E048800A3EC83 /* String.swift */; };
 		33BCF34C215F543300A3EC83 /* Measurement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33BCF34B215F543300A3EC83 /* Measurement.swift */; };
 		33BCF34E215F56FC00A3EC83 /* UnableToDetermineUnitError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33BCF34D215F56FC00A3EC83 /* UnableToDetermineUnitError.swift */; };
 		33BCF351216014CE00A3EC83 /* TableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 33BCF350216014CE00A3EC83 /* TableViewCell.xib */; };
@@ -104,7 +103,6 @@
 		33BCF33F215DF57A00A3EC83 /* DistanceUnit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DistanceUnit.swift; sourceTree = "<group>"; };
 		33BCF341215DF58900A3EC83 /* SpeedUnit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpeedUnit.swift; sourceTree = "<group>"; };
 		33BCF343215DF5B300A3EC83 /* TimeUnit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeUnit.swift; sourceTree = "<group>"; };
-		33BCF347215E048800A3EC83 /* String.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = String.swift; sourceTree = "<group>"; };
 		33BCF34B215F543300A3EC83 /* Measurement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Measurement.swift; sourceTree = "<group>"; };
 		33BCF34D215F56FC00A3EC83 /* UnableToDetermineUnitError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnableToDetermineUnitError.swift; sourceTree = "<group>"; };
 		33BCF350216014CE00A3EC83 /* TableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TableViewCell.xib; sourceTree = "<group>"; };
@@ -117,8 +115,8 @@
 		33BCF3AA218193B500A3EC83 /* EditValueViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditValueViewController.swift; sourceTree = "<group>"; };
 		33BCF3AC2181940700A3EC83 /* OptionsTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OptionsTableViewController.swift; sourceTree = "<group>"; };
 		33BCF3AE2181943D00A3EC83 /* TextEditViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextEditViewController.swift; sourceTree = "<group>"; };
-		33C1A105218D7EE1003003F5 /* Storage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Storage.swift; path = OnYoFeet/controller/dataEdit/Storage.swift; sourceTree = SOURCE_ROOT; };
-		33C1A107218D8154003003F5 /* DiskStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = DiskStorage.swift; path = OnYoFeet/controller/dataEdit/DiskStorage.swift; sourceTree = SOURCE_ROOT; };
+		33C1A105218D7EE1003003F5 /* Storage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Storage.swift; path = OnYoFeet/model/storage/Storage.swift; sourceTree = SOURCE_ROOT; };
+		33C1A107218D8154003003F5 /* DiskStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = DiskStorage.swift; path = OnYoFeet/model/storage/DiskStorage.swift; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -169,7 +167,6 @@
 		33BAAA9F2127AB3400B3DB35 /* OnYoFeet */ = {
 			isa = PBXGroup;
 			children = (
-				33BCF316215316BB00A3EC83 /* utils */,
 				33BAAAD22127B21900B3DB35 /* controller */,
 				33BAAAD12127B21000B3DB35 /* view */,
 				33BAAAD02127B20800B3DB35 /* model */,
@@ -204,7 +201,7 @@
 		33BAAAD02127B20800B3DB35 /* model */ = {
 			isa = PBXGroup;
 			children = (
-				33C1A104218D7E80003003F5 /* storage */,
+				33C1A1562193C289003003F5 /* storage */,
 				33BCF328215DA96A00A3EC83 /* error */,
 				33BCF336215DD29600A3EC83 /* measurements */,
 				33BCF32E215DB4B800A3EC83 /* settings */,
@@ -231,14 +228,6 @@
 				33BCF349215EE5E200A3EC83 /* tracker */,
 			);
 			path = controller;
-			sourceTree = "<group>";
-		};
-		33BCF316215316BB00A3EC83 /* utils */ = {
-			isa = PBXGroup;
-			children = (
-				33BCF347215E048800A3EC83 /* String.swift */,
-			);
-			path = utils;
 			sourceTree = "<group>";
 		};
 		33BCF31D215C657100A3EC83 /* output */ = {
@@ -336,14 +325,13 @@
 			path = dataEdit;
 			sourceTree = "<group>";
 		};
-		33C1A104218D7E80003003F5 /* storage */ = {
+		33C1A1562193C289003003F5 /* storage */ = {
 			isa = PBXGroup;
 			children = (
 				33C1A105218D7EE1003003F5 /* Storage.swift */,
 				33C1A107218D8154003003F5 /* DiskStorage.swift */,
 			);
-			name = storage;
-			path = "New Group";
+			path = storage;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -498,7 +486,6 @@
 				33BCF331215DB4FB00A3EC83 /* TripTemplate.swift in Sources */,
 				33BCF3A82181919000A3EC83 /* TripTrackerViewController.swift in Sources */,
 				33BCF340215DF57A00A3EC83 /* DistanceUnit.swift in Sources */,
-				33BCF348215E048800A3EC83 /* String.swift in Sources */,
 				33BCF325215C6DAA00A3EC83 /* AltimeterError.swift in Sources */,
 				33BCF327215C6DBA00A3EC83 /* PedometerError.swift in Sources */,
 				33BCF32D215DAE5700A3EC83 /* TripsViewController.swift in Sources */,
