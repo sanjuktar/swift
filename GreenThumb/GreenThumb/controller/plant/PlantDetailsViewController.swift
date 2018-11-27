@@ -14,22 +14,56 @@ class PlantDetailsViewController: UIViewController {
     @IBOutlet weak var detailsTable: UITableView!
     @IBOutlet weak var editSaveButton: UIBarButtonItem!
     
+    // This constraint ties an element at zero points from the bottom layout guide
+    @IBOutlet var keyboardHeightLayoutConstraint: NSLayoutConstraint?
+    
     static var returnToPlantListSegue = "plantDetailsToListSegue"
     var plant: Plant?
     var output: Output?
     var imagePicker: UIImagePickerController?
     var editMode: Bool = false
+    var details: [PlantDataItem:String] = [:]
+    var textFields: [UITextField: PlantDataItem] = [:]
     var validDetails: Bool {
-        return true
+        return Plant.NameType.nickname.isValid(details[PlantDataItem.nickname]) ||
+               Plant.NameType.common.isValid(details[PlantDataItem.commonName]) ||
+               Plant.NameType.scientific.isValid(details[PlantDataItem.scientificName])
+    }
+    
+    deinit {
+        NotificationCenter.default.removeObserver(self)
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         output = MessageWindow(self)
         setEditMode(editMode)
-        detailsTable.delegate = self
-        detailsTable.dataSource = self
-        imagePicker = UIImagePickerController()
+        setupGestures()
+        setupDetailsTable()
+        setupImagePicker()
+        for detail in PlantDataItem.cases {
+            details[detail] = detail.data(for: plant!)
+        }
+        setEditMode(editMode)
+    }
+    
+    override func shouldPerformSegue(withIdentifier identifier: String, sender: Any?) -> Bool {
+        if identifier == PlantDetailsViewController.returnToPlantListSegue {
+            if !editMode {
+                setEditMode(true)
+                detailsTable.reloadData()
+                return false
+            }
+        }
+        return true
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == PlantDetailsViewController.returnToPlantListSegue {
+            if editMode {
+                saveDetails()
+            }
+        }
     }
     
     func setEditMode(_ flag: Bool) {
@@ -45,52 +79,62 @@ class PlantDetailsViewController: UIViewController {
         }
     }
     
-    override func shouldPerformSegue(withIdentifier identifier: String, sender: Any?) -> Bool {
-        if identifier == PlantDetailsViewController.returnToPlantListSegue {
-            if !editMode {
-                setEditMode(true)
-                detailsTable.reloadData()
-                return false
-            }
-            return true
-        }
-        return true
-    }
-    
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == PlantDetailsViewController.returnToPlantListSegue {
-            if editMode {
-                saveDetails()
-            }
-        }
-    }
-    
     func saveDetails() {
         guard validDetails else {plant = nil; return}
-        let nameTypes = Plant.NameType.cases
         plant?.names = [:]
-        for type in nameTypes {
-            let cell = detailsTable.cellForRow(at: IndexPath(row: nameTypes.index(of: type)!, section: 0)) as! EditPlantTextCell
-            plant?.names[type] = cell.textField.text
-        }
+        plant?.names[Plant.NameType.nickname] = details[PlantDataItem.nickname]
+        plant?.names[Plant.NameType.common] = details[PlantDataItem.commonName]
+        plant?.names[Plant.NameType.scientific] = details[PlantDataItem.scientificName]
+    }
+    
+    private func setupGestures() {
+        let tap = UITapGestureRecognizer(target: self.view, action: #selector(UIView.endEditing(_:)))
+        tap.cancelsTouchesInView = false
+        self.view.addGestureRecognizer(tap)
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(self.keyboardNotification(notification:)),
+            name: NSNotification.Name.UIKeyboardWillChangeFrame,
+            object: nil)
     }
 }
 
 extension PlantDetailsViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return section == 0 ? 3 : 0
+        return section == 0 ? PlantDataItem.cases.count : 0
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        var label, detail: String
-        let type = Plant.NameType.cases[indexPath.row]
-        label = type.rawValue
-        detail = (plant?.names[type]) ?? ""
-        return editMode ? editModeCell("\(label): ", detail) : viewModeCell(label, detail)
+        let dataItem = PlantDataItem.cases[indexPath.row]
+        let label = "\(dataItem.rawValue): "
+        let detail = details[dataItem]
+        var cell: UITableViewCell
+        if editMode {
+            cell = editModeCell(label, detail!)
+            for field in textFields {
+                if field.value == PlantDataItem.cases[indexPath.row] {
+                    textFields.removeValue(forKey: field.key)
+                }
+            }
+            textFields[(cell as! EditPlantTextCell).textField] = dataItem
+        }
+        else {
+            cell = viewModeCell(label, detail!)
+        }
+        return cell
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 75
+    }
+    
+    func tableView(_ tableView: UITableView, shouldHighlightRowAt indexPath: IndexPath) -> Bool {
+        return false
+    }
+    
+    private func setupDetailsTable() {
+        detailsTable.delegate = self
+        detailsTable.dataSource = self
     }
     
     private func editModeCell(_ label: String, _ detail: String) -> EditPlantTextCell {
@@ -98,6 +142,7 @@ extension PlantDetailsViewController: UITableViewDelegate, UITableViewDataSource
         cell.label.text = label
         cell.label.sizeToFit()
         cell.textField.text = detail
+        cell.textField.delegate = self
         return cell
     }
     
@@ -107,6 +152,39 @@ extension PlantDetailsViewController: UITableViewDelegate, UITableViewDataSource
         cell.label.sizeToFit()
         cell.value.text = detail
         return cell
+    }
+}
+
+extension PlantDetailsViewController: UITextFieldDelegate {
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        let text = textField.text
+        details[textFields[textField]!] = ((text! as NSString).replacingCharacters(in: range, with: string))
+        return true
+    }
+    
+    func textFieldDidEndEditing(_ textField: UITextField) {        
+        editSaveButton.isEnabled = validDetails ? true : false
+    }
+    
+    @objc func keyboardNotification(notification: NSNotification) {
+        if let userInfo = notification.userInfo {
+            let endFrame = (userInfo[UIKeyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue
+            let endFrameY = endFrame?.origin.y ?? 0
+            let duration:TimeInterval = (userInfo[UIKeyboardAnimationDurationUserInfoKey] as? NSNumber)?.doubleValue ?? 0
+            let animationCurveRawNSN = userInfo[UIKeyboardAnimationCurveUserInfoKey] as? NSNumber
+            let animationCurveRaw = animationCurveRawNSN?.uintValue ?? UIViewAnimationOptions.curveEaseInOut.rawValue
+            let animationCurve:UIViewAnimationOptions = UIViewAnimationOptions(rawValue: animationCurveRaw)
+            if endFrameY >= UIScreen.main.bounds.size.height {
+                self.keyboardHeightLayoutConstraint?.constant = 0.0
+            } else {
+                self.keyboardHeightLayoutConstraint?.constant = endFrame?.size.height ?? 0.0
+            }
+            UIView.animate(withDuration: duration,
+                           delay: TimeInterval(0),
+                           options: animationCurve,
+                           animations: { self.view.layoutIfNeeded() },
+                           completion: nil)
+        }
     }
 }
 
@@ -132,7 +210,11 @@ extension PlantDetailsViewController: UIImagePickerControllerDelegate {
         dismiss(animated:true, completion: nil)
     }
     
-    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+    internal func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
         dismiss(animated: true, completion: nil)
+    }
+    
+    private func setupImagePicker() {
+        imagePicker = UIImagePickerController()
     }
 }

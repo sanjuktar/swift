@@ -27,8 +27,16 @@ class LocationsManager: Codable {
         }
     }
     
+    static func load() throws -> LocationsManager {
+        return try (Documents.instance?.retrieve(name, as: LocationsManager.self))!
+    }
+    
     init() {
         locations = [LocationsManager.locationUnknown: LocationsManager.unknownLocation]
+    }
+    
+    func commit() throws {
+        try Documents.instance?.store(self, as: LocationsManager.name)
     }
     
     func add(_ location: Location) {
@@ -36,20 +44,13 @@ class LocationsManager: Codable {
     }
     
     func add(_ plant: Plant, at loc: String) {
-        add([plant], at: loc)
-    }
-    
-    func add(_ plants: [Plant], at loc: String) {
-        guard locations[loc] != nil else {return}
-        for plant in plants {
+        locations[loc]?.plants.insert(plant)
+        let current = locate(plant)
+        if current != nil && current != loc {
+            move(plant, to: loc)
+        }
+        else {
             locations[loc]?.plants.insert(plant)
-            let current = locate(plant)
-            if current != nil && current != loc {
-                move(plant, to: loc)
-            }
-            else {
-                locations[loc]?.plants.insert(plant)
-            }
         }
     }
     
@@ -71,13 +72,5 @@ class LocationsManager: Codable {
             }
         }
         return nil
-    }
-    
-    static func load() throws -> LocationsManager {
-        return try (Documents.instance?.retrieve(name, as: LocationsManager.self))!
-    }
-    
-    func commit() throws {
-        try Documents.instance?.store(self, as: LocationsManager.name)
     }
 }

@@ -8,16 +8,11 @@
 
 import UIKit
 
-class EditPlantTextCell: UITableViewCell, UITextFieldDelegate {
+class EditPlantTextCell: UITableViewCell {
     @IBOutlet weak var label: UILabel!
     @IBOutlet weak var textField: UITextField!
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        textField.delegate = self
-    }
-
-    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-        return true
     }
 }

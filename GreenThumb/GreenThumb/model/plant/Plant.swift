@@ -11,14 +11,23 @@ import UIKit
 
 class Plant: Codable, Hashable {
     enum NameType: String, Codable {
-        case common = "Common Name"
-        case scientific = "Scientific Name"
-        case nickname = "Nickname"
+        case common
+        case scientific
+        case nickname
         
         static var cases: [NameType] = [.nickname, .common, .scientific]
 
-        func validName(_ name: String?) -> Bool {
-            return name != nil && !name!.isEmpty
+        func isValid(_ name: String?) -> Bool {
+            switch self {
+            case .scientific:
+                guard name != nil else {return false}
+                let strings = name!.split(separator: " ", omittingEmptySubsequences: false)
+                return strings.count != 2 &&
+                       String(strings[0]).isAlphaNoDiacritics &&
+                       String(strings[1]).isAlphaNoDiacritics
+            default:
+                return name != nil && !name!.isEmpty
+            }
         }
     }
     
@@ -34,12 +43,12 @@ class Plant: Codable, Hashable {
     var name: String {
         let type = (PlantsManager.current?.preferedNameType)!
         var str: String? = names[type]
-        if type.validName(str) {
+        if type.isValid(str) {
             return str!
         }
         for type in Plant.NameType.cases {
             str = names[type]
-            if type.validName(str) {
+            if type.isValid(str) {
                 return str!
             }
         }

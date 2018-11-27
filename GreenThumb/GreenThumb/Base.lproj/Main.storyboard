@@ -53,7 +53,7 @@
                                         <connections>
                                             <outlet property="image" destination="KSU-3A-6z6" id="LHR-dl-X9u"/>
                                             <outlet property="nameLabel" destination="2TU-ZN-ZPy" id="bb4-Wa-zAp"/>
-                                            <segue destination="yIE-sa-XHw" kind="presentation" identifier="viewPlantDetailsSegue" id="CoE-N0-Tgt"/>
+                                            <segue destination="yIE-sa-XHw" kind="show" identifier="viewPlantDetailsSegue" id="CoE-N0-Tgt"/>
                                         </connections>
                                     </collectionViewCell>
                                 </cells>
@@ -66,7 +66,7 @@
                         <barButtonItem key="leftBarButtonItem" systemItem="edit" id="wKe-4e-chl"/>
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="Shu-Lm-UXb">
                             <connections>
-                                <segue destination="yIE-sa-XHw" kind="presentation" identifier="editPlantDetailsSegue" id="rCd-cG-huy"/>
+                                <segue destination="yIE-sa-XHw" kind="show" identifier="editPlantDetailsSegue" id="rCd-cG-huy"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
@@ -87,27 +87,12 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <navigationBar contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="3BS-G4-U6y">
-                                <rect key="frame" x="0.0" y="20" width="375" height="44"/>
-                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
-                                <items>
-                                    <navigationItem title="Plant details" id="pVt-0d-Nyo">
-                                        <barButtonItem key="backBarButtonItem" title="Plants" id="EWV-to-iv9"/>
-                                        <barButtonItem key="rightBarButtonItem" title="Item" id="0mw-g3-NTm">
-                                            <connections>
-                                                <action selector="editSaveButtonClicked:" destination="yIE-sa-XHw" id="b45-MZ-tQo"/>
-                                                <segue destination="qrl-Um-bvp" kind="unwind" identifier="plantDetailsToListSegue" unwindAction="unwindToPlantsListWithSegue:" id="9HG-mA-cb7"/>
-                                            </connections>
-                                        </barButtonItem>
-                                    </navigationItem>
-                                </items>
-                            </navigationBar>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="noImage" translatesAutoresizingMaskIntoConstraints="NO" id="hc5-ED-BKg">
                                 <rect key="frame" x="67" y="81" width="256" height="255"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </imageView>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="wZR-2L-mQm">
-                                <rect key="frame" x="16" y="364" width="343" height="283"/>
+                                <rect key="frame" x="16" y="364" width="343" height="257"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <prototypes>
@@ -181,10 +166,19 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <viewLayoutGuide key="safeArea" id="ScN-c9-chi"/>
                     </view>
+                    <toolbarItems/>
+                    <navigationItem key="navigationItem" title="Title" id="yh8-ef-0Hn">
+                        <barButtonItem key="rightBarButtonItem" title="Item" id="F51-Zy-8nf">
+                            <connections>
+                                <segue destination="qrl-Um-bvp" kind="unwind" identifier="plantDetailsToListSegue" unwindAction="unwindToPlantsListWithSegue:" id="0Kg-LD-x2R"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
                         <outlet property="cameraButton" destination="xhQ-DW-xCZ" id="C1M-ad-D36"/>
                         <outlet property="detailsTable" destination="wZR-2L-mQm" id="dPk-q5-q08"/>
-                        <outlet property="editSaveButton" destination="0mw-g3-NTm" id="Mrl-ML-kZ1"/>
+                        <outlet property="editSaveButton" destination="F51-Zy-8nf" id="Vzf-IK-kcF"/>
                         <outlet property="imageView" destination="hc5-ED-BKg" id="Ql1-K6-Lbc"/>
                     </connections>
                 </viewController>

@@ -9,6 +9,18 @@
 import Foundation
 
 extension String {
+    var isAlphaNoDiacritics: Bool {
+        return !self.isEmpty && self.range(of: "[^a-zA-Z]", options: .regularExpression) == nil
+    }
+    
+    var isAlpha: Bool {
+        return !self.isEmpty && self.rangeOfCharacter(from: CharacterSet.letters.inverted) == nil
+    }
+    
+    var isAlphaNum: Bool {
+        return !self.isEmpty && self.rangeOfCharacter(from: CharacterSet.alphanumerics.inverted) == nil 
+    }
+    
     var djb2hash: Int {
         let unicodeScalars = self.unicodeScalars.map { $0.value }
         return unicodeScalars.reduce(5381) {

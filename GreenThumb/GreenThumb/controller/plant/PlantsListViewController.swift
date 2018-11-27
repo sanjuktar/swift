@@ -8,7 +8,7 @@
 
 import UIKit
 
-class PlantsListViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource {
+class PlantsListViewController: UIViewController {
     @IBOutlet weak var addButton: UIBarButtonItem!
     @IBOutlet weak var plantCollection: UICollectionView!
     
@@ -61,6 +61,12 @@ class PlantsListViewController: UIViewController, UICollectionViewDelegate, UICo
         }
     }
     
+    private func location(_ indexPath: IndexPath) -> Location {
+        return LocationsManager.unknownLocation
+    }
+}
+
+extension PlantsListViewController: UICollectionViewDelegate, UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return plants?.count ?? 0
     }
@@ -71,9 +77,5 @@ class PlantsListViewController: UIViewController, UICollectionViewDelegate, UICo
         cell.nameLabel.text = plant.name
         cell.image.image = (plant.image != nil) ? plant.image : UIImage(imageLiteralResourceName: "noImage")
         return cell
-    }
-    
-    private func location(_ indexPath: IndexPath) -> Location {
-        return LocationsManager.unknownLocation
     }
 }
