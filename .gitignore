@@ -33,4 +33,7 @@ xcuserdata/
 !*.xcworkspace/contents.xcworkspacedata
 /*.gcno
 
+### Mana specific
+*.bac/
+
 # End of https://www.gitignore.io/api/xcode
