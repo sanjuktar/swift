@@ -1,8 +1,8 @@
 //
-//  TimeOfDay.swift
+//  SunExposure.swift
 //  GreenThumb
 //
-//  Created by Sanjukta Roy on 12/18/18.
+//  Created by Sanjukta Roy on 12/20/18.
 //  Copyright © 2018 Mana Roy Studio. All rights reserved.
 //
 
