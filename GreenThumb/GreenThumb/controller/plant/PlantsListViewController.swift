@@ -13,10 +13,10 @@ class PlantsListViewController: UIViewController {
     @IBOutlet weak var plantCollection: UICollectionView!
     
     @IBAction func unwindToPlantsList(segue: UIStoryboardSegue) {
-        if segue.identifier == PlantDetailsViewController.returnToPlantListSegue {
+        if segue.identifier == "unwindEditPlantToList" {
             let source = segue.source as! PlantDetailsViewController
             guard source.plant != nil else {return}
-            var newPlant = true
+            var newPlant = !(plants?.contains(source.plant!))!
             for plant in plants! {
                 if plant.id == source.plant?.id {
                     newPlant = false
@@ -24,11 +24,11 @@ class PlantsListViewController: UIViewController {
                 }
             }
             if newPlant {
-                LocationsManager.current?.add(source.plant!, at: LocationsManager.locationUnknown)
+                Plant.manager?.plants.append(source.plant!)
             }
             plantCollection.reloadData()
             do {
-                try LocationsManager.current?.commit()
+                try Location.manager?.commit()
             } catch {
                 output?.output(.error, "Unable to save changes: \(error.localizedDescription)")
             }
@@ -37,7 +37,7 @@ class PlantsListViewController: UIViewController {
     
     var output: Output?
     var plants: [Plant]? {
-        return LocationsManager.current?.allPlants
+        return Plant.manager?.plants
     }
     
     override func viewDidLoad() {
@@ -48,21 +48,19 @@ class PlantsListViewController: UIViewController {
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "editPlantDetailsSegue" {
+        if segue.identifier == "viewPlantDetailsSegue" {
+            let dest = segue.destination as! PlantDetailsViewController
+            dest.plant = selectedPlant()
+        }
+        else if segue.identifier == "addNewPlantSegue" {
             let dest = segue.destination as! PlantDetailsViewController
             dest.editMode = true
             dest.plant = Plant([:])
         }
-        else if segue.identifier == "viewPlantDetailsSegue" {
-            let dest = segue.destination as! PlantDetailsViewController
-            let indexPath = plantCollection.indexPathsForSelectedItems![0]
-            dest.editMode = false
-            dest.plant = plants?[indexPath.item]
-        }
     }
     
     private func location(_ indexPath: IndexPath) -> Location {
-        return LocationsManager.unknownLocation
+        return Location.unknownLocation
     }
 }
 
@@ -72,10 +70,14 @@ extension PlantsListViewController: UICollectionViewDelegate, UICollectionViewDa
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = plantCollection.dequeueReusableCell(withReuseIdentifier: "plantCell", for: indexPath) as! PlantCell
+        let cell = plantCollection.dequeueReusableCell(withReuseIdentifier: "plantListCell", for: indexPath) as! PlantListCell
         let plant = plants![indexPath.row]
         cell.nameLabel.text = plant.name
         cell.image.image = (plant.image != nil) ? plant.image : UIImage(imageLiteralResourceName: "noImage")
         return cell
+    }
+    
+    func selectedPlant() -> Plant? {
+        return plants?[ plantCollection.indexPathsForSelectedItems![0].row]
     }
 }

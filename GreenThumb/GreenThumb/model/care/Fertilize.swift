@@ -7,3 +7,38 @@
 //
 
 import Foundation
+
+class Fertilize: Action {
+    var fertilizer: String = "unknown"
+    var quantity: Volume = .any
+    override var desc: String {
+        get {
+            return "\(quantity.desc) of \(fertilizer)"
+        }
+        set {}
+    }
+    
+    enum FertilizeKeys: String, CodingKey {
+        case fertilizer
+        case quantity
+    }
+    
+    required init(from decoder: Decoder) throws {
+        try super.init(from: decoder)
+        let container = try decoder.container(keyedBy: FertilizeKeys.self)
+        fertilizer = try container.decode(String.self, forKey: .fertilizer)
+        quantity = try container.decode(Volume.self, forKey: .quantity)
+    }
+    
+    init(_ fertilizer: String, _ quantity: Volume, notes: String = "") {
+        super.init()
+        self.fertilizer = fertilizer
+        self.quantity = quantity
+    }
+    
+    override func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: FertilizeKeys.self)
+        try container.encode(fertilizer, forKey: .fertilizer)
+        try container.encode(quantity, forKey: .quantity)
+    }
+}

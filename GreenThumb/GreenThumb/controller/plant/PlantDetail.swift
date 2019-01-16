@@ -1,5 +1,5 @@
 //
-//  PlantDataItem.swift
+//  PlantDetail.swift
 //  GreenThumb
 //
 //  Created by Sanjukta Roy on 11/16/18.
@@ -9,7 +9,7 @@
 import Foundation
 
 
-enum PlantDetail: String {
+enum PlantDetail: String, Codable {
     enum Section: String {
         case names = "Names"
         case care = "Care Schedule"
@@ -32,16 +32,16 @@ enum PlantDetail: String {
     case sun = "Sun exposure"
     case fertilize = "Fertilizer"
     case pestControl = "Pest Control"
-    case pruning = "Pruning"
+    case prune = "Pruning"
     case repot = "Repot"
     
-    static var items: [Section:[PlantDataItem]] =
+    static var items: [Section:[PlantDetail]] =
         [.noSection:[.location],
          .names:[.nickname, .commonName, .scientificName],
          .care:[.water, .fertilize, .pestControl, .sun]]
     var section: Section {
-        for section in PlantDataItem.Section.cases {
-            for item in PlantDataItem.items[section]! {
+        for section in PlantDetail.Section.cases {
+            for item in PlantDetail.items[section]! {
                 if item == self {
                     return section
                 }
@@ -50,10 +50,29 @@ enum PlantDetail: String {
         return .noSection
     }
     
+    func careDetail(_ instructions: CareInstructions) -> CareDetail? {
+        switch self {
+        case .water:
+            return CareDetail.water(instructions.currentSeason(.water))
+        case .sun:
+            return CareDetail.sun(instructions.currentSeason(.sun))
+        case .fertilize:
+            return CareDetail.fertilize(instructions.currentSeason(.fertilize))
+        case .pestControl:
+            return CareDetail.pestControl(instructions.currentSeason(.pestControl))
+        case .prune:
+            return CareDetail.prune
+        case .repot:
+            return CareDetail.repot
+        default:
+            return nil
+        }
+    }
+    
     func data(for plant: Plant) -> String {
         switch self {
         case .preferedName:
-            return plant.preferedNameType.rawValue
+            return plant.preferedNameType!.rawValue
         case .nickname:
             return plant.names[Plant.NameType.nickname] ?? ""
         case .commonName:
@@ -61,19 +80,19 @@ enum PlantDetail: String {
         case .scientificName:
             return plant.names[Plant.NameType.scientific] ?? ""
         case .location:
-            return plant.location.name
+            return plant.location.name 
         case .water:
-            return plant.care.current(.water)
+            return (plant.care.detail(.water)?.data(plant.care))!
         case .sun:
-            return plant.care.current(.sun)
+            return plant.care.detail(.sun)!.data(plant.care)
         case .fertilize:
-            return plant.care.current(.fertilize)
+            return plant.care.detail(.fertilize)!.data(plant.care)
         case .pestControl:
-            return plant.care.current(.pestControl)
-        case .pruning:
-            return plant.care.current(.pruning)
+            return plant.care.detail(.pestControl)!.data(plant.care)
+        case .prune:
+            return plant.care.detail(.prune)!.data(plant.care)
         case .repot:
-            return plant.care.current(.repot)
+            return plant.care.detail(.repot)!.data(plant.care)
         }
     }
 }

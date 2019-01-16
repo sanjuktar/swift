@@ -10,41 +10,44 @@ import UIKit
 
 class PlantDetailsViewController: UIViewController {
     @IBOutlet weak var imageView: UIImageView!
-    @IBOutlet weak var cameraButton: UIButton!
     @IBOutlet weak var detailsTable: UITableView!
+    @IBOutlet weak var nameLabel: UILabel!
+    @IBOutlet weak var nameValueLabel: UILabel!
+    @IBOutlet weak var locationLabel: UILabel!
+    @IBOutlet weak var locationValueView: UIView!
     @IBOutlet weak var editSaveButton: UIBarButtonItem!
+    @IBOutlet weak var cameraButton: UIButton!
     
-    // This constraint ties an element at zero points from the bottom layout guide
-    @IBOutlet var keyboardHeightLayoutConstraint: NSLayoutConstraint?
+    static var detailTextFont = UIFont(name: "detailText", size: 5)
+    static var detailLabelFont = UIFont(name: "detailLabel", size: 5)
+    static var detailLabelColor: UIColor = .gray
+    static var returnToPlantListSegue = "unwindEditPlantToList"
+    static var careDetailsSegue = "plantDetailsToCareSegue"
     
-    static var returnToPlantListSegue = "plantDetailsToListSegue"
     var plant: Plant?
-    var output: Output?
-    var imagePicker: UIImagePickerController?
     var editMode: Bool = false
-    var details: [PlantDataItem:String] = [:]
-    var textFields: [UITextField: PlantDataItem] = [:]
-    var validDetails: Bool {
-        return Plant.NameType.nickname.isValid(details[PlantDataItem.nickname]) ||
-               Plant.NameType.common.isValid(details[PlantDataItem.commonName]) ||
-               Plant.NameType.scientific.isValid(details[PlantDataItem.scientificName])
-    }
-    
-    deinit {
-        NotificationCenter.default.removeObserver(self)
-    }
+    var output: Output?
+    var details: [PlantDetail:String] = [:]
+    var imagePicker: UIImagePickerController?
+    var textFields: [UITextField:PlantDetail] = [:]
+    var locationValueSubview: UIView?
+    var performSegue = true
     
     override func viewDidLoad() {
         super.viewDidLoad()
         output = MessageWindow(self)
-        setEditMode(editMode)
-        setupGestures()
-        setupDetailsTable()
-        setupImagePicker()
-        for detail in PlantDataItem.cases {
-            details[detail] = detail.data(for: plant!)
+        for items in PlantDetail.items.values {
+            for item in items {
+                details[item] = item.data(for: plant!)
+            }
         }
+        setupName()
+        setupLocation()
+        setupDetailsTable()
+        setupGestures()
+        setupImagePicker()
         setEditMode(editMode)
+        textFields.removeAll()
     }
     
     override func shouldPerformSegue(withIdentifier identifier: String, sender: Any?) -> Bool {
@@ -55,6 +58,11 @@ class PlantDetailsViewController: UIViewController {
                 return false
             }
         }
+        if identifier == PlantDetailsViewController.careDetailsSegue {
+            let retVal = performSegue
+            performSegue = true
+            return retVal
+        }
         return true
     }
     
@@ -64,9 +72,71 @@ class PlantDetailsViewController: UIViewController {
                 saveDetails()
             }
         }
+        if segue.identifier == PlantDetailsViewController.careDetailsSegue {
+            let dest = segue.destination as! CareDetailsViewController
+            dest.care = plant?.care
+        }
     }
     
-    func setEditMode(_ flag: Bool) {
+    private func saveDetails() {
+        plant?.names[Plant.NameType.nickname] = details[PlantDetail.nickname]
+        plant?.names[Plant.NameType.common] = details[PlantDetail.commonName]
+        plant?.names[Plant.NameType.scientific] = details[PlantDetail.scientificName]
+    }
+    
+    private func validate() -> Bool {
+        for item in PlantDetail.items[PlantDetail.Section.noSection]! {
+            if !validate(item) {
+                return false
+            }
+        }
+        for section in PlantDetail.Section.cases {
+            if section == PlantDetail.Section.names && !validateNames() {
+                return false
+            }
+            for item in PlantDetail.items[section]! {
+                if !validate(item) {
+                    return false
+                }
+            }
+        }
+        return true
+    }
+    
+    private func validate(_ item: PlantDetail) -> Bool {
+        switch item {
+        case .location:
+            return true
+        case .preferedName:
+            return true
+        case .nickname:
+            return validateNames()
+        case .commonName:
+            return validateNames()
+        case .scientificName:
+            return validateNames()
+        case .water:
+            return true
+        case .sun:
+            return true
+        case .fertilize:
+            return true
+        case .pestControl:
+            return true
+        case .prune:
+            return true
+        case .repot:
+            return true
+        }
+    }
+    
+    private func validateNames() -> Bool {
+        return Plant.NameType.nickname.isValid(details[PlantDetail.nickname]) ||
+            Plant.NameType.common.isValid(details[PlantDetail.commonName]) ||
+            Plant.NameType.scientific.isValid(details[PlantDetail.scientificName])
+    }
+    
+    private func setEditMode(_ flag: Bool) {
         editMode = flag
         cameraButton.isHidden = !flag
         if flag {
@@ -77,14 +147,52 @@ class PlantDetailsViewController: UIViewController {
             editSaveButton.title = "Edit"
             navigationItem.title = "Plant Details"
         }
+        editButtonItem.isEnabled = validate()
+        setupName()
+        setupLocation()
     }
     
-    func saveDetails() {
-        guard validDetails else {plant = nil; return}
-        plant?.names = [:]
-        plant?.names[Plant.NameType.nickname] = details[PlantDataItem.nickname]
-        plant?.names[Plant.NameType.common] = details[PlantDataItem.commonName]
-        plant?.names[Plant.NameType.scientific] = details[PlantDataItem.scientificName]
+    private func setupName() {
+        nameLabel.font = PlantDetailsViewController.detailLabelFont
+        nameLabel.textColor = PlantDetailsViewController.detailLabelColor
+        nameValueLabel.text = plant?.name
+        nameValueLabel.font = PlantDetailsViewController.detailTextFont
+    }
+    
+    private func setupLocation() {
+        locationLabel.font = PlantDetailsViewController.detailLabelFont
+        locationLabel.textColor = PlantDetailsViewController.detailLabelColor
+        let frame = CGRect(origin: locationValueView.frame.origin, size: CGSize(width: locationValueView.frame.width, height: 30))
+        if editMode {
+            if locationValueSubview != nil {
+                if locationValueSubview is UITextField {
+                    (locationValueSubview as! UITextField).text = plant?.location.name
+                    view.addSubview(locationValueSubview!)
+                    return
+                }
+                locationValueSubview?.removeFromSuperview()
+            }
+            let subview = UITextField(frame: frame)
+            subview.text = plant?.location.name
+            subview.font = PlantDetailsViewController.detailTextFont
+            locationValueSubview = subview
+            addToTextFields(subview, dataItem: PlantDetail.location)
+        }
+        else {
+            if locationValueSubview != nil {
+                if locationValueSubview is UILabel {
+                    (locationValueSubview as! UILabel).text = plant?.location.name
+                    view.addSubview(locationValueSubview!)
+                    return
+                }
+                locationValueSubview?.removeFromSuperview()
+            }
+            let subview = UILabel(frame: frame)
+            subview.text = plant?.location.name
+            subview.font = PlantDetailsViewController.detailTextFont
+            locationValueSubview = subview
+        }
+        view.addSubview(locationValueSubview!)
     }
     
     private func setupGestures() {
@@ -100,32 +208,32 @@ class PlantDetailsViewController: UIViewController {
 }
 
 extension PlantDetailsViewController: UITableViewDelegate, UITableViewDataSource {
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return PlantDetail.Section.nSections
+    }
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return section == 0 ? PlantDataItem.cases.count : 0
+        guard (0..<PlantDetail.Section.nSections).contains(section) else {return 0}
+        return (PlantDetail.items[PlantDetail.Section.cases[section]]?.count)!
+    }
+    
+    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        return PlantDetail.Section.cases[section].rawValue
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let dataItem = PlantDataItem.cases[indexPath.row]
-        let label = "\(dataItem.rawValue): "
-        let detail = details[dataItem]
-        var cell: UITableViewCell
+        let item = dataItem(at: indexPath)
+        let label = "\(item.rawValue): "
         if editMode {
-            cell = editModeCell(label, detail!)
-            for field in textFields {
-                if field.value == PlantDataItem.cases[indexPath.row] {
-                    textFields.removeValue(forKey: field.key)
-                }
-            }
-            textFields[(cell as! EditPlantTextCell).textField] = dataItem
+            let cell = editModeCell(label, item.data(for: plant!))
+            addToTextFields(cell.detailTextField, dataItem: item)
+            return cell
         }
-        else {
-            cell = viewModeCell(label, detail!)
-        }
-        return cell
+        return viewModeCell(label, item.data(for: plant!))
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 75
+        return 40
     }
     
     func tableView(_ tableView: UITableView, shouldHighlightRowAt indexPath: IndexPath) -> Bool {
@@ -139,31 +247,54 @@ extension PlantDetailsViewController: UITableViewDelegate, UITableViewDataSource
     
     private func editModeCell(_ label: String, _ detail: String) -> EditPlantTextCell {
         let cell = detailsTable.dequeueReusableCell(withIdentifier: "editPlantTextCell") as! EditPlantTextCell
-        cell.label.text = label
-        cell.label.sizeToFit()
-        cell.textField.text = detail
-        cell.textField.delegate = self
+        cell.titleLabel.text = label
+        cell.titleLabel.font = PlantDetailsViewController.detailLabelFont
+        cell.titleLabel.textColor = PlantDetailsViewController.detailLabelColor
+        cell.titleLabel.sizeToFit()
+        cell.detailTextField.text = detail
+        cell.detailTextField.font = PlantDetailsViewController.detailTextFont
+        cell.detailTextField.delegate = self
         return cell
     }
     
-    private func viewModeCell(_ label: String, _ detail: String) -> PlantTextCell {
-        let cell = detailsTable.dequeueReusableCell(withIdentifier: "plantTextCell") as! PlantTextCell
-        cell.label.text = label
-        cell.label.sizeToFit()
-        cell.value.text = detail
-        return cell
+    private func viewModeCell(_ label: String, _ detail: String) -> UITableViewCell {
+        let cell = detailsTable.dequeueReusableCell(withIdentifier: "plantTextCell")
+        cell?.textLabel?.text = label
+        cell?.textLabel?.textColor = PlantDetailsViewController.detailLabelColor
+        cell?.detailTextLabel?.text = detail
+        return cell!
+    }
+    
+    private func indexPath(_ item: PlantDetail) -> IndexPath? {
+        let section = item.section
+        if section == .noSection {
+            return nil
+        }
+        return IndexPath(row: (PlantDetail.items[section]?.index(of: item))!,
+                         section: PlantDetail.Section.cases.index(of: section)!)
+        
+    }
+    
+    private func dataItem(at: IndexPath) -> PlantDetail {
+        let section = PlantDetail.Section.cases[at.section]
+        return PlantDetail.items[section]![at.row]
     }
 }
 
 extension PlantDetailsViewController: UITextFieldDelegate {
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-        let text = textField.text
-        details[textFields[textField]!] = ((text! as NSString).replacingCharacters(in: range, with: string))
+        details[textFields[textField]!] = ((textField.text as! NSString).replacingCharacters(in: range, with: string))
+        editSaveButton.isEnabled = validate(textFields[textField]!)
         return true
     }
     
-    func textFieldDidEndEditing(_ textField: UITextField) {        
-        editSaveButton.isEnabled = validDetails ? true : false
+    func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
+        if textFields[textField]?.section == PlantDetail.Section.care {
+            performSegue = true
+            return false
+        }
+        performSegue = false
+        return true
     }
     
     @objc func keyboardNotification(notification: NSNotification) {
@@ -174,17 +305,33 @@ extension PlantDetailsViewController: UITextFieldDelegate {
             let animationCurveRawNSN = userInfo[UIKeyboardAnimationCurveUserInfoKey] as? NSNumber
             let animationCurveRaw = animationCurveRawNSN?.uintValue ?? UIViewAnimationOptions.curveEaseInOut.rawValue
             let animationCurve:UIViewAnimationOptions = UIViewAnimationOptions(rawValue: animationCurveRaw)
-            if endFrameY >= UIScreen.main.bounds.size.height {
+            /*if endFrameY >= UIScreen.main.bounds.size.height {
                 self.keyboardHeightLayoutConstraint?.constant = 0.0
             } else {
                 self.keyboardHeightLayoutConstraint?.constant = endFrame?.size.height ?? 0.0
-            }
+            }*/
             UIView.animate(withDuration: duration,
                            delay: TimeInterval(0),
                            options: animationCurve,
                            animations: { self.view.layoutIfNeeded() },
                            completion: nil)
         }
+    }
+    
+    private func addToTextFields(_ textField: UITextField, dataItem: PlantDetail) {
+        if let field = textFieldFor(dataItem) {
+            textFields.remove(at: textFields.index(forKey: field)!)
+        }
+        textFields[textField] = dataItem
+    }
+    
+    private func textFieldFor(_ item: PlantDetail) -> UITextField? {
+        for t in textFields.keys {
+            if textFields[t] == item {
+                return t
+            }
+        }
+        return nil
     }
 }
 

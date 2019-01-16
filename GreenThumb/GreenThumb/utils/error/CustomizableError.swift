@@ -1,5 +1,5 @@
 //
-//  WordyError.swift
+//  CustomizableError.swift
 //  GreenThumb
 //
 //  Created by Sanjukta Roy on 11/8/18.
@@ -8,11 +8,11 @@
 
 import Foundation
 
-protocol WordyError: Error {
+protocol CustomizableError: Error {
     var message: String {get}
 }
 
-extension WordyError {
+extension CustomizableError {
     func throwError() throws {
         throw GenericError(message)
     }

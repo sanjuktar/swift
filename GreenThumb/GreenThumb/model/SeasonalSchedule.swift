@@ -7,3 +7,17 @@
 //
 
 import Foundation
+
+class SeasonalSchedule: Codable {
+    var timetable: [Season:Timetable]
+    var seasons: [Season] {
+        return timetable.keys.map{$0}
+    }
+    var current: Timetable? {
+        return timetable[Season.Manager.find(Date(), in: seasons)]
+    }
+    
+    init() {
+        timetable = [Season:Timetable]()
+    }
+}

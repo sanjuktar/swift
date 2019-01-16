@@ -1,5 +1,5 @@
 //
-//  CareAction.swift
+//  CareActions.swift
 //  GreenThumb
 //
 //  Created by Sanjukta Roy on 12/20/18.
@@ -8,73 +8,35 @@
 
 import Foundation
 
-enum Water: Action {
-    case nodesc
-    case soak
-    case lightly
-    case ml(Int)
-    case oz(Int)
-    case custom(String)
-    
-    var desc: String {
-        var str: String
-        switch self {
-        case .soak:
-            str = " thoroughly"
-        case .lightly:
-            str = " lightly"
-        case .ml(let qnty):
-            str = " with \(qnty)ml"
-        case .oz(let qnty):
-            str = " with \(qnty)oz"
-        case .custom(let s):
-            str = s
-        default:
-            str = ""
-        }
-        return str
-    }
-}
-
-class Fertilize: Action {
-    var name: String
-    var qnty: Quantity
-    var desc: String {
-        return "\(qnty.desc) of \(name)"
+class Move: Action {
+    init(_ desc: String) {
+        super.init()
+        self.desc = desc
     }
     
-    init(_ name: String, _ qnty: Quantity) {
-        self.name = name
-        self.qnty = qnty
-    }
-}
-
-enum SunExposure: String, Action {
-    case any = "any"
-    case fullSun = "full sun"
-    case someSun = "some sun"
-    case noAfternoonSun = "no afternoon sun"
-    case bright = "bright light"
-    case indirectSun = "indirect sun"
-    case lowLight = "low light"
-    
-    var desc: String {
-        return self.rawValue
+    required init(from decoder: Decoder) throws {
+        try super.init(from: decoder)
     }
 }
 
 class PestControl: Action {
-    var desc: String
-    
     init(_ desc: String) {
+        super.init()
         self.desc = desc
+    }
+    
+    required init(from decoder: Decoder) throws {
+        try super.init(from: decoder)
     }
 }
 
 class Pruning: Action {
-    var desc: String
-    
     init(_ desc: String) {
+        super.init()
         self.desc = desc
+    }
+    
+    required init(from decoder: Decoder) throws {
+        try super.init(from: decoder)
     }
 }

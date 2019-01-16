@@ -8,7 +8,7 @@
 
 import Foundation
 
-typealias ObjectId = String
+/*typealias ObjectId = String
 
 protocol IdedObj {
     var id:  String {get}
@@ -18,7 +18,7 @@ extension IdedObj {
     func createId(with unique: String) -> String {
         return "\(type(of: self))_\(unique)"
     }
-}
+}*/
 
 protocol Storage {
     func store<T: Codable>(_ object: T, as filename: String) throws

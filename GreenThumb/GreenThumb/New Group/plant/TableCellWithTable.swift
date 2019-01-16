@@ -1,5 +1,5 @@
 //
-//  PlantNameCell.swift
+//  TableCellWithTable.swift
 //  GreenThumb
 //
 //  Created by Sanjukta Roy on 12/17/18.
@@ -8,23 +8,31 @@
 
 import UIKit
 
-class PlantNameCell: UITableViewCell, UITableViewDelegate, UITableViewDataSource {
-    @IBOutlet weak var namesTable: UITableView!
- 
-    var names: NameList?
+class TableCellWithTable: UITableViewCell, UITableViewDelegate, UITableViewDataSource {
+    @IBOutlet weak var label: UILabel!
+    @IBOutlet weak var tableView: UITableView!
+    var labels: [String] = []
+    var details: [String] = []
+    
+    func setContents(_ contents: [String:String]) {
+        labels = contents.keys.map{$0}
+        for label in labels {
+            details.append(contents[label]!)
+        }
+    }
     
     func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return Plant.NameType.cases.count
+        return labels.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = namesTable.dequeueReusableCell(withIdentifier: "nameTableCell")
-        let type = Plant.NameType.cases[indexPath.row]
-        cell?.textLabel?.text = type.rawValue
-        cell?.detailTextLabel?.text = names[type] ?? ""
+        let cell = tableView.dequeueReusableCell(withIdentifier: "plantCellWithTable")
+        cell?.textLabel?.text = labels[indexPath.row]
+        cell?.detailTextLabel?.text = details[indexPath.row]
+        return cell!
     }
 }

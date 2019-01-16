@@ -7,43 +7,68 @@
 //
 
 import Foundation
+import UIKit
 
-class Location: Codable {
-    
-    enum CodingKeys: String, CodingKey {
-        case name
-        case plants
+class Location: IdedObj {
+    enum Conditions: String, Codable {
+        case sunny = "sunny"
+        case indoors = "indoors"
+        case covered = "covered"
+        case windy = "windy"
+        case draftyHot = "drafty(hot)"
+        case draftyCold = "drafty(cold)"
+        case dry = "dry"
+        case humid = "humid"
     }
     
+    enum CodingKeys: String, CodingKey {
+        case id
+        case name
+        case conditions
+    }
+    
+    static var locationUnknown = "Location Unknown"
+    static var unknownLocation = Location(Location.locationUnknown)
+    static var manager: Location.Manager? {
+        return AppDelegate.current?.locations
+    }
+    var id: UniqueId
     var name: String
-    var plants: Set<Plant>
+    var conditions: [Conditions]
+    
+    static func == (lhs: Location, rhs: Location) -> Bool {
+        return lhs.id == rhs.id
+    }
     
     required init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
+        id = try container.decode(UniqueId.self, forKey: .id)
         name = try container.decode(String.self, forKey: .name)
-        plants = try container.decode(Set<Plant>.self, forKey: .plants)
+        conditions = try container.decode([Conditions].self, forKey: .conditions)
     }
     
-    init(_ name: String, plants: Set<Plant> = []) {
+    init(_ name: String, conditions: [Conditions] = []) {
+        let m = Location.manager
+        let delegate = AppDelegate.current
+        self.id = (Location.manager?.newId())!
         self.name = name
-        self.plants = plants
+        self.conditions = conditions
     }
     
     func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(id, forKey: .id)
         try container.encode(name, forKey: .name)
-        try container.encode(plants.map{$0}, forKey: .plants)
+        try container.encode(conditions, forKey: .conditions)
     }
     
-    func add(_ plant: Plant) {
-        plants.insert(plant)
+    func persist() throws {
+        try Documents.instance?.store(self, as: id)
+        try Location.manager?.add(self)
     }
     
-    func remove(_ plant: Plant) {
-        plants.remove(plant)
-    }
-    
-    func found(_ plant: Plant) -> Bool {
-        return plants.contains(plant)
+    func unpersist() throws {
+        try Documents.instance?.remove(id)
+        try Location.manager?.remove(self)
     }
 }

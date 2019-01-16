@@ -9,10 +9,7 @@
 import UIKit
 
 class EditPlantTextCell: UITableViewCell {
-    @IBOutlet weak var label: UILabel!
-    @IBOutlet weak var textField: UITextField!
+    @IBOutlet weak var titleLabel: UILabel!
+    @IBOutlet weak var detailTextField: UITextField!
     
-    override func awakeFromNib() {
-        super.awakeFromNib()
-    }
 }

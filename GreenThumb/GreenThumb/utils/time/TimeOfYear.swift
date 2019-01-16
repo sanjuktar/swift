@@ -8,7 +8,7 @@
 
 import Foundation
 
-class TimeOfYear: Time {
+class TimeOfYear: Time, Codable {
     static var start = TimeOfYear(1, 1)
     static var end = TimeOfYear(31,12)
     static var formatter: DateFormatter {
