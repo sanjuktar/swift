@@ -48,8 +48,6 @@ class Location: IdedObj {
     }
     
     init(_ name: String, conditions: [Conditions] = []) {
-        let m = Location.manager
-        let delegate = AppDelegate.current
         self.id = (Location.manager?.newId())!
         self.name = name
         self.conditions = conditions

@@ -202,7 +202,7 @@ class PlantDetailsViewController: UIViewController {
         NotificationCenter.default.addObserver(
             self,
             selector: #selector(self.keyboardNotification(notification:)),
-            name: NSNotification.Name.UIKeyboardWillChangeFrame,
+            name: UIResponder.keyboardWillChangeFrameNotification,
             object: nil)
     }
 }
@@ -270,8 +270,8 @@ extension PlantDetailsViewController: UITableViewDelegate, UITableViewDataSource
         if section == .noSection {
             return nil
         }
-        return IndexPath(row: (PlantDetail.items[section]?.index(of: item))!,
-                         section: PlantDetail.Section.cases.index(of: section)!)
+        return IndexPath(row: (PlantDetail.items[section]?.firstIndex(of: item))!,
+                         section: PlantDetail.Section.cases.firstIndex(of: section)!)
         
     }
     
@@ -299,12 +299,12 @@ extension PlantDetailsViewController: UITextFieldDelegate {
     
     @objc func keyboardNotification(notification: NSNotification) {
         if let userInfo = notification.userInfo {
-            let endFrame = (userInfo[UIKeyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue
+            let endFrame = (userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue
             let endFrameY = endFrame?.origin.y ?? 0
-            let duration:TimeInterval = (userInfo[UIKeyboardAnimationDurationUserInfoKey] as? NSNumber)?.doubleValue ?? 0
-            let animationCurveRawNSN = userInfo[UIKeyboardAnimationCurveUserInfoKey] as? NSNumber
-            let animationCurveRaw = animationCurveRawNSN?.uintValue ?? UIViewAnimationOptions.curveEaseInOut.rawValue
-            let animationCurve:UIViewAnimationOptions = UIViewAnimationOptions(rawValue: animationCurveRaw)
+            let duration:TimeInterval = (userInfo[UIResponder.keyboardAnimationDurationUserInfoKey] as? NSNumber)?.doubleValue ?? 0
+            let animationCurveRawNSN = userInfo[UIResponder.keyboardAnimationCurveUserInfoKey] as? NSNumber
+            let animationCurveRaw = animationCurveRawNSN?.uintValue ?? UIView.AnimationOptions.curveEaseInOut.rawValue
+            let animationCurve:UIView.AnimationOptions = UIView.AnimationOptions(rawValue: animationCurveRaw)
             /*if endFrameY >= UIScreen.main.bounds.size.height {
                 self.keyboardHeightLayoutConstraint?.constant = 0.0
             } else {
@@ -339,7 +339,7 @@ extension PlantDetailsViewController: UIImagePickerControllerDelegate {
     @IBAction func takePicture(_ sender: Any) {
         if UIImagePickerController.isSourceTypeAvailable(.camera) {
             imagePicker?.allowsEditing = false
-            imagePicker?.sourceType = UIImagePickerControllerSourceType.camera
+            imagePicker?.sourceType = UIImagePickerController.SourceType.camera
             imagePicker?.cameraCaptureMode = .photo
             imagePicker?.modalPresentationStyle = .fullScreen
             present(imagePicker!, animated: true, completion: nil)
@@ -351,7 +351,7 @@ extension PlantDetailsViewController: UIImagePickerControllerDelegate {
     
     private func imagePickerController(_ picker: UIImagePickerController,
                                        didFinishPickingMediaWithInfo info: [String : AnyObject]) {
-        let image = info[UIImagePickerControllerOriginalImage] as! UIImage
+        let image = info[convertFromUIImagePickerControllerInfoKey(UIImagePickerController.InfoKey.originalImage)] as! UIImage
         imageView.contentMode = .scaleAspectFit
         imageView.image = image
         dismiss(animated:true, completion: nil)
@@ -364,4 +364,9 @@ extension PlantDetailsViewController: UIImagePickerControllerDelegate {
     private func setupImagePicker() {
         imagePicker = UIImagePickerController()
     }
+}
+
+// Helper function inserted by Swift 4.2 migrator.
+fileprivate func convertFromUIImagePickerControllerInfoKey(_ input: UIImagePickerController.InfoKey) -> String {
+	return input.rawValue
 }

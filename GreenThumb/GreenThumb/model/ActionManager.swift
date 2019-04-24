@@ -60,7 +60,7 @@ class ActionManager: IdedObjManager<Action> {
     }
     
     override func remove(_ obj: Action) throws {
-        actions.remove(at: actions.index(of: obj)!)
+        actions.remove(at: actions.firstIndex(of: obj)!)
         try commit()
     }
 }

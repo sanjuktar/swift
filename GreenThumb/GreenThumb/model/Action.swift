@@ -15,13 +15,10 @@ class Action: IdedObj {
     }
     
     static var manager: ActionManager? {
-        return AppDelegate.current?.actions!
+        return AppDelegate.current?.actions
     }
     var id: UniqueId
     var desc: String
-    var hashValue: Int {
-        return id.djb2hash
-    }
     
     static func ==(_ lhs: Action, _ rhs: Action) -> Bool {
         return lhs.id == rhs.id

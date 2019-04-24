@@ -22,8 +22,8 @@ extension IdedObj {
         return lhs.id == rhs.id
     }
     
-    var hashValue: Int {
-        return id.hashValue
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(id)
     }
     
     func updatePersisted() throws {

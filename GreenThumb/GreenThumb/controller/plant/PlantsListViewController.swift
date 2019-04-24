@@ -23,12 +23,14 @@ class PlantsListViewController: UIViewController {
                     break
                 }
             }
-            if newPlant {
-                Plant.manager?.plants.append(source.plant!)
-            }
             plantCollection.reloadData()
             do {
-                try Location.manager?.commit()
+                if newPlant {
+                    try Plant.manager?.add(source.plant!)
+                }
+                else {
+                    try source.plant?.updatePersisted()
+                }
             } catch {
                 output?.output(.error, "Unable to save changes: \(error.localizedDescription)")
             }

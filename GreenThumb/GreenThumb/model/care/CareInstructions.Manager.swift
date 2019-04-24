@@ -54,7 +54,7 @@ extension CareInstructions {
         }
         
         override func remove(_ obj: CareInstructions) throws {
-            instructions.remove(at: instructions.index(of: obj)!)
+            instructions.remove(at: instructions.firstIndex(of: obj)!)
             try commit()
         }
         

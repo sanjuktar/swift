@@ -65,12 +65,13 @@ class Plant: IdedObj {
         return ""
     }
     var imageData: Data? {
-        return (image == nil ? nil : UIImageJPEGRepresentation(image!, 0.5))
+        return (image == nil ? nil : image!.jpegData(compressionQuality: 0.5))
     }
     
     required init(from: Decoder) throws {
         let container = try from.container(keyedBy: CodingKeys.self)
         id = try container.decode(String.self, forKey: .id)
+        print("Loading \(id)")
         names = try container.decode([NameType:String].self, forKey: .names)
         location = try container.decode(Location.self, forKey: .location)
         preferedNameType = try container.decode(Plant.NameType.self, forKey: .preferedNameType)
@@ -91,6 +92,7 @@ class Plant: IdedObj {
     func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encode(id, forKey: .id)
+        print("Storing \(id)")
         try container.encode(names, forKey: .names)
         try container.encode(location, forKey: .location)
         try container.encode(preferedNameType, forKey: .preferedNameType)
@@ -99,12 +101,10 @@ class Plant: IdedObj {
     }
     
     func persist() throws {
-        try Documents.instance?.store(self, as: id)
         try Plant.manager?.add(self)
     }
     
     func unpersist() throws {
-        try Documents.instance?.remove(id)
         try Plant.manager?.remove(self)
     }
     

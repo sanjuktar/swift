@@ -17,9 +17,6 @@ class TimeWindow :Time, Hashable {
     var value :Date {
         return end.value
     }
-    var hashValue: Int {
-        return (start.description + end.description).djb2hash
-    }
     
     static func == (lhs: TimeWindow, rhs: TimeWindow) -> Bool {
         return lhs.start.equals(rhs.start) &&
@@ -29,5 +26,9 @@ class TimeWindow :Time, Hashable {
     init(start :Time, end :Time) {
         self.start = start
         self.end = end
+    }
+    
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(start.description + end.description)
     }
 }

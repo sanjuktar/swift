@@ -21,7 +21,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var care: CareInstructions.Manager?
     var actions: ActionManager?
 
-    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
+    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         AppDelegate.current = self
         do {
             locations = try Location.Manager.load()
@@ -34,14 +34,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             }
         }
         do {
-            plants = try Plant.Manager.load()
-        } catch {
-            plants = Plant.Manager()
-        }
-        do {
             seasons = try Season.Manager.load()
         } catch {
             seasons = Season.Manager()
+        }
+        do {
+            actions = try ActionManager.load()
+        } catch {
+            actions = ActionManager()
         }
         do {
             care = try CareInstructions.Manager.load()
@@ -49,9 +49,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             care = CareInstructions.Manager()
         }
         do {
-            actions = try ActionManager.load() 
+            plants = try Plant.Manager.load()
         } catch {
-            actions = ActionManager()
+            plants = Plant.Manager()
         }
         return true
     }

@@ -28,6 +28,7 @@ extension Plant {
             let container = try decoder.container(keyedBy: CodingKeys.self)
             name = try container.decode(String.self, forKey: .name)
             let plantIds = try container.decode([UniqueId].self, forKey: .plants)
+            print("Loading plant ids: \(plantIds)")
             plants = []
             for id in plantIds {
                 let plant = try Documents.instance?.retrieve(id, as: Plant.self)
@@ -47,6 +48,7 @@ extension Plant {
             var container = encoder.container(keyedBy: CodingKeys.self)
             try container.encode(name, forKey: .name)
             try container.encode(plants.map{$0.id}, forKey: .plants)
+            print("Storing plant ids: \(plants.map{$0.id})")
             try container.encode(idGenerator, forKey: .idGenerator)
             try container.encode(preferedNameType, forKey: .preferedNameType)
         }
@@ -61,13 +63,14 @@ extension Plant {
         
         override func add(_ obj: Plant) throws {
             plants.append(obj)
+            try Documents.instance!.store(obj, as: obj.id)
             try commit()
         }
         
         override func remove(_ obj: Plant) throws {
-            plants.remove(at: plants.index(of: obj)!)
-            try commit()
+            plants.remove(at: plants.firstIndex(of: obj)!)
             try Documents.instance?.remove(obj.id)
+            try commit()
         }
     }
 }

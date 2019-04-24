@@ -29,7 +29,7 @@ class OutputTypeList {
     }
     
     func remove(_ type: OutputType) {
-        if let pos = types.index(of: type) {
+        if let pos = types.firstIndex(of: type) {
             types.remove(at: pos)
         }
     }
