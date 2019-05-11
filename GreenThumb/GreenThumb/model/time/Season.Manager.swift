@@ -8,7 +8,7 @@
 
 import UIKit
 
-typealias ConditionRelevantSeasons = [Condition:[Season]]
+//typealias ConditionRelevantSeasons = [Condition:[Season]]
 
 extension Season {
     class Manager: IdedObjManager<Season> {
@@ -20,7 +20,6 @@ extension Season {
         
         static var defaultName = "Season.Manager"
         var seasons: [Season] = []
-        var conditions: ConditionRelevantSeasons = [:]
         var log: Log? {
             return AppDelegate.current?.log
         }
@@ -47,16 +46,9 @@ extension Season {
             seasons = try idList.compactMap{try Documents.instance?.retrieve($0, as: Season.self)}
         }
         
-        init(_ name: String = Manager.defaultName, _ seasons: [Season] = [], _ conditions: ConditionRelevantSeasons? = nil) {
+        init(_ name: String = Manager.defaultName, _ seasons: [Season] = []) {
             super.init(name, "Season")
             self.seasons = seasons
-            if conditions != nil {
-                self.conditions = conditions!
-            }
-            else {
-                self.conditions = [:]
-                Location.indoorConditions.forEach{self.conditions[$0.value] = self.seasons}
-            }
         }
         
         override func encode(to encoder: Encoder) throws {

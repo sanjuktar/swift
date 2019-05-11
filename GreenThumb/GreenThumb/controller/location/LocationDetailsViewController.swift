@@ -64,7 +64,7 @@ class LocationDetailsViewController: UIViewController {
         detailsTable.delegate = self
         detailsTable.dataSource = self
         setEditMode(editMode)
-        detailsList = (location?.value(.inOrOut)?.name == InOrOut.Values.indoors.rawValue ?
+        detailsList = (location?.value(.inOrOut).name == InOrOut.Values.indoors.rawValue ?
                         LocationDetail.indoorDetails : LocationDetail.outdoorDetails)
     }
     

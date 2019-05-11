@@ -20,6 +20,21 @@ class Location: IdedObj {
         case rain
         case humidity
         case wind
+        
+        var defaultValue: Condition {
+            switch self {
+            case .inOrOut:
+                return InOrOut()
+            case .light:
+                return LightExposure()
+            case .rain:
+                return Rain()
+            case .humidity:
+                return Humidity()
+            case .wind:
+                return Wind()
+            }
+        }
     }
     
     enum CodingKeys: String, CodingKey {
@@ -36,11 +51,14 @@ class Location: IdedObj {
     }
     static var indoorConditions: [Conditions] = [.inOrOut, .light, .humidity]
     static var outdoorConditions: [Conditions] = [.inOrOut, .light, .rain, .humidity, .wind]
-    static var defaultConditions: ConditionsList = [.inOrOut:InOrOut(), .light:LightExposure(), .rain:Rain(), .humidity:Humidity(), .wind:Wind()]
+    static var defaultSeasons = [Season.allYear]
     var id: UniqueId
     var name: String
     var conditions: AnnualConditions
     var conditionsUsed: [Conditions]
+    var isOutdoors: Bool {
+        return ((value(.inOrOut) as? InOrOut) ?? InOrOut()).isOutdoors
+    }
     
     static func == (lhs: Location, rhs: Location) -> Bool {
         return lhs.id == rhs.id
@@ -51,7 +69,7 @@ class Location: IdedObj {
         id = try container.decode(UniqueId.self, forKey: .id)
         name = try container.decode(String.self, forKey: .name)
         conditions = try container.decode(AnnualConditions.self, forKey: .conditions)
-        conditionsUsed = try container.decode([Conditions], forKey: .conditionsUsed)
+        conditionsUsed = try container.decode([Conditions].self, forKey: .conditionsUsed)
     }
     
     init(_ name: String, conditions:AnnualConditions? = nil) {
@@ -59,19 +77,19 @@ class Location: IdedObj {
         self.name = name
         if conditions != nil {
             self.conditions = conditions!
-        }
-        else{
-            let seasonalConditions: SeasonalConditions? = conditions[Conditions.inOrOut]
-            let seasons = seasonalConditions?.keys.map{$0} ?? [Season.allYear]
-            if (conditions[.inOrOut]![Season.Manager.find(Date(), in: seasons)] as! InOrOut).isOutdoors  {
-                conditionsUsed = Location.outdoorConditions
+            if let seasons = conditions?[.inOrOut] {
+                let season = Season.Manager.find(Date(), in: seasons.keys.map{$0})
+                let condition = conditions?[Conditions.inOrOut]?[season]
+                conditionsUsed = ((condition as! InOrOut).isOutdoors ? Location.outdoorConditions : Location.indoorConditions)
             }
             else {
                 conditionsUsed = Location.indoorConditions
             }
-            var map: AnnualConditions = [:]
-            Location.defaultConditions.forEach{map[$0.key] = [Season.allYear:$0.value]}
-            self.conditions = map
+        }
+        else {
+            conditionsUsed = Location.indoorConditions
+            self.conditions = [:]
+            conditionsUsed.forEach{self.conditions[$0] = [Season.allYear:$0.defaultValue]}
         }
     }
     
@@ -96,11 +114,12 @@ class Location: IdedObj {
         try Location.manager?.remove(self)
     }
     
-    func condition(_ detail: Conditions) -> Condition {
-        var seasons = validSeasons(detail)
+    func value(_ detail: Conditions) -> Condition {
+        let seasons = validSeasons(detail)
         var season: Season
         if seasons == nil {
-            addCondition(detail, Season.allYear, Location.defaultConditions[detail])
+            season = Season.allYear
+            addCondition(detail, Season.allYear, detail.defaultValue)
         }
         else {
             season = Season.Manager.find(Date(), in: seasons!)
@@ -108,16 +127,17 @@ class Location: IdedObj {
         if let retVal = conditions[detail]![season] {
             return retVal
         }
-        var vals = Location.indoorConditions
+        /*var vals = Location.indoorConditions
         if (conditions[.inOrOut]![season] as! InOrOut).isOutdoors {
             vals = Location.outdoorConditions
         }
-        return vals[detail]!
+        return vals[detail]!*/
+        return detail.defaultValue
     }
     
     func addCondition(_ detail: Conditions, _ season: Season, _ value: Condition) {
         conditions[detail] = [:]
-        conditions[detail]![Season.allYear] = Location.defaultConditions[detail]
+        conditions[detail]![Season.allYear] = detail.defaultValue
     }
     
     func currentSeason(_ condition: Conditions) -> Season {
@@ -126,10 +146,5 @@ class Location: IdedObj {
     
     func validSeasons(_ condition: Conditions) -> [Season]? {
         return conditions[condition]?.keys.map{$0}
-    }
-    
-    func value(_ condition: Conditions) -> Condition? {
-        guard let seasons = validSeasons(condition) else {return nil}
-        return conditions[condition]?[Season.Manager.find(Date(), in: seasons)] ?? nil
     }
 }
