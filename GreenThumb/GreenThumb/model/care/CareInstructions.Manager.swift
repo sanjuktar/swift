@@ -28,7 +28,7 @@ extension CareInstructions {
             try super.init(from: decoder)
             let container = try decoder.container(keyedBy: CodingKeys.self)
             name = try container.decode(String.self, forKey: .name)
-            instructions = try container.decode([CareInstructions].self, forKey: .instructions)
+            instructions = try container.decode([UniqueId].self, forKey: .instructions).map{try (Documents.instance?.retrieve($0, as: CareInstructions.self))!}
             idGenerator = try container.decode(IdGenerator.self, forKey: .idGenerator)
         }
         
@@ -50,11 +50,13 @@ extension CareInstructions {
         
         override func add(_ obj: CareInstructions) throws {
             instructions.append(obj)
+            try Documents.instance?.store(obj, as: obj.id)
             try commit()
         }
         
         override func remove(_ obj: CareInstructions) throws {
             instructions.remove(at: instructions.firstIndex(of: obj)!)
+            try Documents.instance?.remove(obj.id)
             try commit()
         }
         

@@ -18,47 +18,34 @@ extension Location {
         }
         
         static var defaultName: String = "Location.Manager"
-        var locations: [UniqueId: Location] = [:]
-        //var defaut: String = Location.locationUnknown
+        var locations: [Location] = []
         var log: Log? = AppDelegate.current?.log
         
-        static func load(name :String = defaultName) throws -> Location.Manager {
-            return try (Documents.instance?.retrieve(name, as: Location.Manager.self))!
-        }
-        
-        static func create(_ name: String = defaultName, addUnknownLocation: Bool = true) -> Location.Manager {
-            let loc = Location.Manager(name)
-            if addUnknownLocation {
-                do {
-                    try loc.add(Location.unknownLocation)
-                } catch {
-                    loc.log?.output(.error, "Unable to cleanly add \(Location.unknownLocation.name) to \(loc.name)")
-                }
-            }
-            return loc 
+        static func load(name :String = defaultName) throws -> Manager {
+            return try (Documents.instance?.retrieve(name, as: Manager.self))!
         }
         
         required init(from decoder: Decoder)  throws {
             try super.init(from: decoder)
             let container = try decoder.container(keyedBy: CodingKeys.self)
             name = try container.decode(String.self, forKey: .name)
-            let locIds = try container.decode([UniqueId].self, forKey: .locations)
-            locations = [:]
-            for id in locIds {
-                locations[id] = try Documents.instance?.retrieve(id, as: Location.self)
-            }
             idGenerator = try container.decode(IdGenerator.self, forKey: .idGenerator)
+            let locIds = try container.decode([UniqueId].self, forKey: .locations)
+            try locIds.forEach{id in
+                let loc = try Documents.instance?.retrieve(id, as: Location.self)
+                locations.append(loc!)
+            }
         }
         
-        private init(_ name: String = Manager.defaultName) {
+        init(_ name: String = Manager.defaultName, _ locations: [Location] = []) {
             super.init(name, "Location")
-            locations = [:]
+            self.locations = locations
         }
         
         override func encode(to encoder: Encoder) throws {
             var container = encoder.container(keyedBy: CodingKeys.self)
             try container.encode(name, forKey: .name)
-            try container.encode(locations.keys.filter{_ in true}, forKey: .locations)
+            try container.encode(locations, forKey: .locations)
             try container.encode(idGenerator, forKey: .idGenerator)
         }
         
@@ -67,20 +54,24 @@ extension Location {
         }
         
         func get(_ name: String) -> Location? {
-            return locations[name]
+            return locations.first{$0.name == name}
         }
         
         override func add(_ obj: Location) throws {
-            locations[obj.id] = obj
+            if let indx = locations.firstIndex(of: obj) {
+                locations.remove(at: indx)
+            }
+            self.locations.append(obj)
+            try Documents.instance?.store(obj, as: obj.id)
             try commit()
         }
         
         override func remove(_ obj: Location) throws {
-            if locations.keys.contains(obj.id) {
-                locations.remove(at: locations.index(forKey: obj.id)!)
+            if let pos = locations.firstIndex(of: obj) {
+                locations.remove(at: pos)
             }
-            try commit()
             try Documents.instance?.remove(obj.id)
+            try commit()
         }
     }
 }

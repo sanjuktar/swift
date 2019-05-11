@@ -27,15 +27,10 @@ extension Plant {
             try super.init(from: decoder)
             let container = try decoder.container(keyedBy: CodingKeys.self)
             name = try container.decode(String.self, forKey: .name)
-            let plantIds = try container.decode([UniqueId].self, forKey: .plants)
-            print("Loading plant ids: \(plantIds)")
-            plants = []
-            for id in plantIds {
-                let plant = try Documents.instance?.retrieve(id, as: Plant.self)
-                plants.append(plant!)
-            }
             idGenerator = try container.decode(IdGenerator.self, forKey: .idGenerator)
             preferedNameType = try container.decode(Plant.NameType.self, forKey: .preferedNameType)
+            let plantIds = try container.decode([UniqueId].self, forKey: .plants)
+            plants = try plantIds.compactMap{try Documents.instance?.retrieve($0, as: Plant.self)}
         }
         
         init(_ name: String = Manager.defaultName, _ plants: [Plant] = [], _ lastId: Int = 0, _ preferedNameType: Plant.NameType = Plant.NameType.nickname) {
@@ -47,8 +42,7 @@ extension Plant {
         override func encode(to encoder: Encoder) throws {
             var container = encoder.container(keyedBy: CodingKeys.self)
             try container.encode(name, forKey: .name)
-            try container.encode(plants.map{$0.id}, forKey: .plants)
-            print("Storing plant ids: \(plants.map{$0.id})")
+            try container.encode(plants, forKey: .plants)
             try container.encode(idGenerator, forKey: .idGenerator)
             try container.encode(preferedNameType, forKey: .preferedNameType)
         }
@@ -62,15 +56,29 @@ extension Plant {
         }
         
         override func add(_ obj: Plant) throws {
-            plants.append(obj)
+            if plants.firstIndex(of: obj) == nil {
+                plants.append(obj)
+            }
             try Documents.instance!.store(obj, as: obj.id)
             try commit()
         }
         
         override func remove(_ obj: Plant) throws {
-            plants.remove(at: plants.firstIndex(of: obj)!)
+            if let pos = plants.firstIndex(of: obj) {
+                plants.remove(at: pos)
+            }
             try Documents.instance?.remove(obj.id)
             try commit()
+        }
+        
+        func plants(at location: Location) -> [Plant] {
+            var list: [Plant] = []
+            for plant in plants {
+                if plant.location == location {
+                    list.append(plant)
+                }
+            }
+            return list
         }
     }
 }

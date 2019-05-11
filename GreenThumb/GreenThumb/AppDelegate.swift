@@ -24,19 +24,24 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         AppDelegate.current = self
         do {
-            locations = try Location.Manager.load()
-        } catch {
-            locations = Location.Manager.create(addUnknownLocation: false)
-            do {
-                try locations?.add(Location.unknownLocation)
-            } catch {
-                log?.out(.error, "Unable to add \(Location.unknownLocation.name) to \(locations?.name)")
-            }
-        }
-        do {
             seasons = try Season.Manager.load()
         } catch {
             seasons = Season.Manager()
+            do {
+                try seasons!.add(Season.allYear)
+            } catch {
+                seasons?.log?.output(.error, "Unable to add \"(Season.allYear.name)\" to \(seasons!.name)")
+            }
+        }
+        do {
+            locations = try Location.Manager.load()
+        } catch {
+            locations = Location.Manager()
+            do {
+                try locations!.add(Location.unknownLocation)
+            } catch {
+                locations!.log?.output(.error, "Unable to add \"\(Location.unknownLocation.name)\" to \(locations!.name)")
+            }
         }
         do {
             actions = try ActionManager.load()

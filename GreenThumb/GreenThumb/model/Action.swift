@@ -42,12 +42,10 @@ class Action: IdedObj {
     }
     
     func persist() throws {
-        try Documents.instance?.store(self, as: id)
         try Action.manager?.add(self)
     }
     
     func unpersist() throws {
-        try Documents.instance?.remove(id)
         try Action.manager?.remove(self)
     }
 }
@@ -57,7 +55,7 @@ struct CodableAction: Codable {
         case unknown = "Unknown"
         case water = "Water"
         case fertilize = "Fertilize"
-        case sunExposure = "Sun exposure"
+        case lightExposure = "Light exposure"
         
         /*var type: Any.Type {
             switch self {
@@ -68,14 +66,14 @@ struct CodableAction: Codable {
             }
         }*/
         
-        static func value(of action: Any) -> ActionType? {
+        /*static func value(of action: Any) -> ActionType? {
             switch action {
             case is Water: return .water
             case is Fertilize: return .fertilize
-            case is Sun: return .sunExposure
+            case is LightExposure: return .lightExposure
             default: return nil
             }
-        }
+        }*/
     }
     
     enum ActionKey: String, CodingKey {
@@ -94,8 +92,8 @@ struct CodableAction: Codable {
             action = try container.decode(Water.self, forKey: .action)
         case .fertilize:
             action = try container.decode(Fertilize.self, forKey: .action)
-        case .sunExposure:
-            action = try container.decode(Sun.self, forKey: .action)
+        case .lightExposure:
+            action = try container.decode(Light.self, forKey: .action)
         default:
             action = Action()
         }
@@ -106,7 +104,7 @@ struct CodableAction: Codable {
         switch action {
         case is Water: self.type = .water
         case is Fertilize: self.type = .fertilize
-        case is Sun: self.type = .sunExposure
+        case is Light: self.type = .lightExposure
         default: self.type = .unknown
         }
     }
@@ -117,7 +115,7 @@ struct CodableAction: Codable {
         switch type {
         case .water: try container.encode((action as! Water), forKey: .action)
         case .fertilize: try container.encode((action as! Fertilize), forKey: .action)
-        case .sunExposure: try container.encode((action as! Sun), forKey: .action)
+        case .lightExposure: try container.encode((action as! Light), forKey: .action)
         default: break
         }
     }

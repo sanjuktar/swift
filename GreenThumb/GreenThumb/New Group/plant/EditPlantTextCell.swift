@@ -10,6 +10,5 @@ import UIKit
 
 class EditPlantTextCell: UITableViewCell {
     @IBOutlet weak var titleLabel: UILabel!
-    @IBOutlet weak var detailTextField: UITextField!
-    
+    @IBOutlet weak var detailTextField: UITextField!    
 }

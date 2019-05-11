@@ -23,7 +23,7 @@ class Season: TimeWindow, IdedObj {
     static var allYear = Season("all year", TimeOfYear.start, TimeOfYear.end)
     static var restOfYear = Season("rest of the year", TimeOfYear.start, TimeOfYear.end)
     var id: UniqueId
-    var name: String
+    var name: String?
     var desc: String {
         return description
     }
@@ -54,8 +54,8 @@ class Season: TimeWindow, IdedObj {
     
     init(_ name: String, _ start: TimeOfYear, _ end: TimeOfYear) {
         id = (Season.manager?.newId())!
-        self.name = name
         super.init(start: start, end: end)
+        self.name = name
     }
     
     func encode(to encoder: Encoder) throws {
@@ -67,12 +67,10 @@ class Season: TimeWindow, IdedObj {
     }
     
     func persist() throws {
-        try Documents.instance?.store(self, as: id)
         try Season.manager?.add(self)
     }
     
     func unpersist() throws {
-        try Documents.instance?.remove(id)
         try Season.manager?.remove(self)
     }
     

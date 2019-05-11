@@ -14,13 +14,30 @@
 		338DBF8721E83751006F5BA1 /* IdedObj.swift in Sources */ = {isa = PBXBuildFile; fileRef = 338DBF8621E83751006F5BA1 /* IdedObj.swift */; };
 		338DBF8A21E83A7D006F5BA1 /* IdedObjManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 338DBF8921E83A7D006F5BA1 /* IdedObjManager.swift */; };
 		338DBF8C21E983DE006F5BA1 /* IdGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 338DBF8B21E983DE006F5BA1 /* IdGenerator.swift */; };
+		338E48ED22728317007FF826 /* LocationListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 338E48EC22728317007FF826 /* LocationListViewController.swift */; };
+		338E48EF22728334007FF826 /* LocationDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 338E48EE22728334007FF826 /* LocationDetailsViewController.swift */; };
+		338E48F222728534007FF826 /* EditLocDetailTextCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 338E48F122728534007FF826 /* EditLocDetailTextCell.swift */; };
+		338E48F42272858D007FF826 /* EditLocDetailWithSliderCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 338E48F32272858D007FF826 /* EditLocDetailWithSliderCell.swift */; };
+		338E48F6227285E3007FF826 /* EditLocDetailWithSwitchCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 338E48F5227285E3007FF826 /* EditLocDetailWithSwitchCell.swift */; };
+		338E48F822780EBE007FF826 /* KeyboardHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 338E48F722780EBE007FF826 /* KeyboardHandler.swift */; };
+		338E48FA22781DA2007FF826 /* DetailItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 338E48F922781DA2007FF826 /* DetailItem.swift */; };
+		338E48FC22783310007FF826 /* LocationDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = 338E48FB22783310007FF826 /* LocationDetail.swift */; };
+		338E4900227BAFD5007FF826 /* UIImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 338E48FF227BAFD5007FF826 /* UIImage.swift */; };
+		338E4903227C0A29007FF826 /* InOrOut.swift in Sources */ = {isa = PBXBuildFile; fileRef = 338E4902227C0A29007FF826 /* InOrOut.swift */; };
+		338E4905227C0ABB007FF826 /* LightExposure.swift in Sources */ = {isa = PBXBuildFile; fileRef = 338E4904227C0ABB007FF826 /* LightExposure.swift */; };
+		338E4907227C0B00007FF826 /* Condition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 338E4906227C0B00007FF826 /* Condition.swift */; };
+		338E4909227C0E52007FF826 /* Rain.swift in Sources */ = {isa = PBXBuildFile; fileRef = 338E4908227C0E52007FF826 /* Rain.swift */; };
+		338E490B227C0E88007FF826 /* Humidity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 338E490A227C0E88007FF826 /* Humidity.swift */; };
+		338E490D227C0F27007FF826 /* Wind.swift in Sources */ = {isa = PBXBuildFile; fileRef = 338E490C227C0F27007FF826 /* Wind.swift */; };
+		338E491222800CC2007FF826 /* UISlider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 338E491122800CC2007FF826 /* UISlider.swift */; };
+		338E491422814097007FF826 /* LocDetailWithLabelCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 338E491322814097007FF826 /* LocDetailWithLabelCell.swift */; };
 		33AC0CDE21CC7C4600F52D55 /* TableCellWithTable.xib in Resources */ = {isa = PBXBuildFile; fileRef = 33AC0CDD21CC7C4600F52D55 /* TableCellWithTable.xib */; };
 		33AC0CE021CC7FE900F52D55 /* CareActions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33AC0CDF21CC7FE900F52D55 /* CareActions.swift */; };
 		33AC0CE221CC80A500F52D55 /* Quantity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33AC0CE121CC80A500F52D55 /* Quantity.swift */; };
 		33AC0CE421CC820B00F52D55 /* Action.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33AC0CE321CC820B00F52D55 /* Action.swift */; };
 		33AC0CE721CC827400F52D55 /* Water.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33AC0CE621CC827400F52D55 /* Water.swift */; };
 		33AC0CE921CC82C300F52D55 /* Fertilize.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33AC0CE821CC82C300F52D55 /* Fertilize.swift */; };
-		33AC0CEB21CC82E600F52D55 /* SunExposure.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33AC0CEA21CC82E600F52D55 /* SunExposure.swift */; };
+		33AC0CEB21CC82E600F52D55 /* Light.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33AC0CEA21CC82E600F52D55 /* Light.swift */; };
 		33AC0CED21CC832B00F52D55 /* ActionFrequency.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33AC0CEC21CC832B00F52D55 /* ActionFrequency.swift */; };
 		33AC0CEF21CC836300F52D55 /* Timetable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33AC0CEE21CC836300F52D55 /* Timetable.swift */; };
 		33AC0CF121CC839600F52D55 /* SeasonalSchedule.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33AC0CF021CC839600F52D55 /* SeasonalSchedule.swift */; };
@@ -62,7 +79,6 @@
 		33C1A19821C8E39D003003F5 /* TimeOfYear.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33C1A19721C8E39D003003F5 /* TimeOfYear.swift */; };
 		33C1A19A21C8E3F3003003F5 /* TimeWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33C1A19921C8E3F3003003F5 /* TimeWindow.swift */; };
 		33C1A19C21C8E622003003F5 /* TimeUnit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33C1A19B21C8E622003003F5 /* TimeUnit.swift */; };
-		33C1A1A021CB2D43003003F5 /* EditPlantDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33C1A19F21CB2D43003003F5 /* EditPlantDetailsViewController.swift */; };
 		33C1A1A221CB8109003003F5 /* CareViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33C1A1A121CB8109003003F5 /* CareViewController.swift */; };
 /* End PBXBuildFile section */
 
@@ -91,13 +107,30 @@
 		338DBF8621E83751006F5BA1 /* IdedObj.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IdedObj.swift; sourceTree = "<group>"; };
 		338DBF8921E83A7D006F5BA1 /* IdedObjManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IdedObjManager.swift; sourceTree = "<group>"; };
 		338DBF8B21E983DE006F5BA1 /* IdGenerator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IdGenerator.swift; sourceTree = "<group>"; };
+		338E48EC22728317007FF826 /* LocationListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationListViewController.swift; sourceTree = "<group>"; };
+		338E48EE22728334007FF826 /* LocationDetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationDetailsViewController.swift; sourceTree = "<group>"; };
+		338E48F122728534007FF826 /* EditLocDetailTextCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditLocDetailTextCell.swift; sourceTree = "<group>"; };
+		338E48F32272858D007FF826 /* EditLocDetailWithSliderCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditLocDetailWithSliderCell.swift; sourceTree = "<group>"; };
+		338E48F5227285E3007FF826 /* EditLocDetailWithSwitchCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditLocDetailWithSwitchCell.swift; sourceTree = "<group>"; };
+		338E48F722780EBE007FF826 /* KeyboardHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardHandler.swift; sourceTree = "<group>"; };
+		338E48F922781DA2007FF826 /* DetailItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailItem.swift; sourceTree = "<group>"; };
+		338E48FB22783310007FF826 /* LocationDetail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationDetail.swift; sourceTree = "<group>"; };
+		338E48FF227BAFD5007FF826 /* UIImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIImage.swift; sourceTree = "<group>"; };
+		338E4902227C0A29007FF826 /* InOrOut.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InOrOut.swift; sourceTree = "<group>"; };
+		338E4904227C0ABB007FF826 /* LightExposure.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LightExposure.swift; sourceTree = "<group>"; };
+		338E4906227C0B00007FF826 /* Condition.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Condition.swift; sourceTree = "<group>"; };
+		338E4908227C0E52007FF826 /* Rain.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Rain.swift; sourceTree = "<group>"; };
+		338E490A227C0E88007FF826 /* Humidity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Humidity.swift; sourceTree = "<group>"; };
+		338E490C227C0F27007FF826 /* Wind.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Wind.swift; sourceTree = "<group>"; };
+		338E491122800CC2007FF826 /* UISlider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UISlider.swift; sourceTree = "<group>"; };
+		338E491322814097007FF826 /* LocDetailWithLabelCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocDetailWithLabelCell.swift; sourceTree = "<group>"; };
 		33AC0CDD21CC7C4600F52D55 /* TableCellWithTable.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TableCellWithTable.xib; sourceTree = "<group>"; };
 		33AC0CDF21CC7FE900F52D55 /* CareActions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CareActions.swift; sourceTree = "<group>"; };
 		33AC0CE121CC80A500F52D55 /* Quantity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Quantity.swift; sourceTree = "<group>"; };
 		33AC0CE321CC820B00F52D55 /* Action.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Action.swift; sourceTree = "<group>"; };
 		33AC0CE621CC827400F52D55 /* Water.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Water.swift; sourceTree = "<group>"; };
 		33AC0CE821CC82C300F52D55 /* Fertilize.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Fertilize.swift; sourceTree = "<group>"; };
-		33AC0CEA21CC82E600F52D55 /* SunExposure.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SunExposure.swift; sourceTree = "<group>"; };
+		33AC0CEA21CC82E600F52D55 /* Light.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Light.swift; sourceTree = "<group>"; };
 		33AC0CEC21CC832B00F52D55 /* ActionFrequency.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionFrequency.swift; sourceTree = "<group>"; };
 		33AC0CEE21CC836300F52D55 /* Timetable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Timetable.swift; sourceTree = "<group>"; };
 		33AC0CF021CC839600F52D55 /* SeasonalSchedule.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SeasonalSchedule.swift; sourceTree = "<group>"; };
@@ -145,7 +178,6 @@
 		33C1A19721C8E39D003003F5 /* TimeOfYear.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeOfYear.swift; sourceTree = "<group>"; };
 		33C1A19921C8E3F3003003F5 /* TimeWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeWindow.swift; sourceTree = "<group>"; };
 		33C1A19B21C8E622003003F5 /* TimeUnit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeUnit.swift; sourceTree = "<group>"; };
-		33C1A19F21CB2D43003003F5 /* EditPlantDetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditPlantDetailsViewController.swift; sourceTree = "<group>"; };
 		33C1A1A121CB8109003003F5 /* CareViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CareViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -191,6 +223,49 @@
 				338DBF8B21E983DE006F5BA1 /* IdGenerator.swift */,
 			);
 			path = id;
+			sourceTree = "<group>";
+		};
+		338E48EB227282F5007FF826 /* location */ = {
+			isa = PBXGroup;
+			children = (
+				338E48EC22728317007FF826 /* LocationListViewController.swift */,
+				338E48EE22728334007FF826 /* LocationDetailsViewController.swift */,
+				338E48FB22783310007FF826 /* LocationDetail.swift */,
+			);
+			path = location;
+			sourceTree = "<group>";
+		};
+		338E48F0227283D7007FF826 /* location */ = {
+			isa = PBXGroup;
+			children = (
+				338E48F122728534007FF826 /* EditLocDetailTextCell.swift */,
+				338E48F32272858D007FF826 /* EditLocDetailWithSliderCell.swift */,
+				338E48F5227285E3007FF826 /* EditLocDetailWithSwitchCell.swift */,
+				338E491322814097007FF826 /* LocDetailWithLabelCell.swift */,
+			);
+			path = location;
+			sourceTree = "<group>";
+		};
+		338E4901227C09FF007FF826 /* conditions */ = {
+			isa = PBXGroup;
+			children = (
+				338E4902227C0A29007FF826 /* InOrOut.swift */,
+				338E4904227C0ABB007FF826 /* LightExposure.swift */,
+				338E4906227C0B00007FF826 /* Condition.swift */,
+				338E4908227C0E52007FF826 /* Rain.swift */,
+				338E490A227C0E88007FF826 /* Humidity.swift */,
+				338E490C227C0F27007FF826 /* Wind.swift */,
+			);
+			path = conditions;
+			sourceTree = "<group>";
+		};
+		338E490E227FE0D2007FF826 /* uikit */ = {
+			isa = PBXGroup;
+			children = (
+				338E48FF227BAFD5007FF826 /* UIImage.swift */,
+				338E491122800CC2007FF826 /* UISlider.swift */,
+			);
+			path = uikit;
 			sourceTree = "<group>";
 		};
 		33AC0CE521CC821100F52D55 /* action */ = {
@@ -271,8 +346,11 @@
 		33C1A1492193BDBC003003F5 /* controller */ = {
 			isa = PBXGroup;
 			children = (
+				338E48EB227282F5007FF826 /* location */,
 				33C1A17321995249003003F5 /* care */,
 				33C1A17221995231003003F5 /* plant */,
+				338E48F722780EBE007FF826 /* KeyboardHandler.swift */,
+				338E48F922781DA2007FF826 /* DetailItem.swift */,
 			);
 			path = controller;
 			sourceTree = "<group>";
@@ -280,6 +358,7 @@
 		33C1A14A2193BDC8003003F5 /* model */ = {
 			isa = PBXGroup;
 			children = (
+				338E4901227C09FF007FF826 /* conditions */,
 				33AC0CFF21D3281500F52D55 /* time */,
 				33AC0CE521CC821100F52D55 /* action */,
 				33C1A18D21C8CEDC003003F5 /* care */,
@@ -342,6 +421,8 @@
 		33C1A16B2199497F003003F5 /* view */ = {
 			isa = PBXGroup;
 			children = (
+				338E490E227FE0D2007FF826 /* uikit */,
+				338E48F0227283D7007FF826 /* location */,
 				33C1A18821C8988E003003F5 /* plant */,
 			);
 			name = view;
@@ -354,7 +435,6 @@
 				33C1A17021995229003003F5 /* PlantsListViewController.swift */,
 				33C1A186219FBAE7003003F5 /* PlantDetail.swift */,
 				33C1A14B2193BE28003003F5 /* PlantDetailsViewController.swift */,
-				33C1A19F21CB2D43003003F5 /* EditPlantDetailsViewController.swift */,
 			);
 			path = plant;
 			sourceTree = "<group>";
@@ -408,7 +488,7 @@
 				33AC0CDF21CC7FE900F52D55 /* CareActions.swift */,
 				33AC0CE621CC827400F52D55 /* Water.swift */,
 				33AC0CE821CC82C300F52D55 /* Fertilize.swift */,
-				33AC0CEA21CC82E600F52D55 /* SunExposure.swift */,
+				33AC0CEA21CC82E600F52D55 /* Light.swift */,
 				338DBF8221E72F76006F5BA1 /* CareInstructions.Manager.swift */,
 			);
 			path = care;
@@ -567,6 +647,7 @@
 				33AC0CEF21CC836300F52D55 /* Timetable.swift in Sources */,
 				33AC0CE421CC820B00F52D55 /* Action.swift in Sources */,
 				33C1A17D219AB501003003F5 /* Output.swift in Sources */,
+				338E48EF22728334007FF826 /* LocationDetailsViewController.swift in Sources */,
 				33AC0CE021CC7FE900F52D55 /* CareActions.swift in Sources */,
 				33C1A17A21995B0C003003F5 /* TextType.swift in Sources */,
 				33AC0CFC21D321E300F52D55 /* Plant.Manager.swift in Sources */,
@@ -574,19 +655,26 @@
 				33C1A17F219AB52F003003F5 /* OutputTypeList.swift in Sources */,
 				33AC0CE221CC80A500F52D55 /* Quantity.swift in Sources */,
 				33AC0CFE21D3223300F52D55 /* Location.Manager.swift in Sources */,
+				338E491222800CC2007FF826 /* UISlider.swift in Sources */,
 				33C1A16F2199509B003003F5 /* GenericError.swift in Sources */,
 				33C1A14E2193BE3A003003F5 /* CareDetailsViewController.swift in Sources */,
 				338DBF7F21E6CCC5006F5BA1 /* Volume.swift in Sources */,
+				338E4909227C0E52007FF826 /* Rain.swift in Sources */,
 				338DBF8121E6D59D006F5BA1 /* ActionManager.swift in Sources */,
 				338DBF8A21E83A7D006F5BA1 /* IdedObjManager.swift in Sources */,
+				338E48FC22783310007FF826 /* LocationDetail.swift in Sources */,
 				33C1A15F2194BE34003003F5 /* CustomizableError.swift in Sources */,
 				33C1A19021C8CF76003003F5 /* Time.swift in Sources */,
 				338DBF7C21E5DBB2006F5BA1 /* RegEx.swift in Sources */,
+				338E48F42272858D007FF826 /* EditLocDetailWithSliderCell.swift in Sources */,
+				338E4903227C0A29007FF826 /* InOrOut.swift in Sources */,
 				338DBF8321E72F76006F5BA1 /* CareInstructions.Manager.swift in Sources */,
+				338E4905227C0ABB007FF826 /* LightExposure.swift in Sources */,
+				338E4907227C0B00007FF826 /* Condition.swift in Sources */,
 				33AC0CF321CC855D00F52D55 /* CareDetail.swift in Sources */,
 				33C1A1672199419C003003F5 /* String.swift in Sources */,
-				33C1A1A021CB2D43003003F5 /* EditPlantDetailsViewController.swift in Sources */,
 				33C1A187219FBAE7003003F5 /* PlantDetail.swift in Sources */,
+				338E4900227BAFD5007FF826 /* UIImage.swift in Sources */,
 				33C1A17121995229003003F5 /* PlantsListViewController.swift in Sources */,
 				33AC0CED21CC832B00F52D55 /* ActionFrequency.swift in Sources */,
 				33AC0CE721CC827400F52D55 /* Water.swift in Sources */,
@@ -600,19 +688,27 @@
 				33C1A19A21C8E3F3003003F5 /* TimeWindow.swift in Sources */,
 				33C1A14C2193BE28003003F5 /* PlantDetailsViewController.swift in Sources */,
 				33C1A18C21C8CECB003003F5 /* CareInstructions.swift in Sources */,
+				338E48F822780EBE007FF826 /* KeyboardHandler.swift in Sources */,
 				33C1A19221C8E240003003F5 /* Anytime.swift in Sources */,
+				338E491422814097007FF826 /* LocDetailWithLabelCell.swift in Sources */,
 				33C1A181219AB573003003F5 /* Log.swift in Sources */,
 				33AC0D0121D3282A00F52D55 /* Season.Manager.swift in Sources */,
+				338E48FA22781DA2007FF826 /* DetailItem.swift in Sources */,
 				33C1A1552193C267003003F5 /* DiskStorage.swift in Sources */,
 				33C1A18A21C898F6003003F5 /* TableCellWithTable.swift in Sources */,
+				338E490D227C0F27007FF826 /* Wind.swift in Sources */,
+				338E48F222728534007FF826 /* EditLocDetailTextCell.swift in Sources */,
 				33AC0CF721CE18FB00F52D55 /* Season.swift in Sources */,
 				33C1A11A2193AD48003003F5 /* AppDelegate.swift in Sources */,
-				33AC0CEB21CC82E600F52D55 /* SunExposure.swift in Sources */,
+				338E490B227C0E88007FF826 /* Humidity.swift in Sources */,
+				33AC0CEB21CC82E600F52D55 /* Light.swift in Sources */,
 				33C1A175219955D6003003F5 /* EditPlantTextCell.swift in Sources */,
 				338DBF8C21E983DE006F5BA1 /* IdGenerator.swift in Sources */,
+				338E48ED22728317007FF826 /* LocationListViewController.swift in Sources */,
 				33C1A19421C8E277003003F5 /* Date.swift in Sources */,
 				33C1A15A219411CD003003F5 /* Location.swift in Sources */,
 				33AC0CE921CC82C300F52D55 /* Fertilize.swift in Sources */,
+				338E48F6227285E3007FF826 /* EditLocDetailWithSwitchCell.swift in Sources */,
 				33C1A19821C8E39D003003F5 /* TimeOfYear.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

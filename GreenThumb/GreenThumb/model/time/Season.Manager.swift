@@ -8,6 +8,8 @@
 
 import UIKit
 
+typealias ConditionRelevantSeasons = [Condition:[Season]]
+
 extension Season {
     class Manager: IdedObjManager<Season> {
         enum CodingKeys: String, CodingKey {
@@ -17,12 +19,13 @@ extension Season {
         }
         
         static var defaultName = "Season.Manager"
-        var seasons: [String:Season] = [:]
+        var seasons: [Season] = []
+        var conditions: ConditionRelevantSeasons = [:]
         var log: Log? {
             return AppDelegate.current?.log
         }
         
-        static func load(name: String = defaultName) throws -> Season.Manager {
+        static func load(name: String = defaultName) throws -> Manager {
             return try (Documents.instance?.retrieve(name, as: Season.Manager.self))!
         }
         
@@ -39,24 +42,27 @@ extension Season {
             try super.init(from: decoder)
             let container = try decoder.container(keyedBy: CodingKeys.self)
             name = try container.decode(String.self, forKey: .name)
-            let idList = try container.decode([String:Season].self, forKey: .seasons)
-            seasons = [:]
-            for id in idList.keys {
-                let season = try Documents.instance?.retrieve(id, as: Season.self)
-                seasons[(season?.id)!] = season
-            }
             idGenerator = try container.decode(IdGenerator.self, forKey: .idGenerator)
+            let idList = try container.decode([UniqueId].self, forKey: .seasons)
+            seasons = try idList.compactMap{try Documents.instance?.retrieve($0, as: Season.self)}
         }
         
-        init(_ name: String = Manager.defaultName, _ seasons: [String:Season] = [:]) {
+        init(_ name: String = Manager.defaultName, _ seasons: [Season] = [], _ conditions: ConditionRelevantSeasons? = nil) {
             super.init(name, "Season")
             self.seasons = seasons
+            if conditions != nil {
+                self.conditions = conditions!
+            }
+            else {
+                self.conditions = [:]
+                Location.indoorConditions.forEach{self.conditions[$0.value] = self.seasons}
+            }
         }
         
         override func encode(to encoder: Encoder) throws {
             var container = encoder.container(keyedBy: CodingKeys.self)
             try container.encode(name, forKey: .name)
-            try container.encode(Array(seasons.keys), forKey: .seasons)
+            try container.encode(seasons, forKey: .seasons)
             try container.encode(idGenerator, forKey: .idGenerator)
         }
         
@@ -65,12 +71,18 @@ extension Season {
         }
         
         override func add(_ season: Season) throws {
-            seasons[name] = season
+            if seasons.firstIndex(of: season) == nil {
+                seasons.append(season)
+            }
+            try Documents.instance?.store(season, as: season.id)
             try commit()
         }
         
         override func remove(_ season: Season) throws {
-            seasons.remove(at: (Season.manager?.seasons.index(forKey: season.id)!)!)
+            if let pos = seasons.firstIndex(of: season) {
+                seasons.remove(at: pos)
+            }
+            try Documents.instance?.remove(season.id)
             try commit()
         }
     }

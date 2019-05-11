@@ -17,6 +17,7 @@ class PlantDetailsViewController: UIViewController {
     @IBOutlet weak var locationValueView: UIView!
     @IBOutlet weak var editSaveButton: UIBarButtonItem!
     @IBOutlet weak var cameraButton: UIButton!
+    @IBOutlet weak var addLocationButton: UIButton!
     
     static var detailTextFont = UIFont(name: "detailText", size: 5)
     static var detailLabelFont = UIFont(name: "detailLabel", size: 5)
@@ -175,6 +176,7 @@ class PlantDetailsViewController: UIViewController {
             let subview = UITextField(frame: frame)
             subview.text = plant?.location.name
             subview.font = PlantDetailsViewController.detailTextFont
+            subview.clearsOnBeginEditing = true
             locationValueSubview = subview
             addToTextFields(subview, dataItem: PlantDetail.location)
         }
@@ -193,17 +195,6 @@ class PlantDetailsViewController: UIViewController {
             locationValueSubview = subview
         }
         view.addSubview(locationValueSubview!)
-    }
-    
-    private func setupGestures() {
-        let tap = UITapGestureRecognizer(target: self.view, action: #selector(UIView.endEditing(_:)))
-        tap.cancelsTouchesInView = false
-        self.view.addGestureRecognizer(tap)
-        NotificationCenter.default.addObserver(
-            self,
-            selector: #selector(self.keyboardNotification(notification:)),
-            name: UIResponder.keyboardWillChangeFrameNotification,
-            object: nil)
     }
 }
 
@@ -281,7 +272,13 @@ extension PlantDetailsViewController: UITableViewDelegate, UITableViewDataSource
     }
 }
 
-extension PlantDetailsViewController: UITextFieldDelegate {
+extension PlantDetailsViewController: UITextFieldDelegate, KeyboardHandler {
+    var handler: UIViewController? {
+        get {
+            return self
+        }
+    }
+    
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         details[textFields[textField]!] = ((textField.text as! NSString).replacingCharacters(in: range, with: string))
         editSaveButton.isEnabled = validate(textFields[textField]!)
@@ -295,27 +292,6 @@ extension PlantDetailsViewController: UITextFieldDelegate {
         }
         performSegue = false
         return true
-    }
-    
-    @objc func keyboardNotification(notification: NSNotification) {
-        if let userInfo = notification.userInfo {
-            let endFrame = (userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue
-            let endFrameY = endFrame?.origin.y ?? 0
-            let duration:TimeInterval = (userInfo[UIResponder.keyboardAnimationDurationUserInfoKey] as? NSNumber)?.doubleValue ?? 0
-            let animationCurveRawNSN = userInfo[UIResponder.keyboardAnimationCurveUserInfoKey] as? NSNumber
-            let animationCurveRaw = animationCurveRawNSN?.uintValue ?? UIView.AnimationOptions.curveEaseInOut.rawValue
-            let animationCurve:UIView.AnimationOptions = UIView.AnimationOptions(rawValue: animationCurveRaw)
-            /*if endFrameY >= UIScreen.main.bounds.size.height {
-                self.keyboardHeightLayoutConstraint?.constant = 0.0
-            } else {
-                self.keyboardHeightLayoutConstraint?.constant = endFrame?.size.height ?? 0.0
-            }*/
-            UIView.animate(withDuration: duration,
-                           delay: TimeInterval(0),
-                           options: animationCurve,
-                           animations: { self.view.layoutIfNeeded() },
-                           completion: nil)
-        }
     }
     
     private func addToTextFields(_ textField: UITextField, dataItem: PlantDetail) {
