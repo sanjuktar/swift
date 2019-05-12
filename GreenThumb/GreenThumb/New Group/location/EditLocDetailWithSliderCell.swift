@@ -28,6 +28,7 @@ class EditLocDetailWithSliderCell: UITableViewCell {
         let value = values[pos ?? values.count/2]
         cell.slider.setThumbnailText(value)
         cell.slider.isEnabled = editMode
+        //cell.slider.isContinuous = false
         return cell
     }
 }

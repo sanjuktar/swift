@@ -35,6 +35,8 @@ class Location: IdedObj {
                 return Wind()
             }
         }
+        
+        static var values: [Conditions] = [.inOrOut, .light, .rain, .humidity, .wind]
     }
     
     enum CodingKeys: String, CodingKey {
@@ -89,7 +91,7 @@ class Location: IdedObj {
         else {
             conditionsUsed = Location.indoorConditions
             self.conditions = [:]
-            conditionsUsed.forEach{self.conditions[$0] = [Season.allYear:$0.defaultValue]}
+            Conditions.values.forEach{self.conditions[$0] = [Season.allYear:$0.defaultValue]}
         }
     }
     
@@ -115,36 +117,27 @@ class Location: IdedObj {
     }
     
     func value(_ detail: Conditions) -> Condition {
-        let seasons = validSeasons(detail)
-        var season: Season
-        if seasons == nil {
-            season = Season.allYear
-            addCondition(detail, Season.allYear, detail.defaultValue)
-        }
-        else {
-            season = Season.Manager.find(Date(), in: seasons!)
-        }
+        let season: Season = currentSeason(detail)
         if let retVal = conditions[detail]![season] {
             return retVal
         }
-        /*var vals = Location.indoorConditions
-        if (conditions[.inOrOut]![season] as! InOrOut).isOutdoors {
-            vals = Location.outdoorConditions
-        }
-        return vals[detail]!*/
         return detail.defaultValue
     }
     
-    func addCondition(_ detail: Conditions, _ season: Season, _ value: Condition) {
+    func addValue(_ detail: Conditions, _ season: Season, _ value: Condition) {
         conditions[detail] = [:]
         conditions[detail]![Season.allYear] = detail.defaultValue
     }
     
     func currentSeason(_ condition: Conditions) -> Season {
-        return Season.Manager.find(Date(), in: validSeasons(condition) ?? [Season.allYear])
+        return Season.Manager.find(Date(), in: validSeasons(condition) ?? Location.defaultSeasons)
     }
     
     func validSeasons(_ condition: Conditions) -> [Season]? {
         return conditions[condition]?.keys.map{$0}
+    }
+    
+    func updateDetailsUsed(_ isOutside: Bool) {
+        conditionsUsed = (isOutside ? Location.outdoorConditions : Location.indoorConditions)
     }
 }

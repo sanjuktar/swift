@@ -19,10 +19,12 @@ class LocationDetailsViewController: UIViewController {
         guard let condition = sliders[sender] else {return}
         var values: [Condition]
         var detail: Location.Conditions
+        var prevVal: Condition?
         switch condition {
         case .indoors:
             values = InOrOut.values.map{InOrOut($0)}
             detail = .inOrOut
+            prevVal = location?.value(.inOrOut)
         case .light:
             values = LightExposure.values.map{LightExposure($0)}
             detail = .light
@@ -45,14 +47,20 @@ class LocationDetailsViewController: UIViewController {
         if indx == values.count {
             indx -= 1
         }
-        location!.conditions[detail]?[season] = values[indx]
+        let value = values[indx]
+        location!.conditions[detail]?[season] = value
         sender.setThumbnailText(values[indx].name)
         editSaveButton.isEnabled = true
+        if condition == .indoors {
+            if value != prevVal {
+                location?.updateDetailsUsed((value as! InOrOut).isOutdoors)
+                detailsTable.reloadData()
+            }
+        }
     }
     
     var location: Location?
     var editMode: Bool = false
-    var detailsList: [LocationDetail]?
     var textfields: [UITextField:LocationDetail] = [:]
     var sliders: [UISlider:LocationDetail] = [:]
     var log: Log? = AppDelegate.current?.log
@@ -64,8 +72,6 @@ class LocationDetailsViewController: UIViewController {
         detailsTable.delegate = self
         detailsTable.dataSource = self
         setEditMode(editMode)
-        detailsList = (location?.value(.inOrOut).name == InOrOut.Values.indoors.rawValue ?
-                        LocationDetail.indoorDetails : LocationDetail.outdoorDetails)
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -106,11 +112,11 @@ class LocationDetailsViewController: UIViewController {
 
 extension LocationDetailsViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return section == 0 ? detailsList!.count : 0
+        return section == 0 ? LocationDetail.details(location!).count : 0
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let detail = detailsList![indexPath.row]
+        let detail = LocationDetail.details(location!)[indexPath.row]
         let cell = detail.tableCell(for: location!, in: tableView, editFlag: editMode)
         switch cell {
         case is EditLocDetailTextCell:

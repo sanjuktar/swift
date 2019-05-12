@@ -51,6 +51,42 @@ enum LocationDetail: String, Codable {
         location.conditions[detail]?[location.currentSeason(detail)] = values[Int(slider.value*Float(values.count))]
     }
     
+    static func details(_ location: Location) -> [LocationDetail] {
+        return location.isOutdoors ? outdoorDetails : indoorDetails
+    }
+    
+    /*init(_ condition: Location.Conditions) {
+        switch condition {
+        case .inOrOut:
+            self = .indoors
+        case .light:
+            self = .light
+        case .rain:
+            self = .rain
+        case .humidity:
+            self = .humidity
+        case .wind:
+            self = .wind
+        }
+    }*/
+    
+    /*static func condition(_ detail: LocationDetail) -> Location.Conditions? {
+        switch detail {
+        case .indoors:
+            return .inOrOut
+        case .light:
+            return .light
+        case .rain:
+            return .rain
+        case .wind:
+            return .wind
+        case .humidity:
+            return .humidity
+        @unknown default:
+            return nil
+        }
+    }*/
+    
     func data(for location: Location) -> String {
         switch self {
         case .name:
