@@ -177,17 +177,11 @@
                             <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="aC7-it-XZe">
                                 <rect key="frame" x="183" y="204" width="176" height="40"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <subviews>
-                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="XNx-Tm-Ldg">
-                                        <rect key="frame" x="146" y="-2" width="30" height="34"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <size key="titleShadowOffset" width="1" height="0.0"/>
-                                        <state key="normal" title="+">
-                                            <color key="titleColor" red="0.15499222177916969" green="0.36209701759218926" blue="0.66666668653488159" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
-                                        </state>
-                                    </button>
-                                </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <gestureRecognizers/>
+                                <connections>
+                                    <outletCollection property="gestureRecognizers" destination="ndi-TG-QpY" appends="YES" id="5MY-5f-Wu0"/>
+                                </connections>
                             </view>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fFk-hk-cJV">
                                 <rect key="frame" x="135" y="204" width="40" height="40"/>
@@ -208,7 +202,6 @@
                     </navigationItem>
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
-                        <outlet property="addLocationButton" destination="XNx-Tm-Ldg" id="ewz-20-l1g"/>
                         <outlet property="cameraButton" destination="fFk-hk-cJV" id="T1u-xO-YIf"/>
                         <outlet property="detailsTable" destination="wZR-2L-mQm" id="dPk-q5-q08"/>
                         <outlet property="editSaveButton" destination="F51-Zy-8nf" id="Vzf-IK-kcF"/>
@@ -221,8 +214,57 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="UQv-3f-1lJ" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <exit id="qrl-Um-bvp" userLabel="Exit" sceneMemberID="exit"/>
+                <tapGestureRecognizer id="ndi-TG-QpY">
+                    <connections>
+                        <action selector="locationTapped:" destination="yIE-sa-XHw" id="4Ty-Dl-OCh"/>
+                        <outlet property="delegate" destination="aC7-it-XZe" id="ciV-DA-kQ4"/>
+                    </connections>
+                </tapGestureRecognizer>
             </objects>
             <point key="canvasLocation" x="2709.5999999999999" y="-36.431784107946029"/>
+        </scene>
+        <!--Location List Popover View Controller-->
+        <scene sceneID="mu4-vx-T9m">
+            <objects>
+                <viewController storyboardIdentifier="locationListPopoverViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="elt-4E-3wj" customClass="LocationListPopoverViewController" customModule="GreenThumb" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="QPj-Qt-dRX">
+                        <rect key="frame" x="0.0" y="0.0" width="300" height="200"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Select Location" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zfP-Cu-MIb">
+                                <rect key="frame" x="88" y="9" width="125" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gDm-8V-4nS">
+                                <rect key="frame" x="16" y="0.0" width="30" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
+                                <state key="normal" title="&lt;"/>
+                                <connections>
+                                    <segue destination="WIp-kN-cNq" kind="unwind" unwindAction="unwindToPlantDetailsWithSegue:" id="iSJ-LX-ySu"/>
+                                </connections>
+                            </button>
+                            <pickerView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="VCy-WW-LRe">
+                                <rect key="frame" x="0.0" y="36" width="300" height="144"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                            </pickerView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <viewLayoutGuide key="safeArea" id="l0f-PY-T5k"/>
+                    </view>
+                    <size key="freeformSize" width="300" height="200"/>
+                    <connections>
+                        <outlet property="backButton" destination="gDm-8V-4nS" id="NTP-L6-49f"/>
+                        <outlet property="pickerView" destination="VCy-WW-LRe" id="89J-7E-qXX"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="eRv-yI-KnQ" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <exit id="WIp-kN-cNq" userLabel="Exit" sceneMemberID="exit"/>
+            </objects>
+            <point key="canvasLocation" x="3281.5999999999999" y="-37.781109445277366"/>
         </scene>
         <!--Care View Controller-->
         <scene sceneID="wg7-f3-ORb">
@@ -778,7 +820,7 @@
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="d6h-Hz-Ods"/>
-        <segue reference="lvy-fK-WSO"/>
+        <segue reference="jbc-eW-1Bb"/>
         <segue reference="0Bh-rz-49X"/>
     </inferredMetricsTieBreakers>
 </document>

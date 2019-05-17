@@ -19,6 +19,14 @@ class PlantDetailsViewController: UIViewController {
     @IBOutlet weak var cameraButton: UIButton!
     @IBOutlet weak var addLocationButton: UIButton!
     
+    @IBAction func unwindToPlantDetails(segue: UIStoryboardSegue) {
+        if let source = segue.source as? LocationListPopoverViewController {
+            plant?.location = source.location!
+            (locationValueSubview as! UITextField).text = plant?.location.name
+            return
+        }
+    }
+    
     static var detailTextFont = UIFont(name: "detailText", size: 5)
     static var detailLabelFont = UIFont(name: "detailLabel", size: 5)
     static var detailLabelColor: UIColor = .gray
@@ -177,6 +185,7 @@ class PlantDetailsViewController: UIViewController {
             subview.text = plant?.location.name
             subview.font = PlantDetailsViewController.detailTextFont
             subview.clearsOnBeginEditing = true
+            subview.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(didTap(sender:))))
             locationValueSubview = subview
             addToTextFields(subview, dataItem: PlantDetail.location)
         }
@@ -195,6 +204,22 @@ class PlantDetailsViewController: UIViewController {
             locationValueSubview = subview
         }
         view.addSubview(locationValueSubview!)
+    }
+    
+    func showLocationPopup(_ sender: UIView) {
+        let controller =  self.storyboard!.instantiateViewController(
+            withIdentifier: "locationListPopoverViewController")
+        (controller as! LocationListPopoverViewController).location = plant?.location
+        controller.preferredContentSize = CGSize(width: 300, height: 200)
+        let presentationController = AlwaysPresentAsPopover.configurePresentation(forController: controller)
+        presentationController.sourceView = sender
+        presentationController.sourceRect = sender.bounds
+        presentationController.permittedArrowDirections = [.down, .up]
+        self.present(controller, animated: true)
+    }
+    
+    @objc private func didTap(sender: UITapGestureRecognizer) {
+        showLocationPopup(locationValueView)
     }
 }
 
