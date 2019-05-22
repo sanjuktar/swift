@@ -7,7 +7,7 @@
 //
 
 import Foundation
-class Humidity: Condition {
+class Humidity: Conditions {
     enum Values: String, Codable {
     case high = "humid"
     case medium = "medium"
@@ -33,6 +33,7 @@ class Humidity: Condition {
     }
     
     override func encode(to encoder: Encoder) throws {
+        try super.encode(to: encoder)
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encode(name, forKey: .value)
     }

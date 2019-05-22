@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		331F6908229126AC003542D6 /* Storable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 331F6907229126AC003542D6 /* Storable.swift */; };
 		338DBF7C21E5DBB2006F5BA1 /* RegEx.swift in Sources */ = {isa = PBXBuildFile; fileRef = 338DBF7B21E5DBB2006F5BA1 /* RegEx.swift */; };
 		338DBF7F21E6CCC5006F5BA1 /* Volume.swift in Sources */ = {isa = PBXBuildFile; fileRef = 338DBF7E21E6CCC5006F5BA1 /* Volume.swift */; };
 		338DBF8121E6D59D006F5BA1 /* ActionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 338DBF8021E6D59D006F5BA1 /* ActionManager.swift */; };
@@ -59,7 +60,6 @@
 		33C1A1552193C267003003F5 /* DiskStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33C1A1542193C267003003F5 /* DiskStorage.swift */; };
 		33C1A158219411B2003003F5 /* Plant.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33C1A157219411B2003003F5 /* Plant.swift */; };
 		33C1A15A219411CD003003F5 /* Location.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33C1A159219411CC003003F5 /* Location.swift */; };
-		33C1A15F2194BE34003003F5 /* CustomizableError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33C1A15E2194BE34003003F5 /* CustomizableError.swift */; };
 		33C1A1672199419C003003F5 /* String.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33C1A1662199419C003003F5 /* String.swift */; };
 		33C1A16D21994C7A003003F5 /* PlantListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33C1A16C21994C7A003003F5 /* PlantListCell.swift */; };
 		33C1A16F2199509B003003F5 /* GenericError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33C1A16E2199509B003003F5 /* GenericError.swift */; };
@@ -101,6 +101,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		331F6907229126AC003542D6 /* Storable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Storable.swift; sourceTree = "<group>"; };
 		338DBF7B21E5DBB2006F5BA1 /* RegEx.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegEx.swift; sourceTree = "<group>"; };
 		338DBF7E21E6CCC5006F5BA1 /* Volume.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Volume.swift; sourceTree = "<group>"; };
 		338DBF8021E6D59D006F5BA1 /* ActionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionManager.swift; sourceTree = "<group>"; };
@@ -159,7 +160,6 @@
 		33C1A1542193C267003003F5 /* DiskStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiskStorage.swift; sourceTree = "<group>"; };
 		33C1A157219411B2003003F5 /* Plant.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Plant.swift; sourceTree = "<group>"; };
 		33C1A159219411CC003003F5 /* Location.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Location.swift; sourceTree = "<group>"; };
-		33C1A15E2194BE34003003F5 /* CustomizableError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomizableError.swift; sourceTree = "<group>"; };
 		33C1A1662199419C003003F5 /* String.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = String.swift; sourceTree = "<group>"; };
 		33C1A16C21994C7A003003F5 /* PlantListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlantListCell.swift; sourceTree = "<group>"; };
 		33C1A16E2199509B003003F5 /* GenericError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GenericError.swift; sourceTree = "<group>"; };
@@ -376,6 +376,7 @@
 			children = (
 				33C1A1522193C230003003F5 /* Storage.swift */,
 				33C1A1542193C267003003F5 /* DiskStorage.swift */,
+				331F6907229126AC003542D6 /* Storable.swift */,
 			);
 			path = storage;
 			sourceTree = "<group>";
@@ -383,7 +384,6 @@
 		33C1A15D2194BE0B003003F5 /* error */ = {
 			isa = PBXGroup;
 			children = (
-				33C1A15E2194BE34003003F5 /* CustomizableError.swift */,
 				33C1A16E2199509B003003F5 /* GenericError.swift */,
 			);
 			path = error;
@@ -659,6 +659,7 @@
 				33AC0CE221CC80A500F52D55 /* Quantity.swift in Sources */,
 				33AC0CFE21D3223300F52D55 /* Location.Manager.swift in Sources */,
 				338E491222800CC2007FF826 /* UISlider.swift in Sources */,
+				331F6908229126AC003542D6 /* Storable.swift in Sources */,
 				33C1A16F2199509B003003F5 /* GenericError.swift in Sources */,
 				33C1A14E2193BE3A003003F5 /* CareDetailsViewController.swift in Sources */,
 				338DBF7F21E6CCC5006F5BA1 /* Volume.swift in Sources */,
@@ -666,7 +667,6 @@
 				338DBF8121E6D59D006F5BA1 /* ActionManager.swift in Sources */,
 				338DBF8A21E83A7D006F5BA1 /* IdedObjManager.swift in Sources */,
 				338E48FC22783310007FF826 /* LocationDetail.swift in Sources */,
-				33C1A15F2194BE34003003F5 /* CustomizableError.swift in Sources */,
 				33C1A19021C8CF76003003F5 /* Time.swift in Sources */,
 				338DBF7C21E5DBB2006F5BA1 /* RegEx.swift in Sources */,
 				338E4918228814A0007FF826 /* AlwaysPresentAsPopover.swift in Sources */,

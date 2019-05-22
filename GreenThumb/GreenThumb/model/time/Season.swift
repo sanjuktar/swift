@@ -11,6 +11,7 @@ import UIKit
 
 class Season: TimeWindow, IdedObj {
     enum CodingKeys: String, CodingKey {
+        case version
         case id
         case name
         case start
@@ -22,6 +23,7 @@ class Season: TimeWindow, IdedObj {
     }
     static var allYear = Season("all year", TimeOfYear.start, TimeOfYear.end)
     static var restOfYear = Season("rest of the year", TimeOfYear.start, TimeOfYear.end)
+    var version: String
     var id: UniqueId
     var name: String?
     var desc: String {
@@ -33,7 +35,7 @@ class Season: TimeWindow, IdedObj {
     }
     
     static func current(in seasons: [Season]) -> Season {
-        guard !(Season.manager?.seasons.isEmpty)! else {return Season.allYear}
+        guard !(Season.manager?.objs.isEmpty)! else {return Season.allYear}
         let today = Date()
         for season in seasons {
             if season.contains(today) {
@@ -45,6 +47,7 @@ class Season: TimeWindow, IdedObj {
     
     required init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
+        version = try container.decode(String.self, forKey: .version)
         id = try container.decode(UniqueId.self, forKey: .id)
         name = try container.decode(String.self, forKey: .name)
         let t1 = try container.decode(TimeOfYear.self, forKey: .start)
@@ -53,6 +56,7 @@ class Season: TimeWindow, IdedObj {
     }
     
     init(_ name: String, _ start: TimeOfYear, _ end: TimeOfYear) {
+        version = Season.defaultVersion
         id = (Season.manager?.newId())!
         super.init(start: start, end: end)
         self.name = name
@@ -60,6 +64,7 @@ class Season: TimeWindow, IdedObj {
     
     func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(version, forKey: .version)
         try container.encode(id, forKey: .id)
         try container.encode(name, forKey: .name)
         try container.encode((start as! TimeOfYear), forKey: .start)

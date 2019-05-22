@@ -17,7 +17,7 @@ class LocationListViewController: UIViewController, UITableViewDelegate, UITable
     @IBAction func unwindToLocationList(segue: UIStoryboardSegue) {
         if segue.source is LocationDetailsViewController {
             let source = segue.source as! LocationDetailsViewController
-            if !(locations?.contains(source.location!))! {
+            if !((locations?.contains(source.location!.id))!) {
                 do {
                     try Location.manager?.add(source.location!)
                 } catch {
@@ -27,7 +27,7 @@ class LocationListViewController: UIViewController, UITableViewDelegate, UITable
             }
             else {
                 do {
-                    try Location.manager?.add(source.location!)
+                    try source.location?.updatePersisted()
                 } catch {
                     output?.out(.error, "Unable to update location \(source.location!.name) - \(error.localizedDescription)")
                     return
@@ -38,10 +38,10 @@ class LocationListViewController: UIViewController, UITableViewDelegate, UITable
     }
     
     var output: MessageWindow?
-    var locations: [Location]? {
-        return Location.manager?.locations
+    var locations: [UniqueId]? {
+        return Location.manager?.ids
     }
-    var selectedLocation: Location? {
+    var selectedLocation: UniqueId? {
         if let indexPath = locTable.indexPathForSelectedRow {
             return locations?[indexPath.row]
         }
@@ -53,16 +53,13 @@ class LocationListViewController: UIViewController, UITableViewDelegate, UITable
         output = MessageWindow(self)
         locTable.delegate = self
         locTable.dataSource = self
-        do {
-            try ["Loc1", "Loc2", "Loc3"].forEach{try Location.manager?.add(Location($0))}
-        } catch {}
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "locationDetailsSegue" {
             let dest = segue.destination as! LocationDetailsViewController
             dest.editMode = false
-            dest.location = selectedLocation?.clone()
+            dest.location = Location.manager!.get((selectedLocation)!)!.clone()
         }
         else if segue.identifier == "addLocationSegue" {
             let dest = segue.destination as! LocationDetailsViewController
@@ -77,7 +74,7 @@ class LocationListViewController: UIViewController, UITableViewDelegate, UITable
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "locationListCell")
-        cell?.textLabel?.text = locations![indexPath.row].name
+        cell?.textLabel?.text = Location.manager!.get(locations![indexPath.row])!.name
         return cell!
     }
 }

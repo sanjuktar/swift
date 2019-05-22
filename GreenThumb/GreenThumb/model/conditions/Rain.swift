@@ -8,7 +8,7 @@
 
 import Foundation
 
-class Rain: Condition {
+class Rain: Conditions {
     enum Values: String, Codable {
     case rainy = "rainy"
     case dry = "dry"
@@ -23,7 +23,7 @@ class Rain: Condition {
     
     required init(from decoder: Decoder) throws {
         try super.init(from: decoder)
-        let container = try decoder.container(keyedBy: Condition.CodingKeys.self)
+        let container = try decoder.container(keyedBy: Conditions.CodingKeys.self)
         value = Values(rawValue: try container.decode(String.self, forKey: .value))!
     }
     
@@ -33,7 +33,8 @@ class Rain: Condition {
     }
     
     override func encode(to encoder: Encoder) throws {
-        var container = encoder.container(keyedBy: Condition.CodingKeys.self)
+        try super.encode(to: encoder)
+        var container = encoder.container(keyedBy: Conditions.CodingKeys.self)
         try container.encode(name, forKey: .value)
     }
 }

@@ -8,8 +8,8 @@
 
 import Foundation
 
-class ActionFrequency: Codable {
-    
+class ActionFrequency: Storable {
+    var version: String
     var nTimes: Int
     var interval: TimeDuration
     var lastTime: Date
@@ -18,6 +18,7 @@ class ActionFrequency: Codable {
     }
     
     init(nTimes: Int = 1, interval: TimeDuration = 1.years, lastTime: Date = Date()) {
+        version = ActionFrequency.defaultVersion
         self.nTimes = nTimes
         self.interval = interval
         self.lastTime = lastTime

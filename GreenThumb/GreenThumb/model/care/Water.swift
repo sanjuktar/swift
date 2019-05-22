@@ -17,17 +17,14 @@ class Water: Action {
     static var light: Volume = .custom("Water lightly")
     var quantity: Volume = .any
     override var desc: String {
-        get {
-            var str: String
-            switch quantity {
-            case .custom(_):
-                str = quantity.desc
-            default:
-                str = "Water with \(quantity.desc)"
-            }
-            return str
+        var str: String
+        switch quantity {
+        case .custom(_):
+            str = quantity.desc
+        default:
+            str = "Water with \(quantity.desc)"
         }
-        set {}
+        return str
     }
     
     required init(from decoder: Decoder) throws {
@@ -41,6 +38,7 @@ class Water: Action {
     }
     
     override func encode(to encoder: Encoder) throws {
+        try super.encode(to: encoder)
         var container = encoder.container(keyedBy: WaterKeys.self)
         try container.encode(quantity, forKey: .quantity)
     }

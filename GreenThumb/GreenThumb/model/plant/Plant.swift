@@ -18,6 +18,7 @@ class Plant: IdedObj {
         case nickname
         
         static var cases: [NameType] = [.nickname, .common, .scientific]
+        static var prefered: NameType = .nickname
         
         func isValid(_ name: String?) -> Bool {
             switch self {
@@ -34,10 +35,10 @@ class Plant: IdedObj {
     }
     
     enum CodingKeys: String, CodingKey {
+        case version
         case id
         case names
         case location
-        case preferedNameType
         case care
         case image
     }
@@ -45,15 +46,15 @@ class Plant: IdedObj {
     static var manager :Manager? {
         return AppDelegate.current?.plants 
     }
+    var version: String
     var id: UniqueId
     var names: NameList
     var location: Location
-    var preferedNameType = Plant.manager?.preferedNameType
     var care: CareInstructions
     var image: UIImage?
     var name: String {
-        var str: String? = names[preferedNameType!]
-        if (preferedNameType?.isValid(str))! {
+        var str: String? = names[NameType.prefered]
+        if (NameType.prefered.isValid(str)) {
             return str!
         }
         for type in Plant.NameType.cases {
@@ -70,30 +71,30 @@ class Plant: IdedObj {
     
     required init(from: Decoder) throws {
         let container = try from.container(keyedBy: CodingKeys.self)
+        version = try container.decode(String.self, forKey: .version)
         id = try container.decode(String.self, forKey: .id)
         names = try container.decode([NameType:String].self, forKey: .names)
         location = try container.decode(Location.self, forKey: .location)
-        preferedNameType = try container.decode(Plant.NameType.self, forKey: .preferedNameType)
         care = try container.decode(CareInstructions.self, forKey: .care)
         let data = try container.decode(Data?.self, forKey: .image)
         image = Plant.image(from: data)
     }
     
     init(_ names: NameList,  location: Location = Location.unknownLocation, image: UIImage? = nil, care: CareInstructions = CareInstructions(), preferedNameType: NameType = .nickname) {
+        version = Plant.defaultVersion
         id = (Plant.manager?.newId())!
         self.names = names
         self.location = location
         self.image = image
         self.care = care
-        self.preferedNameType = preferedNameType
     }
     
     func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(version, forKey: .version)
         try container.encode(id, forKey: .id)
         try container.encode(names, forKey: .names)
         try container.encode(location, forKey: .location)
-        try container.encode(preferedNameType, forKey: .preferedNameType)
         try container.encode(care, forKey: .care)
         try container.encode(imageData, forKey: .image)
     }

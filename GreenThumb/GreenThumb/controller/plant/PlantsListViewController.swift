@@ -16,21 +16,22 @@ class PlantsListViewController: UIViewController {
         if segue.identifier == "unwindEditPlantToList" {
             let source = segue.source as! PlantDetailsViewController
             guard source.plant != nil else {return}
-            var newPlant = !(plants?.contains(source.plant!))!
-            for plant in plants! {
-                if plant.id == source.plant?.id {
-                    newPlant = false
+            //var newPlant = !(plants?.contains(source.plant!))!
+            for id in plants! {
+                if id == source.plant?.id {
+                    //newPlant = false
                     break
                 }
             }
             plantCollection.reloadData()
             do {
-                if newPlant {
+                try Plant.manager?.add(source.plant!)
+                /*if newPlant {
                     try Plant.manager?.add(source.plant!)
                 }
                 else {
                     try source.plant?.updatePersisted()
-                }
+                }*/
             } catch {
                 output?.output(.error, "Unable to save changes: \(error.localizedDescription)")
             }
@@ -38,8 +39,8 @@ class PlantsListViewController: UIViewController {
     }
     
     var output: Output?
-    var plants: [Plant]? {
-        return Plant.manager?.plants
+    var plants: [UniqueId]? {
+        return Plant.manager?.ids
     }
     
     override func viewDidLoad() {
@@ -52,7 +53,7 @@ class PlantsListViewController: UIViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "viewPlantDetailsSegue" {
             let dest = segue.destination as! PlantDetailsViewController
-            dest.plant = selectedPlant()
+            dest.plant = Plant.manager!.get(selectedPlant()!)
         }
         else if segue.identifier == "addNewPlantSegue" {
             let dest = segue.destination as! PlantDetailsViewController
@@ -73,13 +74,13 @@ extension PlantsListViewController: UICollectionViewDelegate, UICollectionViewDa
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = plantCollection.dequeueReusableCell(withReuseIdentifier: "plantListCell", for: indexPath) as! PlantListCell
-        let plant = plants![indexPath.row]
+        let plant: Plant = Plant.manager!.get(plants![indexPath.row])!
         cell.nameLabel.text = plant.name
         cell.image.image = (plant.image != nil) ? plant.image : UIImage(imageLiteralResourceName: "noImage")
         return cell
     }
     
-    func selectedPlant() -> Plant? {
+    func selectedPlant() -> UniqueId? {
         return plants?[ plantCollection.indexPathsForSelectedItems![0].row]
     }
 }

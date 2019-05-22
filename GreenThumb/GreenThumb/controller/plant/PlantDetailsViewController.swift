@@ -42,6 +42,30 @@ class PlantDetailsViewController: UIViewController {
     var locationValueSubview: UIView?
     var performSegue = true
     
+    var name: String {
+        var preferred: PlantDetail
+        switch Plant.NameType.prefered {
+        case Plant.NameType.nickname:
+            preferred = .nickname
+        case .common:
+            preferred = .commonName
+        case .scientific:
+            preferred = .scientificName
+        }
+        if let n = details[preferred] {
+            if !n.isEmpty {
+                return n
+            }
+        }
+        if !details[.nickname]!.isEmpty {
+            return details[.nickname]!
+        }
+        if !details[.commonName]!.isEmpty {
+            return details[.commonName]!
+        }
+        return details[.scientificName]!
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         output = MessageWindow(self)
@@ -116,8 +140,6 @@ class PlantDetailsViewController: UIViewController {
         switch item {
         case .location:
             return true
-        case .preferedName:
-            return true
         case .nickname:
             return validateNames()
         case .commonName:
@@ -176,7 +198,6 @@ class PlantDetailsViewController: UIViewController {
             if locationValueSubview != nil {
                 if locationValueSubview is UITextField {
                     (locationValueSubview as! UITextField).text = plant?.location.name
-                    view.addSubview(locationValueSubview!)
                     return
                 }
                 locationValueSubview?.removeFromSuperview()
@@ -193,9 +214,9 @@ class PlantDetailsViewController: UIViewController {
             if locationValueSubview != nil {
                 if locationValueSubview is UILabel {
                     (locationValueSubview as! UILabel).text = plant?.location.name
-                    view.addSubview(locationValueSubview!)
                     return
                 }
+                locationValueSubview?.gestureRecognizers?.remove(at: 0)
                 locationValueSubview?.removeFromSuperview()
             }
             let subview = UILabel(frame: frame)
@@ -206,7 +227,7 @@ class PlantDetailsViewController: UIViewController {
         view.addSubview(locationValueSubview!)
     }
     
-    func showLocationPopup(_ sender: UIView) {
+    private func showLocationPopup(_ sender: UIView) {
         let controller =  self.storyboard!.instantiateViewController(
             withIdentifier: "locationListPopoverViewController")
         (controller as! LocationListPopoverViewController).location = plant?.location
@@ -219,7 +240,9 @@ class PlantDetailsViewController: UIViewController {
     }
     
     @objc private func didTap(sender: UITapGestureRecognizer) {
-        showLocationPopup(locationValueView)
+        if editMode {
+            showLocationPopup(locationValueView)
+        }
     }
 }
 
@@ -305,8 +328,14 @@ extension PlantDetailsViewController: UITextFieldDelegate, KeyboardHandler {
     }
     
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-        details[textFields[textField]!] = ((textField.text as! NSString).replacingCharacters(in: range, with: string))
-        editSaveButton.isEnabled = validate(textFields[textField]!)
+        let detail = textFields[textField]
+        details[detail!] = ((textField.text! as NSString).replacingCharacters(in: range, with: string))
+        if validate(detail!) {
+            editSaveButton.isEnabled = true
+            if detail!.isName {
+                nameLabel.text = name
+            }
+        }
         return true
     }
     
@@ -367,7 +396,6 @@ extension PlantDetailsViewController: UIImagePickerControllerDelegate {
     }
 }
 
-// Helper function inserted by Swift 4.2 migrator.
 fileprivate func convertFromUIImagePickerControllerInfoKey(_ input: UIImagePickerController.InfoKey) -> String {
 	return input.rawValue
 }

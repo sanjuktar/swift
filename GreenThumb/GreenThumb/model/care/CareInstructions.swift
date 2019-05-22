@@ -11,6 +11,7 @@ import UIKit
 
 class CareInstructions: IdedObj {
     enum CodingKeys: String, CodingKey {
+        case version
         case id
         case name
         case seasonal
@@ -20,6 +21,7 @@ class CareInstructions: IdedObj {
     static var manager: Manager? {
         return AppDelegate.current?.care
     }
+    var version: String
     var id: UniqueId
     var name: String
     var seasonal: [PlantDetail:SeasonalSchedule]
@@ -28,6 +30,7 @@ class CareInstructions: IdedObj {
     
     required init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
+        version = try container.decode(String.self, forKey: .version)
         id = try container.decode(UniqueId.self, forKey: .id)
         name = try container.decode(String.self, forKey: .name)
         seasonal = try container.decode([PlantDetail:SeasonalSchedule].self, forKey: .seasonal)
@@ -36,18 +39,20 @@ class CareInstructions: IdedObj {
     }
     
     init(_ name: String = "") {
+        version = CareInstructions.defaultVersion
         id = (CareInstructions.manager?.newId())!
         self.name = name
         seasonal = [.water:SeasonalSchedule(),
                     .fertilize:SeasonalSchedule(),
                     .pestControl:SeasonalSchedule(),
                     .sun:SeasonalSchedule()]
-        nonSeasonal = [.prune:Timetable(Pruning(""), ActionFrequency())]
+        nonSeasonal = [.prune:Timetable(Pruning(), ActionFrequency())]
         notes = ""
     }
     
     func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(version, forKey: .version)
         try container.encode(id, forKey: .id)
         try container.encode(name, forKey: .name)
         try container.encode(seasonal, forKey: .seasonal)
@@ -55,7 +60,7 @@ class CareInstructions: IdedObj {
         try container.encode(notes, forKey: .notes)
     }
     
-    func detail(_ item: PlantDetail) -> CareDetail? {
+    /*func detail(_ item: PlantDetail) -> CareDetail? {
         switch item {
         case .water:
             return .water(currentSeason(.water))
@@ -72,7 +77,7 @@ class CareInstructions: IdedObj {
         default:
             return nil
         }
-    }
+    }*/
     
     func currentSeason(_ detail: PlantDetail) -> Season {
         if !seasonal.keys.contains(detail) {

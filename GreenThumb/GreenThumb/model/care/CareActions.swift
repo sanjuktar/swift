@@ -9,34 +9,10 @@
 import Foundation
 
 class Move: Action {
-    init(_ desc: String) {
-        super.init()
-        self.desc = desc
-    }
-    
-    required init(from decoder: Decoder) throws {
-        try super.init(from: decoder)
-    }
 }
 
 class PestControl: Action {
-    init(_ desc: String) {
-        super.init()
-        self.desc = desc
-    }
-    
-    required init(from decoder: Decoder) throws {
-        try super.init(from: decoder)
-    }
 }
 
 class Pruning: Action {
-    init(_ desc: String) {
-        super.init()
-        self.desc = desc
-    }
-    
-    required init(from decoder: Decoder) throws {
-        try super.init(from: decoder)
-    }
 }

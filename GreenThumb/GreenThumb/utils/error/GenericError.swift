@@ -9,9 +9,9 @@
 import Foundation
 
 class GenericError : Error {
-    var message: String
+    var localizedDescription: String
     
-    init(_ message: String) {
-        self.message = message
+    init(_ desc: String) {
+        localizedDescription = desc
     }
 }

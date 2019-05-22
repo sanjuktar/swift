@@ -8,7 +8,8 @@
 
 import Foundation
 
-class SeasonalSchedule: Codable {
+class SeasonalSchedule: Storable {
+    var version: String
     var timetable: [Season:Timetable]
     var seasons: [Season] {
         return timetable.keys.map{$0}
@@ -18,6 +19,7 @@ class SeasonalSchedule: Codable {
     }
     
     init() {
+        version = SeasonalSchedule.defaultVersion
         timetable = [Season:Timetable]()
     }
 }

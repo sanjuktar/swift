@@ -11,71 +11,25 @@ import UIKit
 
 extension Plant {
     class Manager: IdedObjManager<Plant> {
-        enum CodingKeys: String, CodingKey {
-            case name
-            case plants
-            case idGenerator
-            case preferedNameType
-        }
-        
-        static var defaultName = "Plant.manager"
-        var plants: [Plant] = []
-        var preferedNameType: Plant.NameType = .nickname
-        var log :Log? = AppDelegate.current?.log
-        
-        required init(from decoder: Decoder) throws {
-            try super.init(from: decoder)
-            let container = try decoder.container(keyedBy: CodingKeys.self)
-            name = try container.decode(String.self, forKey: .name)
-            idGenerator = try container.decode(IdGenerator.self, forKey: .idGenerator)
-            preferedNameType = try container.decode(Plant.NameType.self, forKey: .preferedNameType)
-            let plantIds = try container.decode([UniqueId].self, forKey: .plants)
-            plants = try plantIds.compactMap{try Documents.instance?.retrieve($0, as: Plant.self)}
-        }
-        
-        init(_ name: String = Manager.defaultName, _ plants: [Plant] = [], _ lastId: Int = 0, _ preferedNameType: Plant.NameType = Plant.NameType.nickname) {
-            super.init(name, "Plant")
-            self.plants = plants
-            self.preferedNameType = preferedNameType
-        }
-        
-        override func encode(to encoder: Encoder) throws {
-            var container = encoder.container(keyedBy: CodingKeys.self)
-            try container.encode(name, forKey: .name)
-            try container.encode(plants, forKey: .plants)
-            try container.encode(idGenerator, forKey: .idGenerator)
-            try container.encode(preferedNameType, forKey: .preferedNameType)
-        }
+        static var defaultName = "Plant.Manager"
         
         static func load(name: String = defaultName) throws -> Plant.Manager {
             return try (Documents.instance?.retrieve(name, as: Plant.Manager.self))!
         }
         
-        override func commit() throws {
-            try Documents.instance?.store(self, as: name)
+        required init(from decoder: Decoder) throws {
+            try super.init(from: decoder)
         }
         
-        override func add(_ obj: Plant) throws {
-            if plants.firstIndex(of: obj) == nil {
-                plants.append(obj)
-            }
-            try Documents.instance!.store(obj, as: obj.id)
-            try commit()
+        init(_ name: String = Manager.defaultName) {
+            super.init(name, "Plant")
         }
         
-        override func remove(_ obj: Plant) throws {
-            if let pos = plants.firstIndex(of: obj) {
-                plants.remove(at: pos)
-            }
-            try Documents.instance?.remove(obj.id)
-            try commit()
-        }
-        
-        func plants(at location: Location) -> [Plant] {
-            var list: [Plant] = []
-            for plant in plants {
-                if plant.location == location {
-                    list.append(plant)
+        func plants(at location: Location) -> [UniqueId] {
+            var list: [UniqueId] = []
+            for id in ids {
+                if id == location.id {
+                    list.append(id)
                 }
             }
             return list

@@ -8,7 +8,7 @@
 
 import Foundation
 
-class Wind: Condition {
+class Wind: Conditions {
     enum Values: Equatable {
         case windy
         case calm
@@ -78,6 +78,7 @@ class Wind: Condition {
     }
     
     override func encode(to encoder: Encoder) throws {
+        try super.encode(to: encoder)
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encode(value!.name, forKey: .value)
         switch value! {

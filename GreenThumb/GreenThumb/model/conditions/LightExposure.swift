@@ -8,7 +8,7 @@
 
 import Foundation
 
-class LightExposure: Condition {
+class LightExposure: Conditions {
     enum Values: String, Codable {
     case any = "any"
     case fullSun = "full direct sun"
@@ -28,7 +28,7 @@ class LightExposure: Condition {
     
     required init(from decoder: Decoder) throws {
         try super.init(from: decoder)
-        let container = try decoder.container(keyedBy: Condition.CodingKeys.self)
+        let container = try decoder.container(keyedBy: Conditions.CodingKeys.self)
         value = Values(rawValue: try container.decode(String.self, forKey: .value))!
     }
     
@@ -38,7 +38,8 @@ class LightExposure: Condition {
     }
     
     override func encode(to encoder: Encoder) throws {
-        var container = encoder.container(keyedBy: Condition.CodingKeys.self)
+        try super.encode(to: encoder)
+        var container = encoder.container(keyedBy: Conditions.CodingKeys.self)
         try container.encode(name, forKey: .value)
     }
 }

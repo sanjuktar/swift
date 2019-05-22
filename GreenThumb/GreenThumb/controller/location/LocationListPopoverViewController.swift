@@ -13,20 +13,20 @@ class LocationListPopoverViewController: UIViewController, UIPickerViewDelegate,
     @IBOutlet weak var pickerView: UIPickerView!
     
     var location: Location?
-    var locations: [Location] {
-        return Location.manager?.locations ?? []
+    var locations: [UniqueId] {
+        return Location.manager!.ids
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         pickerView.delegate = self
         pickerView.dataSource = self
-        pickerView.selectedRow(inComponent: locations.firstIndex(of: location!) ?? 0)
+        pickerView.selectRow(locations.firstIndex(of: location!.id) ?? 0, inComponent: 0, animated: false)
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if (sender as? UIButton) == backButton {
-            location = locations[pickerView.selectedRow(inComponent: 0)]
+            location = Location.manager!.get(locations[pickerView.selectedRow(inComponent: 0)])
             return
         }
     }
@@ -40,6 +40,6 @@ class LocationListPopoverViewController: UIViewController, UIPickerViewDelegate,
     }
     
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-        return locations[row].name
+        return Location.manager!.get(locations[row])?.name
     }
 }

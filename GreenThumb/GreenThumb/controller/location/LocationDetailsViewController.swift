@@ -17,14 +17,14 @@ class LocationDetailsViewController: UIViewController {
     
     @IBAction func sliderMoved(_ sender: UISlider) {
         guard let condition = sliders[sender] else {return}
-        var values: [Condition]
-        var detail: Location.Conditions
-        var prevVal: Condition?
+        var values: [Conditions]
+        var detail: Location.ConditionsType
+        var prevVal: Conditions?
         switch condition {
         case .indoors:
             values = InOrOut.values.map{InOrOut($0)}
             detail = .inOrOut
-            prevVal = location?.value(.inOrOut)
+            prevVal = location?.conditions.value(.inOrOut)
         case .light:
             values = LightExposure.values.map{LightExposure($0)}
             detail = .light
@@ -42,13 +42,13 @@ class LocationDetailsViewController: UIViewController {
             output?.out(.error, "Unable to update.")
             return
         }
-        let season = location!.currentSeason(detail)
+        let season = location!.conditions.currentSeason(detail)
         var indx = Int(sender.value*Float(values.count))
         if indx == values.count {
             indx -= 1
         }
         let value = values[indx]
-        location!.conditions[detail]?[season] = value
+        location!.conditions.addValue(detail, season: (season?.id)!, value: value) 
         sender.setThumbnailText(values[indx].name)
         editSaveButton.isEnabled = true
         if condition == .indoors {

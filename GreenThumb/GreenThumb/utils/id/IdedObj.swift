@@ -10,8 +10,10 @@ import Foundation
 
 typealias UniqueId = String
 
-protocol IdedObj: Codable, Hashable {
+protocol IdedObj: Storable, Hashable {
+    var version: String {get}
     var id: UniqueId {get}
+    
     func persist() throws
     func unpersist() throws
     func updatePersisted() throws

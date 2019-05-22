@@ -41,7 +41,7 @@ class DiskStorage: Storage {
         return FileManager.default.urls(for: searchPathDirectory!, in: .userDomainMask).first
     }
     
-    func store<T: Codable>(_ object: T, as filename: String) throws {
+    func store<T: Storable>(_ object: T, as filename: String) throws {
         guard let url = directoryUrl?.appendingPathComponent(filename, isDirectory: false) else {
             throw GenericError("Unable to determine url for \(filename)")
         }
@@ -56,7 +56,7 @@ class DiskStorage: Storage {
         }
     }
     
-    func retrieve<T: Codable>(_ fileName: String, as type: T.Type) throws -> T {
+    func retrieve<T: Storable>(_ fileName: String, as type: T.Type) throws -> T {
         guard let url = directoryUrl?.appendingPathComponent(fileName, isDirectory: false) else {
             throw GenericError("Unable to determine url for \(fileName)")
         }

@@ -23,7 +23,7 @@ enum PlantDetail: String, Codable {
     
     case location = "Location"
     // Names
-    case preferedName = "Prefered"
+    //case preferedName = "Prefered"
     case nickname = "Nickname"
     case commonName = "Common"
     case scientificName = "Scientific"
@@ -49,8 +49,20 @@ enum PlantDetail: String, Codable {
         }
         return .noSection
     }
+    var isName: Bool {
+        switch self {
+        case .nickname:
+            return true
+        case .commonName:
+            return true
+        case .scientificName:
+            return true
+        default:
+            return false
+        }
+    }
     
-    func careDetail(_ instructions: CareInstructions) -> CareDetail? {
+    /*func careDetail(_ instructions: CareInstructions) -> CareDetail? {
         switch self {
         case .water:
             return CareDetail.water(instructions.currentSeason(.water))
@@ -67,12 +79,10 @@ enum PlantDetail: String, Codable {
         default:
             return nil
         }
-    }
+    }*/
     
     func data(for plant: Plant) -> String {
         switch self {
-        case .preferedName:
-            return plant.preferedNameType!.rawValue
         case .nickname:
             return plant.names[Plant.NameType.nickname] ?? ""
         case .commonName:
@@ -82,17 +92,22 @@ enum PlantDetail: String, Codable {
         case .location:
             return plant.location.name 
         case .water:
-            return (plant.care.detail(.water)?.data(plant.care))!
+            return CareDetail.water(plant.care.currentSeason(.water)).data(plant.care)
+                //(plant.care.detail(.water)?.data(plant.care))!
         case .sun:
-            return plant.care.detail(.sun)!.data(plant.care)
+            return CareDetail.sun(plant.care.currentSeason(.sun)).data(plant.care)     //plant.care.detail(.sun)!.data(plant.care)
         case .fertilize:
-            return plant.care.detail(.fertilize)!.data(plant.care)
+            return CareDetail.fertilize(plant.care.currentSeason(.fertilize)).data(plant.care)
+                //plant.care.detail(.fertilize)!.data(plant.care)
         case .pestControl:
-            return plant.care.detail(.pestControl)!.data(plant.care)
+            return CareDetail.pestControl(plant.care.currentSeason(.pestControl)).data(plant.care)
+        //plant.care.detail(.pestControl)!.data(plant.care)
         case .prune:
-            return plant.care.detail(.prune)!.data(plant.care)
+            return CareDetail.prune.data(plant.care)
+                //plant.care.detail(.prune)!.data(plant.care)
         case .repot:
-            return plant.care.detail(.repot)!.data(plant.care)
+            return CareDetail.repot.data(plant.care)
+            //return plant.care.detail(.repot)!.data(plant.care)
         }
     }
 }

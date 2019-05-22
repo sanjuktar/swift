@@ -21,8 +21,8 @@ extension IdedObj {
 }*/
 
 protocol Storage {
-    func store<T: Codable>(_ object: T, as filename: String) throws
-    func retrieve<T: Codable>(_ fileName: String, as type: T.Type) throws -> T
+    func store<T: Storable>(_ object: T, as filename: String) throws
+    func retrieve<T: Storable>(_ fileName: String, as type: T.Type) throws -> T
     func clear() throws
     func remove(_ fileName: String) throws
     func fileExists(_ fileName: String) -> Bool

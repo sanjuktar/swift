@@ -12,10 +12,7 @@ class Fertilize: Action {
     var fertilizer: String = "unknown"
     var quantity: Volume = .any
     override var desc: String {
-        get {
-            return "\(quantity.desc) of \(fertilizer)"
-        }
-        set {}
+        return "\(quantity.desc) of \(fertilizer)"
     }
     
     enum FertilizeKeys: String, CodingKey {
@@ -37,6 +34,7 @@ class Fertilize: Action {
     }
     
     override func encode(to encoder: Encoder) throws {
+        try super.encode(to: encoder)
         var container = encoder.container(keyedBy: FertilizeKeys.self)
         try container.encode(fertilizer, forKey: .fertilizer)
         try container.encode(quantity, forKey: .quantity)

@@ -15,10 +15,7 @@ class Light: Action {
     
     var quantity: LightExposure?
     override var desc: String {
-        get {
-            return quantity!.name
-        }
-        set {}
+        return quantity!.name
     }
     
     required init(from decoder: Decoder) throws {
