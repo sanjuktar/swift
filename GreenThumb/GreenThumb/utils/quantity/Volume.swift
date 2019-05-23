@@ -21,7 +21,7 @@ enum Volume: Quantity {
         case desc
     }
     
-    var desc: String {
+    var description: String {
         switch self {
         case .any:
             return "any"
@@ -81,7 +81,7 @@ enum Volume: Quantity {
     fileprivate static func pattern(_ unit: Volume) -> Regex {
         switch unit {
         case .any:
-            return Regex(stringLiteral: Volume.any.desc)
+            return Regex(stringLiteral: Volume.any.description)
         case .ml(_), .oz(_), .drops(_), .tbsp(_):
             return Regex(stringLiteral: "\(Regex.decimalNumber)\(unit.suffix)")
         case .custom(_):
@@ -102,6 +102,6 @@ enum Volume: Quantity {
     
     func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
-        try container.encode(desc, forKey: .desc)
+        try container.encode(description, forKey: .desc)
     }
 }

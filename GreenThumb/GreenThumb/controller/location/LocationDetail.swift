@@ -12,18 +12,18 @@ enum LocationDetail: String, Codable {
     case name = "Name:"
     case image = "Image"
     case plants = "Plants"
-    case indoors = "Indoor/Outdoor:"
+    case inOrOut = "Exposure:"
     case light = "Light:"
     case rain = "Rain:"
     case wind = "Wind/Draft:"
     case humidity = "Humidity"
     
     static var indoorDetails: [LocationDetail] {
-        return [.name, .plants, .indoors, .light, .humidity]
+        return [.name, .plants, .inOrOut, .light, .humidity]
     }
     
     static var outdoorDetails: [LocationDetail] {
-        return [.name, .plants, .indoors, .light, .rain, .wind, .humidity]
+        return [.name, .plants, .inOrOut, .light, .rain, .wind, .humidity]
     }
     
     static func update(_ location: Location, _ condition: Conditions, _ slider: UISlider) throws {
@@ -95,8 +95,8 @@ enum LocationDetail: String, Codable {
         case .image:
             return "No Image"
         case .plants:
-            return (Plant.manager?.plants(at: location).map{Plant.manager!.get($0)!.name}.joined(separator: ", "))!
-        case .indoors:
+            return (Plant.manager?.plants(at: location.id).map{Plant.manager!.get($0)!.name}.joined(separator: ", "))!
+        case .inOrOut:
             return location.conditions.value(.inOrOut).name
         case .light:
             return location.conditions.value(.light).name
@@ -122,7 +122,7 @@ enum LocationDetail: String, Codable {
             return EditLocDetailTextCell.getCell(rawValue, data(for: location), table: table)
         case .plants:
             return EditLocDetailTextCell.getCell(rawValue, data(for: location), table: table)
-        case .indoors:
+        case .inOrOut:
             let value = InOrOut.Values(rawValue: location.conditions.value(.inOrOut).name)!
             return EditLocDetailWithSliderCell.getCell(rawValue, values: InOrOut.values.map{$0.rawValue}, pos: InOrOut.values.firstIndex(of: value), table: table, editMode: editFlag)
         case .light:

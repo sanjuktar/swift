@@ -11,8 +11,8 @@ import Foundation
 class Fertilize: Action {
     var fertilizer: String = "unknown"
     var quantity: Volume = .any
-    override var desc: String {
-        return "\(quantity.desc) of \(fertilizer)"
+    override var description: String {
+        return "\(quantity) of \(fertilizer)"
     }
     
     enum FertilizeKeys: String, CodingKey {

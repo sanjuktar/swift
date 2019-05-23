@@ -48,25 +48,25 @@ class CareDetailsViewController: UIViewController, UITableViewDelegate, UITableV
         case .water(_):
             let s = season(.water, indexPath.row)
             text = s.description
-            detail = timetable(.water, s).name
+            detail = timetable(.water, s).description
         case .sun(_):
             let s = season(.sun, indexPath.row)
             text = s.description
-            detail = timetable(.sun, s).name
+            detail = timetable(.sun, s).description
         case .pestControl(_):
             let s = season(.pestControl, indexPath.row)
             text = s.description
-            detail = timetable(.pestControl, s).name
+            detail = timetable(.pestControl, s).description
         case .fertilize(_):
             let s = season(.fertilize, indexPath.row)
             text = s.description
-            detail = timetable(.fertilize, s).name
+            detail = timetable(.fertilize, s).description
         case .prune:
             text = PlantDetail.prune.rawValue
-            detail = (care?.nonSeasonal[.prune]?.name)!
+            detail = (care?.nonSeasonal[.prune]?.description)!
         case .repot:
             text = PlantDetail.repot.rawValue
-            detail = (care?.nonSeasonal[.repot]?.name)!
+            detail = (care?.nonSeasonal[.repot]?.description)!
         default:
             break
         }

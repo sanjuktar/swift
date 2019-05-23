@@ -25,10 +25,10 @@ extension Plant {
             super.init(name, "Plant")
         }
         
-        func plants(at location: Location) -> [UniqueId] {
+        func plants(at location: UniqueId) -> [UniqueId] {
             var list: [UniqueId] = []
             for id in ids {
-                if id == location.id {
+                if objs[id]?.location == location {
                     list.append(id)
                 }
             }

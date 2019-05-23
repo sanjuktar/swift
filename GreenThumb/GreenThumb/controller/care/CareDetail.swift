@@ -48,15 +48,15 @@ enum CareDetail {
         case .fertilize(let season):
             return seasonalData(care, .fertilize, season)
         case .prune:
-            return (care.nonSeasonal[.prune]?.name)!
+            return (care.nonSeasonal[.prune]?.description)!
         case .repot:
-            return (care.nonSeasonal[.repot]?.name)!
+            return (care.nonSeasonal[.repot]?.description)!
         case .notes:
             return care.notes
         }
     }
     
     private func seasonalData(_ care: CareInstructions, _ item: PlantDetail, _ season: Season?) -> String {
-        return care.seasonal[item]?.timetable[season ?? care.currentSeason(item)]?.name ?? ""
+        return care.seasonal[item]?.timetable[season ?? care.currentSeason(item)]?.description ?? ""
     }
 }

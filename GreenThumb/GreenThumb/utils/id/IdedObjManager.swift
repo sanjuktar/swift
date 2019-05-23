@@ -8,7 +8,7 @@
 
 import Foundation
 
-class IdedObjManager<T:IdedObj>: Storable {
+class IdedObjManager<T:IdedObj>: Storable, CustomStringConvertible {
     enum CodingKeys: String, CodingKey {
         case version = "version"
         case name = "name"
@@ -24,6 +24,10 @@ class IdedObjManager<T:IdedObj>: Storable {
     var log: Log? {
         return AppDelegate.current?.log
     }
+    var description: String {
+        return name
+    }
+    
     
     required init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
@@ -59,7 +63,11 @@ class IdedObjManager<T:IdedObj>: Storable {
     }
     
     func commit() throws {
-        try Documents.instance?.store(self, as: name)
+        do {
+            try Documents.instance?.store(self, as: name)
+        } catch {
+            throw GenericError("Unable to commit changes to \(name): \(error.localizedDescription)")
+        }
     }
     
     func add(_ obj: T) throws {
@@ -67,7 +75,11 @@ class IdedObjManager<T:IdedObj>: Storable {
             ids.append(obj.id)
             objs[obj.id] = obj
         }
-        try Documents.instance?.store(obj, as: obj.id)
+        do {
+            try Documents.instance?.store(obj, as: obj.id)
+        } catch {
+            throw GenericError("Unable to store \(obj)")
+        }
         try commit()
     }
     

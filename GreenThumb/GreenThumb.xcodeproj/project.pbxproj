@@ -25,7 +25,7 @@
 		338E4900227BAFD5007FF826 /* UIImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 338E48FF227BAFD5007FF826 /* UIImage.swift */; };
 		338E4903227C0A29007FF826 /* InOrOut.swift in Sources */ = {isa = PBXBuildFile; fileRef = 338E4902227C0A29007FF826 /* InOrOut.swift */; };
 		338E4905227C0ABB007FF826 /* LightExposure.swift in Sources */ = {isa = PBXBuildFile; fileRef = 338E4904227C0ABB007FF826 /* LightExposure.swift */; };
-		338E4907227C0B00007FF826 /* Condition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 338E4906227C0B00007FF826 /* Condition.swift */; };
+		338E4907227C0B00007FF826 /* Conditions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 338E4906227C0B00007FF826 /* Conditions.swift */; };
 		338E4909227C0E52007FF826 /* Rain.swift in Sources */ = {isa = PBXBuildFile; fileRef = 338E4908227C0E52007FF826 /* Rain.swift */; };
 		338E490B227C0E88007FF826 /* Humidity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 338E490A227C0E88007FF826 /* Humidity.swift */; };
 		338E490D227C0F27007FF826 /* Wind.swift in Sources */ = {isa = PBXBuildFile; fileRef = 338E490C227C0F27007FF826 /* Wind.swift */; };
@@ -33,6 +33,11 @@
 		338E491422814097007FF826 /* LocDetailWithLabelCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 338E491322814097007FF826 /* LocDetailWithLabelCell.swift */; };
 		338E49162287F6C8007FF826 /* LocationListPopoverViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 338E49152287F6C8007FF826 /* LocationListPopoverViewController.swift */; };
 		338E4918228814A0007FF826 /* AlwaysPresentAsPopover.swift in Sources */ = {isa = PBXBuildFile; fileRef = 338E4917228814A0007FF826 /* AlwaysPresentAsPopover.swift */; };
+		33900D062295173F00E653D1 /* CodableConditions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33900D052295173F00E653D1 /* CodableConditions.swift */; };
+		33900D08229517A500E653D1 /* CodableAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33900D07229517A500E653D1 /* CodableAction.swift */; };
+		33900D0A2295244A00E653D1 /* AnnualConditions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33900D092295244A00E653D1 /* AnnualConditions.swift */; };
+		33900D0C2295247A00E653D1 /* SeasonalConditions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33900D0B2295247A00E653D1 /* SeasonalConditions.swift */; };
+		33900D0E22952EC600E653D1 /* UnknownLocation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33900D0D22952EC600E653D1 /* UnknownLocation.swift */; };
 		33AC0CDE21CC7C4600F52D55 /* TableCellWithTable.xib in Resources */ = {isa = PBXBuildFile; fileRef = 33AC0CDD21CC7C4600F52D55 /* TableCellWithTable.xib */; };
 		33AC0CE021CC7FE900F52D55 /* CareActions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33AC0CDF21CC7FE900F52D55 /* CareActions.swift */; };
 		33AC0CE221CC80A500F52D55 /* Quantity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33AC0CE121CC80A500F52D55 /* Quantity.swift */; };
@@ -119,7 +124,7 @@
 		338E48FF227BAFD5007FF826 /* UIImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIImage.swift; sourceTree = "<group>"; };
 		338E4902227C0A29007FF826 /* InOrOut.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InOrOut.swift; sourceTree = "<group>"; };
 		338E4904227C0ABB007FF826 /* LightExposure.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LightExposure.swift; sourceTree = "<group>"; };
-		338E4906227C0B00007FF826 /* Condition.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Condition.swift; sourceTree = "<group>"; };
+		338E4906227C0B00007FF826 /* Conditions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Conditions.swift; sourceTree = "<group>"; };
 		338E4908227C0E52007FF826 /* Rain.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Rain.swift; sourceTree = "<group>"; };
 		338E490A227C0E88007FF826 /* Humidity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Humidity.swift; sourceTree = "<group>"; };
 		338E490C227C0F27007FF826 /* Wind.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Wind.swift; sourceTree = "<group>"; };
@@ -127,6 +132,11 @@
 		338E491322814097007FF826 /* LocDetailWithLabelCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocDetailWithLabelCell.swift; sourceTree = "<group>"; };
 		338E49152287F6C8007FF826 /* LocationListPopoverViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationListPopoverViewController.swift; sourceTree = "<group>"; };
 		338E4917228814A0007FF826 /* AlwaysPresentAsPopover.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlwaysPresentAsPopover.swift; sourceTree = "<group>"; };
+		33900D052295173F00E653D1 /* CodableConditions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodableConditions.swift; sourceTree = "<group>"; };
+		33900D07229517A500E653D1 /* CodableAction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodableAction.swift; sourceTree = "<group>"; };
+		33900D092295244A00E653D1 /* AnnualConditions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnnualConditions.swift; sourceTree = "<group>"; };
+		33900D0B2295247A00E653D1 /* SeasonalConditions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SeasonalConditions.swift; sourceTree = "<group>"; };
+		33900D0D22952EC600E653D1 /* UnknownLocation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnknownLocation.swift; sourceTree = "<group>"; };
 		33AC0CDD21CC7C4600F52D55 /* TableCellWithTable.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TableCellWithTable.xib; sourceTree = "<group>"; };
 		33AC0CDF21CC7FE900F52D55 /* CareActions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CareActions.swift; sourceTree = "<group>"; };
 		33AC0CE121CC80A500F52D55 /* Quantity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Quantity.swift; sourceTree = "<group>"; };
@@ -252,9 +262,10 @@
 		338E4901227C09FF007FF826 /* conditions */ = {
 			isa = PBXGroup;
 			children = (
+				338E4906227C0B00007FF826 /* Conditions.swift */,
+				33900D052295173F00E653D1 /* CodableConditions.swift */,
 				338E4902227C0A29007FF826 /* InOrOut.swift */,
 				338E4904227C0ABB007FF826 /* LightExposure.swift */,
-				338E4906227C0B00007FF826 /* Condition.swift */,
 				338E4908227C0E52007FF826 /* Rain.swift */,
 				338E490A227C0E88007FF826 /* Humidity.swift */,
 				338E490C227C0F27007FF826 /* Wind.swift */,
@@ -275,10 +286,11 @@
 			isa = PBXGroup;
 			children = (
 				33AC0CE321CC820B00F52D55 /* Action.swift */,
+				338DBF8021E6D59D006F5BA1 /* ActionManager.swift */,
+				33900D07229517A500E653D1 /* CodableAction.swift */,
 				33AC0CEC21CC832B00F52D55 /* ActionFrequency.swift */,
 				33AC0CEE21CC836300F52D55 /* Timetable.swift */,
 				33AC0CF021CC839600F52D55 /* SeasonalSchedule.swift */,
-				338DBF8021E6D59D006F5BA1 /* ActionManager.swift */,
 			);
 			name = action;
 			sourceTree = "<group>";
@@ -403,6 +415,9 @@
 			children = (
 				33C1A159219411CC003003F5 /* Location.swift */,
 				33AC0CFD21D3223300F52D55 /* Location.Manager.swift */,
+				33900D092295244A00E653D1 /* AnnualConditions.swift */,
+				33900D0B2295247A00E653D1 /* SeasonalConditions.swift */,
+				33900D0D22952EC600E653D1 /* UnknownLocation.swift */,
 			);
 			path = location;
 			sourceTree = "<group>";
@@ -488,11 +503,11 @@
 			isa = PBXGroup;
 			children = (
 				33C1A18B21C8CECB003003F5 /* CareInstructions.swift */,
+				338DBF8221E72F76006F5BA1 /* CareInstructions.Manager.swift */,
 				33AC0CDF21CC7FE900F52D55 /* CareActions.swift */,
 				33AC0CE621CC827400F52D55 /* Water.swift */,
 				33AC0CE821CC82C300F52D55 /* Fertilize.swift */,
 				33AC0CEA21CC82E600F52D55 /* Light.swift */,
-				338DBF8221E72F76006F5BA1 /* CareInstructions.Manager.swift */,
 			);
 			path = care;
 			sourceTree = "<group>";
@@ -659,6 +674,7 @@
 				33AC0CE221CC80A500F52D55 /* Quantity.swift in Sources */,
 				33AC0CFE21D3223300F52D55 /* Location.Manager.swift in Sources */,
 				338E491222800CC2007FF826 /* UISlider.swift in Sources */,
+				33900D0E22952EC600E653D1 /* UnknownLocation.swift in Sources */,
 				331F6908229126AC003542D6 /* Storable.swift in Sources */,
 				33C1A16F2199509B003003F5 /* GenericError.swift in Sources */,
 				33C1A14E2193BE3A003003F5 /* CareDetailsViewController.swift in Sources */,
@@ -674,7 +690,7 @@
 				338E4903227C0A29007FF826 /* InOrOut.swift in Sources */,
 				338DBF8321E72F76006F5BA1 /* CareInstructions.Manager.swift in Sources */,
 				338E4905227C0ABB007FF826 /* LightExposure.swift in Sources */,
-				338E4907227C0B00007FF826 /* Condition.swift in Sources */,
+				338E4907227C0B00007FF826 /* Conditions.swift in Sources */,
 				33AC0CF321CC855D00F52D55 /* CareDetail.swift in Sources */,
 				33C1A1672199419C003003F5 /* String.swift in Sources */,
 				33C1A187219FBAE7003003F5 /* PlantDetail.swift in Sources */,
@@ -694,21 +710,25 @@
 				33C1A14C2193BE28003003F5 /* PlantDetailsViewController.swift in Sources */,
 				33C1A18C21C8CECB003003F5 /* CareInstructions.swift in Sources */,
 				338E48F822780EBE007FF826 /* KeyboardHandler.swift in Sources */,
+				33900D062295173F00E653D1 /* CodableConditions.swift in Sources */,
 				33C1A19221C8E240003003F5 /* Anytime.swift in Sources */,
 				338E491422814097007FF826 /* LocDetailWithLabelCell.swift in Sources */,
 				33C1A181219AB573003003F5 /* Log.swift in Sources */,
 				33AC0D0121D3282A00F52D55 /* Season.Manager.swift in Sources */,
 				33C1A1552193C267003003F5 /* DiskStorage.swift in Sources */,
 				33C1A18A21C898F6003003F5 /* TableCellWithTable.swift in Sources */,
+				33900D0A2295244A00E653D1 /* AnnualConditions.swift in Sources */,
 				338E490D227C0F27007FF826 /* Wind.swift in Sources */,
 				338E48F222728534007FF826 /* EditLocDetailTextCell.swift in Sources */,
 				33AC0CF721CE18FB00F52D55 /* Season.swift in Sources */,
+				33900D0C2295247A00E653D1 /* SeasonalConditions.swift in Sources */,
 				33C1A11A2193AD48003003F5 /* AppDelegate.swift in Sources */,
 				338E490B227C0E88007FF826 /* Humidity.swift in Sources */,
 				33AC0CEB21CC82E600F52D55 /* Light.swift in Sources */,
 				33C1A175219955D6003003F5 /* EditPlantTextCell.swift in Sources */,
 				338DBF8C21E983DE006F5BA1 /* IdGenerator.swift in Sources */,
 				338E48ED22728317007FF826 /* LocationListViewController.swift in Sources */,
+				33900D08229517A500E653D1 /* CodableAction.swift in Sources */,
 				33C1A19421C8E277003003F5 /* Date.swift in Sources */,
 				33C1A15A219411CD003003F5 /* Location.swift in Sources */,
 				33AC0CE921CC82C300F52D55 /* Fertilize.swift in Sources */,

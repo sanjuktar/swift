@@ -18,15 +18,16 @@ class CareInstructions: IdedObj {
         case nonSeasonal
         case notes
     }
-    static var manager: Manager? {
-        return AppDelegate.current?.care
-    }
+    static var manager: Manager? 
     var version: String
     var id: UniqueId
     var name: String
     var seasonal: [PlantDetail:SeasonalSchedule]
     var nonSeasonal: [PlantDetail:Timetable]
     var notes: String
+    var description: String {
+        return name
+    }
     
     required init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
@@ -59,25 +60,6 @@ class CareInstructions: IdedObj {
         try container.encode(nonSeasonal, forKey: .nonSeasonal)
         try container.encode(notes, forKey: .notes)
     }
-    
-    /*func detail(_ item: PlantDetail) -> CareDetail? {
-        switch item {
-        case .water:
-            return .water(currentSeason(.water))
-        case .sun:
-            return .sun(currentSeason(.sun))
-        case .fertilize:
-            return .fertilize(currentSeason(.fertilize))
-        case .pestControl:
-            return .pestControl(currentSeason(.pestControl))
-        case .prune:
-            return .prune
-        case .repot:
-            return .repot
-        default:
-            return nil
-        }
-    }*/
     
     func currentSeason(_ detail: PlantDetail) -> Season {
         if !seasonal.keys.contains(detail) {

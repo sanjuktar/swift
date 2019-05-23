@@ -52,7 +52,7 @@ class DiskStorage: Storage {
             }
             FileManager.default.createFile(atPath: url.path, contents: data, attributes: nil)
         } catch {
-            throw error
+            throw GenericError("Unable to encode aand store \(object): \(error.localizedDescription)")
         }
     }
     
@@ -70,7 +70,7 @@ class DiskStorage: Storage {
                 let obj = try DiskStorage.decoder.decode(type, from: data)
                 return obj
             } catch {
-                throw error
+                throw GenericError("Unable to decode \(fileName): \(error.localizedDescription)")
             }
         } else {
             throw GenericError("No data at \(url.path)!")
@@ -78,13 +78,18 @@ class DiskStorage: Storage {
     }
     
     func clear() throws {
+        var contents: [URL]
         do {
-            let contents = try FileManager.default.contentsOfDirectory(at: directoryUrl!, includingPropertiesForKeys: nil, options: [])
-            for fileUrl in contents {
-                try FileManager.default.removeItem(at: fileUrl)
-            }
+            contents = try FileManager.default.contentsOfDirectory(at: directoryUrl!, includingPropertiesForKeys: nil, options: [])
         } catch {
-            throw error
+            throw GenericError("Unable to determine contents of storage so cannot clear contents: \(error.localizedDescription)")
+        }
+        for fileUrl in contents {
+            do {
+                try FileManager.default.removeItem(at: fileUrl)
+            } catch {
+                throw GenericError("Aborting clear() because unable to remove item \(fileUrl): \(error.localizedDescription)")
+            }
         }
     }
     
@@ -96,7 +101,7 @@ class DiskStorage: Storage {
             do {
                 try FileManager.default.removeItem(at: url)
             } catch {
-                fatalError(error.localizedDescription)
+                throw GenericError("Unable to remove \(url): \(error.localizedDescription)")
             }
         }
     }

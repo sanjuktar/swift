@@ -16,22 +16,9 @@ class PlantsListViewController: UIViewController {
         if segue.identifier == "unwindEditPlantToList" {
             let source = segue.source as! PlantDetailsViewController
             guard source.plant != nil else {return}
-            //var newPlant = !(plants?.contains(source.plant!))!
-            for id in plants! {
-                if id == source.plant?.id {
-                    //newPlant = false
-                    break
-                }
-            }
             plantCollection.reloadData()
             do {
                 try Plant.manager?.add(source.plant!)
-                /*if newPlant {
-                    try Plant.manager?.add(source.plant!)
-                }
-                else {
-                    try source.plant?.updatePersisted()
-                }*/
             } catch {
                 output?.output(.error, "Unable to save changes: \(error.localizedDescription)")
             }
@@ -58,12 +45,12 @@ class PlantsListViewController: UIViewController {
         else if segue.identifier == "addNewPlantSegue" {
             let dest = segue.destination as! PlantDetailsViewController
             dest.editMode = true
-            dest.plant = Plant([:])
+            dest.plant = Plant()
         }
     }
     
     private func location(_ indexPath: IndexPath) -> Location {
-        return Location.unknownLocation
+        return Location.manager!.unknownLocation
     }
 }
 

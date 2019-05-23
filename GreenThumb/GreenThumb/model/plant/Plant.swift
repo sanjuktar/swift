@@ -43,13 +43,11 @@ class Plant: IdedObj {
         case image
     }
     
-    static var manager :Manager? {
-        return AppDelegate.current?.plants 
-    }
+    static var manager :Manager? 
     var version: String
     var id: UniqueId
     var names: NameList
-    var location: Location
+    var location: UniqueId
     var care: CareInstructions
     var image: UIImage?
     var name: String {
@@ -68,19 +66,22 @@ class Plant: IdedObj {
     var imageData: Data? {
         return (image == nil ? nil : image!.jpegData(compressionQuality: 0.5))
     }
+    var description: String {
+        return name
+    }
     
     required init(from: Decoder) throws {
         let container = try from.container(keyedBy: CodingKeys.self)
         version = try container.decode(String.self, forKey: .version)
         id = try container.decode(String.self, forKey: .id)
         names = try container.decode([NameType:String].self, forKey: .names)
-        location = try container.decode(Location.self, forKey: .location)
+        location = try container.decode(UniqueId.self, forKey: .location)
         care = try container.decode(CareInstructions.self, forKey: .care)
         let data = try container.decode(Data?.self, forKey: .image)
         image = Plant.image(from: data)
     }
     
-    init(_ names: NameList,  location: Location = Location.unknownLocation, image: UIImage? = nil, care: CareInstructions = CareInstructions(), preferedNameType: NameType = .nickname) {
+    init(_ names: NameList = [:],  location: UniqueId = Location.manager!.unknownLocation.id, image: UIImage? = nil, care: CareInstructions = CareInstructions(), preferedNameType: NameType = .nickname) {
         version = Plant.defaultVersion
         id = (Plant.manager?.newId())!
         self.names = names

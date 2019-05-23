@@ -90,24 +90,19 @@ enum PlantDetail: String, Codable {
         case .scientificName:
             return plant.names[Plant.NameType.scientific] ?? ""
         case .location:
-            return plant.location.name 
+            return Location.manager!.get(plant.location)!.name
         case .water:
             return CareDetail.water(plant.care.currentSeason(.water)).data(plant.care)
-                //(plant.care.detail(.water)?.data(plant.care))!
         case .sun:
-            return CareDetail.sun(plant.care.currentSeason(.sun)).data(plant.care)     //plant.care.detail(.sun)!.data(plant.care)
+            return CareDetail.sun(plant.care.currentSeason(.sun)).data(plant.care)
         case .fertilize:
             return CareDetail.fertilize(plant.care.currentSeason(.fertilize)).data(plant.care)
-                //plant.care.detail(.fertilize)!.data(plant.care)
         case .pestControl:
             return CareDetail.pestControl(plant.care.currentSeason(.pestControl)).data(plant.care)
-        //plant.care.detail(.pestControl)!.data(plant.care)
         case .prune:
             return CareDetail.prune.data(plant.care)
-                //plant.care.detail(.prune)!.data(plant.care)
         case .repot:
             return CareDetail.repot.data(plant.care)
-            //return plant.care.detail(.repot)!.data(plant.care)
         }
     }
 }

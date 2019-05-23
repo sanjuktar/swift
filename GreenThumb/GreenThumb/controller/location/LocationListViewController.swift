@@ -21,7 +21,7 @@ class LocationListViewController: UIViewController, UITableViewDelegate, UITable
                 do {
                     try Location.manager?.add(source.location!)
                 } catch {
-                    output?.out(.error, "Unable to add location \(source.location!.name) - \(error.localizedDescription)")
+                    output?.out(.error, "Unable to add location \(source.location!) - \(error.localizedDescription)")
                     return
                 }
             }
@@ -29,7 +29,7 @@ class LocationListViewController: UIViewController, UITableViewDelegate, UITable
                 do {
                     try source.location?.updatePersisted()
                 } catch {
-                    output?.out(.error, "Unable to update location \(source.location!.name) - \(error.localizedDescription)")
+                    output?.out(.error, "Unable to update location \(source.location!) - \(error.localizedDescription)")
                     return
                 }
             }

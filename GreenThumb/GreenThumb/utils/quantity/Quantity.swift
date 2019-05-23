@@ -8,7 +8,6 @@
 
 import Foundation
 
-protocol Quantity: Codable {
-    var desc: String {get}
+protocol Quantity: Codable, CustomStringConvertible {
     static func from(_ description: String) -> Quantity
 }

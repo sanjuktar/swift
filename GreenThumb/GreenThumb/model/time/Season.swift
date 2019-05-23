@@ -9,6 +9,26 @@
 import Foundation
 import UIKit
 
+class AllYear: Season {
+    required init(from decoder: Decoder) throws {
+        try super.init(from: decoder)
+    }
+    
+    init() {
+        super.init("all year", TimeOfYear.start, TimeOfYear.end)
+    }
+}
+
+class RestOfTheYear: Season {
+    required init(from decoder: Decoder) throws {
+        try super.init(from: decoder)
+    }
+    
+    init() {
+        super.init("rest of the year", TimeOfYear.start, TimeOfYear.end)
+    }
+}
+
 class Season: TimeWindow, IdedObj {
     enum CodingKeys: String, CodingKey {
         case version
@@ -18,11 +38,9 @@ class Season: TimeWindow, IdedObj {
         case end
     }
     
-    static var manager: Manager? {
-        return (UIApplication.shared.delegate as! AppDelegate).seasons
-    }
-    static var allYear = Season("all year", TimeOfYear.start, TimeOfYear.end)
-    static var restOfYear = Season("rest of the year", TimeOfYear.start, TimeOfYear.end)
+    static var manager: Manager? 
+    static var allYear = AllYear()
+    static var restOfYear = RestOfTheYear()
     var version: String
     var id: UniqueId
     var name: String?

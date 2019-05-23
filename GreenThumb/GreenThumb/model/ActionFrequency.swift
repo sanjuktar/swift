@@ -8,12 +8,12 @@
 
 import Foundation
 
-class ActionFrequency: Storable {
+class ActionFrequency: Storable, CustomStringConvertible {
     var version: String
     var nTimes: Int
     var interval: TimeDuration
     var lastTime: Date
-    var desc: String {
+    var description: String {
         return "\(nTimes)x every \(interval)"
     }
     

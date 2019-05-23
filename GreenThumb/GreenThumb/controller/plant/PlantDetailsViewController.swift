@@ -21,8 +21,8 @@ class PlantDetailsViewController: UIViewController {
     
     @IBAction func unwindToPlantDetails(segue: UIStoryboardSegue) {
         if let source = segue.source as? LocationListPopoverViewController {
-            plant?.location = source.location!
-            (locationValueSubview as! UITextField).text = plant?.location.name
+            plant?.location = source.location!.id
+            (locationValueSubview as! UITextField).text = source.location!.name
             return
         }
     }
@@ -194,16 +194,17 @@ class PlantDetailsViewController: UIViewController {
         locationLabel.font = PlantDetailsViewController.detailLabelFont
         locationLabel.textColor = PlantDetailsViewController.detailLabelColor
         let frame = CGRect(origin: locationValueView.frame.origin, size: CGSize(width: locationValueView.frame.width, height: 30))
+        let location = Location.manager?.get(plant!.location)?.name
         if editMode {
             if locationValueSubview != nil {
                 if locationValueSubview is UITextField {
-                    (locationValueSubview as! UITextField).text = plant?.location.name
+                    (locationValueSubview as! UITextField).text = location
                     return
                 }
                 locationValueSubview?.removeFromSuperview()
             }
             let subview = UITextField(frame: frame)
-            subview.text = plant?.location.name
+            subview.text = location
             subview.font = PlantDetailsViewController.detailTextFont
             subview.clearsOnBeginEditing = true
             subview.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(didTap(sender:))))
@@ -213,14 +214,14 @@ class PlantDetailsViewController: UIViewController {
         else {
             if locationValueSubview != nil {
                 if locationValueSubview is UILabel {
-                    (locationValueSubview as! UILabel).text = plant?.location.name
+                    (locationValueSubview as! UILabel).text = location
                     return
                 }
                 locationValueSubview?.gestureRecognizers?.remove(at: 0)
                 locationValueSubview?.removeFromSuperview()
             }
             let subview = UILabel(frame: frame)
-            subview.text = plant?.location.name
+            subview.text = location
             subview.font = PlantDetailsViewController.detailTextFont
             locationValueSubview = subview
         }
@@ -230,7 +231,7 @@ class PlantDetailsViewController: UIViewController {
     private func showLocationPopup(_ sender: UIView) {
         let controller =  self.storyboard!.instantiateViewController(
             withIdentifier: "locationListPopoverViewController")
-        (controller as! LocationListPopoverViewController).location = plant?.location
+        (controller as! LocationListPopoverViewController).location = Location.manager!.get(plant!.location)
         controller.preferredContentSize = CGSize(width: 300, height: 200)
         let presentationController = AlwaysPresentAsPopover.configurePresentation(forController: controller)
         presentationController.sourceView = sender

@@ -21,7 +21,7 @@ class LocationDetailsViewController: UIViewController {
         var detail: Location.ConditionsType
         var prevVal: Conditions?
         switch condition {
-        case .indoors:
+        case .inOrOut:
             values = InOrOut.values.map{InOrOut($0)}
             detail = .inOrOut
             prevVal = location?.conditions.value(.inOrOut)
@@ -51,7 +51,7 @@ class LocationDetailsViewController: UIViewController {
         location!.conditions.addValue(detail, season: (season?.id)!, value: value) 
         sender.setThumbnailText(values[indx].name)
         editSaveButton.isEnabled = true
-        if condition == .indoors {
+        if condition == .inOrOut {
             if value != prevVal {
                 location?.updateDetailsUsed((value as! InOrOut).isOutdoors)
                 detailsTable.reloadData()
@@ -146,7 +146,7 @@ extension LocationDetailsViewController: UITextFieldDelegate, KeyboardHandler {
     }
     
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-        let text = ((textField.text as! NSString).replacingCharacters(in: range, with: string))
+        let text = ((textField.text! as NSString).replacingCharacters(in: range, with: string))
         let detail = textfields[textField]!
         switch detail {
         case .name:

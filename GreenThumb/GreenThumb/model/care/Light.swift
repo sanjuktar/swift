@@ -14,7 +14,7 @@ class Light: Action {
     }
     
     var quantity: LightExposure?
-    override var desc: String {
+    override var description: String {
         return quantity!.name
     }
     

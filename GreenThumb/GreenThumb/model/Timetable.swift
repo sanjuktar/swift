@@ -8,7 +8,7 @@
 
 import Foundation
 
-class Timetable: Storable {
+class Timetable: Storable, CustomStringConvertible {
     enum CodingKeys: String, CodingKey {
         case version
         case action
@@ -18,8 +18,8 @@ class Timetable: Storable {
     var version: String
     var action: Action
     var freq: ActionFrequency
-    var name: String {
-        return "\(action.desc) \(freq.desc)"
+    var description: String {
+        return "\(action) \(freq)"
     }
     
     required init(from decoder: Decoder) throws {
