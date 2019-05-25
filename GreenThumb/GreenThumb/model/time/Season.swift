@@ -39,8 +39,8 @@ class Season: TimeWindow, IdedObj {
     }
     
     static var manager: Manager? 
-    static var allYear = AllYear()
-    static var restOfYear = RestOfTheYear()
+    static var allYear: UniqueId?
+    static var restOfYear: UniqueId?
     var version: String
     var id: UniqueId
     var name: String?
@@ -53,14 +53,14 @@ class Season: TimeWindow, IdedObj {
     }
     
     static func current(in seasons: [Season]) -> Season {
-        guard !(Season.manager?.objs.isEmpty)! else {return Season.allYear}
+        guard !(Season.manager?.objs.isEmpty)! else {return Season.manager!.get(Season.allYear!)!}
         let today = Date()
         for season in seasons {
             if season.contains(today) {
                 return season
             }
         }
-        return Season.restOfYear
+        return Season.manager!.get(Season.restOfYear!)!
     }
     
     required init(from decoder: Decoder) throws {
@@ -74,7 +74,7 @@ class Season: TimeWindow, IdedObj {
     }
     
     init(_ name: String, _ start: TimeOfYear, _ end: TimeOfYear) {
-        version = Season.defaultVersion
+        version = Defaults.version
         id = (Season.manager?.newId())!
         super.init(start: start, end: end)
         self.name = name

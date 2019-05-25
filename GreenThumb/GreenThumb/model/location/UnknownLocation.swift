@@ -17,6 +17,6 @@ class UnknownLocation: Location {
     
     init(_ inOrOut: InOrOut = InOrOut(.indoors)) {
         super.init(UnknownLocation.defaultName)
-        conditions.addValue(.inOrOut, season: Season.allYear.id, value: inOrOut)
+        conditions.addValue(.inOrOut, season: Season.allYear!, value: inOrOut)
     }
 }

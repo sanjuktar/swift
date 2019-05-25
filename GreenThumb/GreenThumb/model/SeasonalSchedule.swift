@@ -10,16 +10,23 @@ import Foundation
 
 class SeasonalSchedule: Storable {
     var version: String
-    var timetable: [Season:Timetable]
-    var seasons: [Season] {
+    var timetable: [UniqueId:Timetable]
+    var seasons: [UniqueId] {
         return timetable.keys.map{$0}
     }
     var current: Timetable? {
-        return timetable[Season.Manager.find(Date(), in: seasons)]
+        return timetable[Season.Manager.find(Date(), in: seasons).id]
     }
     
     init() {
-        version = SeasonalSchedule.defaultVersion
-        timetable = [Season:Timetable]()
+        version = Defaults.version
+        timetable = [UniqueId:Timetable]()
+        for season in Defaults.seasonal.seasonsList {
+            for care in CareType.allCases {
+                if let action = Defaults.care[care] {
+                    timetable[season] = Timetable(action!.id, Defaults.frequency[care]!)
+                }
+            }
+        }
     }
 }

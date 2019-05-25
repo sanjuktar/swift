@@ -9,10 +9,14 @@
 import Foundation
 
 class Wind: Conditions {
-    enum Values: Equatable {
+    enum Values: Codable, Equatable {
         case windy
         case calm
         case drafty(Bool)
+        
+        enum CodingKeys: String, CodingKey {
+            case value = "value"
+        }
         
         var name: String {
             switch self {
@@ -43,6 +47,17 @@ class Wind: Conditions {
                 return .calm
             }
         }
+        
+        init(from decoder: Decoder) throws {
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            let val = try container.decode(String.self, forKey: .value)
+            self = Values.get(val)!
+        }
+        
+        func encode(to encoder: Encoder) throws {
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(name, forKey: .value)
+        }
     }
     
     static var values: [Wind.Values] = [.windy, .calm, .drafty(false), .drafty(true)]
@@ -72,7 +87,7 @@ class Wind: Conditions {
         }
     }
     
-    init(_ value: Values = .calm) {
+    init(_ value: Values = (Defaults.conditions[ConditionsType.wind] as! Wind).value!) {
         super.init()
         self.value = value
     }

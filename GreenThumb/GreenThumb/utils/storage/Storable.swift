@@ -11,9 +11,3 @@ import Foundation
 protocol Storable: Codable {
     var version: String {get}
 }
-
-extension Storable {
-    static var defaultVersion: String {
-        return AppDelegate.current!.version
-    }
-}

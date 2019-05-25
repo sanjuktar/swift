@@ -32,7 +32,7 @@ class LightExposure: Conditions {
         value = Values(rawValue: try container.decode(String.self, forKey: .value))!
     }
     
-    init(_ value: Values = .mediumLight) {
+    init(_ value: Values = (Defaults.conditions[.light] as! LightExposure).value!) {
         super.init()
         self.value = value
     }

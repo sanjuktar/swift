@@ -32,7 +32,7 @@ class InOrOut: Conditions {
         value = Values(rawValue: try container.decode(String.self, forKey: .value))!
     }
     
-    init(_ value: Values = .indoors) {
+    init(_ value: Values = (Defaults.conditions[.inOrOut] as! InOrOut).value!) {
         super.init()
         self.value = value
     }

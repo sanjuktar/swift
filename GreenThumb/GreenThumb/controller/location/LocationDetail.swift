@@ -28,7 +28,7 @@ enum LocationDetail: String, Codable {
     
     static func update(_ location: Location, _ condition: Conditions, _ slider: UISlider) throws {
         var values: [Conditions]
-        var detail: Location.ConditionsType
+        var detail: ConditionsType
         switch condition {
         case is InOrOut:
             values = InOrOut.values.map{InOrOut($0)}
@@ -55,38 +55,6 @@ enum LocationDetail: String, Codable {
     static func details(_ location: Location) -> [LocationDetail] {
         return location.conditions.isOutdoors ? outdoorDetails : indoorDetails
     }
-    
-    /*init(_ condition: Location.Conditions) {
-        switch condition {
-        case .inOrOut:
-            self = .indoors
-        case .light:
-            self = .light
-        case .rain:
-            self = .rain
-        case .humidity:
-            self = .humidity
-        case .wind:
-            self = .wind
-        }
-    }*/
-    
-    /*static func condition(_ detail: LocationDetail) -> Location.Conditions? {
-        switch detail {
-        case .indoors:
-            return .inOrOut
-        case .light:
-            return .light
-        case .rain:
-            return .rain
-        case .wind:
-            return .wind
-        case .humidity:
-            return .humidity
-        @unknown default:
-            return nil
-        }
-    }*/
     
     func data(for location: Location) -> String {
         switch self {

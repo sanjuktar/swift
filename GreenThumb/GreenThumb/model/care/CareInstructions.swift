@@ -14,16 +14,14 @@ class CareInstructions: IdedObj {
         case version
         case id
         case name
-        case seasonal
-        case nonSeasonal
+        case schedule
         case notes
     }
     static var manager: Manager? 
     var version: String
     var id: UniqueId
     var name: String
-    var seasonal: [PlantDetail:SeasonalSchedule]
-    var nonSeasonal: [PlantDetail:Timetable]
+    var schedule: [CareType:SeasonalSchedule]
     var notes: String
     var description: String {
         return name
@@ -34,20 +32,18 @@ class CareInstructions: IdedObj {
         version = try container.decode(String.self, forKey: .version)
         id = try container.decode(UniqueId.self, forKey: .id)
         name = try container.decode(String.self, forKey: .name)
-        seasonal = try container.decode([PlantDetail:SeasonalSchedule].self, forKey: .seasonal)
-        nonSeasonal = try container.decode([PlantDetail:Timetable].self, forKey: .nonSeasonal)
+        schedule = try container.decode([CareType:SeasonalSchedule].self, forKey: .schedule)
         notes = try container.decode(String.self, forKey: .notes)
     }
     
     init(_ name: String = "") {
-        version = CareInstructions.defaultVersion
+        version = Defaults.version
         id = (CareInstructions.manager?.newId())!
         self.name = name
-        seasonal = [.water:SeasonalSchedule(),
-                    .fertilize:SeasonalSchedule(),
-                    .pestControl:SeasonalSchedule(),
-                    .sun:SeasonalSchedule()]
-        nonSeasonal = [.prune:Timetable(Pruning(), ActionFrequency())]
+        schedule = [:]
+        for care in CareType.seasonal {
+            schedule[care] = SeasonalSchedule()
+        }
         notes = ""
     }
     
@@ -56,16 +52,15 @@ class CareInstructions: IdedObj {
         try container.encode(version, forKey: .version)
         try container.encode(id, forKey: .id)
         try container.encode(name, forKey: .name)
-        try container.encode(seasonal, forKey: .seasonal)
-        try container.encode(nonSeasonal, forKey: .nonSeasonal)
+        try container.encode(schedule, forKey: .schedule)
         try container.encode(notes, forKey: .notes)
     }
     
-    func currentSeason(_ detail: PlantDetail) -> Season {
-        if !seasonal.keys.contains(detail) {
-            return Season.allYear
+    func currentSeason(_ detail: CareType) -> Season {
+        if !schedule.keys.contains(detail) {
+            return Season.manager!.get(Season.allYear!)!
         }
-        return Season.Manager.find(Date(), in: seasonal[detail]!.seasons)
+        return Season.Manager.find(Date(), in: schedule[detail]!.seasons)
     }
     
     func persist() throws {

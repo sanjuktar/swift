@@ -8,31 +8,6 @@
 
 import Foundation
 
-enum ActionType: String, Codable {
-    case unknown = "Unknown"
-    case water = "Water"
-    case fertilize = "Fertilize"
-    case lightExposure = "Light exposure"
-    
-    /*var type: Any.Type {
-     switch self {
-     case .water: return Water.self
-     case .fertilize: return Fertilize.self
-     case .sunExposure: return Sun.self
-     case .unknown: return Action.self
-     }
-     }*/
-    
-    /*static func value(of action: Any) -> ActionType? {
-     switch action {
-     case is Water: return .water
-     case is Fertilize: return .fertilize
-     case is LightExposure: return .lightExposure
-     default: return nil
-     }
-     }*/
-}
-
 struct CodableAction: Storable {
     
     enum CodingKeys: String, CodingKey {
@@ -56,19 +31,21 @@ struct CodableAction: Storable {
             action = try container.decode(Fertilize.self, forKey: .action)
         case .lightExposure:
             action = try container.decode(Light.self, forKey: .action)
-        default:
-            action = Action()
         }
     }
     
-    init(_ action: Action) {
-        version = CodableAction.defaultVersion
+    init(_ action: Action) throws {
+        version = Defaults.version
         self.action = action
         switch action {
-        case is Water: self.type = .water
-        case is Fertilize: self.type = .fertilize
-        case is Light: self.type = .lightExposure
-        default: self.type = .unknown
+        case is Water:
+            self.type = .water
+        case is Fertilize:
+            self.type = .fertilize
+        case is Light:
+            self.type = .lightExposure
+        default:
+            throw GenericError("Unable to determine Action type for \(action)")
         }
     }
     
@@ -80,7 +57,6 @@ struct CodableAction: Storable {
         case .water: try container.encode((action as! Water), forKey: .action)
         case .fertilize: try container.encode((action as! Fertilize), forKey: .action)
         case .lightExposure: try container.encode((action as! Light), forKey: .action)
-        default: break
         }
     }
 }

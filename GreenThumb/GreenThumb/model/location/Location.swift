@@ -10,32 +10,6 @@ import Foundation
 import UIKit
 
 class Location: IdedObj, CustomStringConvertible {
-    enum ConditionsType: String, Codable {
-        case inOrOut
-        case light
-        case rain
-        case humidity
-        case wind
-        
-        var defaultValue: Conditions {
-            switch self {
-            case .inOrOut:
-                return InOrOut()
-            case .light:
-                return LightExposure()
-            case .rain:
-                return Rain()
-            case .humidity:
-                return Humidity()
-            case .wind:
-                return Wind()
-            }
-        }
-        
-        static var values: [ConditionsType] = [.inOrOut, .light, .rain, .humidity, .wind]
-        static var indoorTypes: [Location.ConditionsType] = [.inOrOut, .light, .humidity]
-        static var outdoorTypes: [Location.ConditionsType] = [.inOrOut, .light, .rain, .humidity, .wind]
-    }
     
     enum CodingKeys: String, CodingKey {
         case version
@@ -46,6 +20,9 @@ class Location: IdedObj, CustomStringConvertible {
     }
     
     static var manager: Location.Manager?
+    static var unknownLocation: UniqueId? {
+        return manager?.unknownLocation
+    }
     var version: String
     var id: UniqueId
     var name: String
@@ -69,12 +46,12 @@ class Location: IdedObj, CustomStringConvertible {
     }
     
     init(_ name: String, conditions:AnnualConditions? = nil) {
-        version = Location.defaultVersion
+        version = Defaults.version
         self.id = (Location.manager?.newId())!
         self.name = name
         if conditions != nil {
             self.conditions = conditions!
-            conditionsUsed = ((conditions?.isOutdoors ?? false) ? Location.ConditionsType.outdoorTypes : Location.ConditionsType.indoorTypes)
+            conditionsUsed = ((conditions?.isOutdoors ?? false) ? ConditionsType.outdoorTypes : ConditionsType.indoorTypes)
         }
         else {
             conditionsUsed = ConditionsType.indoorTypes

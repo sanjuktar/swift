@@ -27,10 +27,10 @@ enum CareDetail {
     }
     
     case name
-    case water(Season?)
-    case sun(Season?)
-    case pestControl(Season?)
-    case fertilize(Season?)
+    case water(UniqueId?)
+    case sun(UniqueId?)
+    case pestControl(UniqueId?)
+    case fertilize(UniqueId?)
     case prune
     case repot
     case notes
@@ -42,21 +42,21 @@ enum CareDetail {
         case .water(let season):
             return seasonalData(care, .water, season)
         case .sun(let season):
-            return seasonalData(care, .sun, season)
+            return seasonalData(care, .light, season)
         case .pestControl(let season):
             return seasonalData(care, .pestControl, season)
         case .fertilize(let season):
             return seasonalData(care, .fertilize, season)
         case .prune:
-            return (care.nonSeasonal[.prune]?.description)!
+            return seasonalData(care, .prune, Season.allYear!)
         case .repot:
-            return (care.nonSeasonal[.repot]?.description)!
+            return ""
         case .notes:
             return care.notes
         }
     }
     
-    private func seasonalData(_ care: CareInstructions, _ item: PlantDetail, _ season: Season?) -> String {
-        return care.seasonal[item]?.timetable[season ?? care.currentSeason(item)]?.description ?? ""
+    private func seasonalData(_ care: CareInstructions, _ item: CareType, _ season: UniqueId?) -> String {
+        return care.schedule[item]?.timetable[season ?? care.currentSeason(item).id]?.description ?? ""
     }
 }

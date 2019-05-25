@@ -8,19 +8,22 @@
 
 import Foundation
 
-class AnnualConditions: Codable {
-    static var defaultSeasons = [Season.allYear.id]
-    var conditions: [Location.ConditionsType:SeasonalConditions]
+class AnnualConditions: Storable {
+    var version: String
+    var conditions: [ConditionsType:SeasonalConditions]
     var isOutdoors: Bool {
         return ((value(.inOrOut) as? InOrOut) ?? InOrOut()).isOutdoors
     }
     
     init() {
+        version = Defaults.version
         conditions = [:]
-        Location.ConditionsType.values.forEach{conditions[$0] = SeasonalConditions(AnnualConditions.defaultSeasons, $0.defaultValue)}
+        for condition in ConditionsType.allCases {
+            conditions[condition] = SeasonalConditions(Defaults.seasonal.seasonsList, condition.defaultValue)
+        }
     }
     
-    func value(_ detail: Location.ConditionsType) -> Conditions {
+    func value(_ detail: ConditionsType) -> Conditions {
         if let season = currentSeason(detail) {
             if let retVal = conditions[detail]?.conditions[season.id] {
                 return retVal
@@ -29,20 +32,20 @@ class AnnualConditions: Codable {
         return detail.defaultValue
     }
     
-    func addValue(_ detail: Location.ConditionsType, season: UniqueId? = nil, value: Conditions? = nil) {
+    func addValue(_ detail: ConditionsType, season: UniqueId? = nil, value: Conditions? = nil) {
         let val = (value == nil ? detail.defaultValue : value)
-        let saison = (season == nil ? currentSeason(detail)?.id ?? Season.allYear.id : season)
+        let saison = (season == nil ? currentSeason(detail)?.id ?? Season.allYear! : season)
         if conditions[detail] == nil {
             conditions[detail] = SeasonalConditions()
         }
         conditions[detail]?.addValue(saison!, val!)
     }
     
-    func currentSeason(_ condition: Location.ConditionsType) -> Season? {
+    func currentSeason(_ condition: ConditionsType) -> Season? {
         return conditions[condition]?.currentSeason
     }
     
-    func validSeasons(_ condition: Location.ConditionsType) -> [Season]? {
+    func validSeasons(_ condition: ConditionsType) -> [UniqueId]? {
         return conditions[condition]?.seasons
     }
 }

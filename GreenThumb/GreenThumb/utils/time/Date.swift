@@ -23,6 +23,12 @@ extension Date :Time {
         let components = Calendar.current.dateComponents([.year, .month, .day], from: self)
         return DateComponents(calendar: Calendar.current, year: components.year, month: components.month, day: components.day, hour: 23, minute: 59, second: 59).date!
     }
+    var today: Date {
+        return Date().endOfDay
+    }
+    var tomorrow: Date {
+        return today.addingTimeInterval(1.days)
+    }
     var date: Int {
         return Calendar.current.dateComponents([.day], from: self).day!
     }

@@ -81,8 +81,12 @@ class Plant: IdedObj {
         image = Plant.image(from: data)
     }
     
-    init(_ names: NameList = [:],  location: UniqueId = Location.manager!.unknownLocation.id, image: UIImage? = nil, care: CareInstructions = CareInstructions(), preferedNameType: NameType = .nickname) {
-        version = Plant.defaultVersion
+    init(_ names: NameList = [:],
+         location: UniqueId = Defaults.location,
+         image: UIImage? = nil,
+         care: CareInstructions = CareInstructions(),
+         preferedNameType: NameType = .nickname) {
+        version = Defaults.version
         id = (Plant.manager?.newId())!
         self.names = names
         self.location = location

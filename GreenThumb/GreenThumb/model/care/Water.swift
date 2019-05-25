@@ -17,14 +17,12 @@ class Water: Action {
     static var light: Volume = .custom("Water lightly")
     var quantity: Volume = .any
     override var description: String {
-        var str: String
         switch quantity {
         case .custom(_):
-            str = quantity.description
+            return quantity.description
         default:
-            str = "Water with \(quantity)"
+            return "Water with \(quantity)"
         }
-        return str
     }
     
     required init(from decoder: Decoder) throws {

@@ -30,7 +30,7 @@ class Action: IdedObj {
     }
     
     init() {
-        version = Action.defaultVersion
+        version = Defaults.version
         id = (Action.manager?.newId())!
     }
     

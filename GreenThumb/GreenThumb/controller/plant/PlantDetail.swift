@@ -10,7 +10,7 @@ import Foundation
 
 
 enum PlantDetail: String, Codable {
-    enum Section: String {
+    enum Section: String, CaseIterable {
         case names = "Names"
         case care = "Care Schedule"
         case noSection = ""
@@ -23,7 +23,6 @@ enum PlantDetail: String, Codable {
     
     case location = "Location"
     // Names
-    //case preferedName = "Prefered"
     case nickname = "Nickname"
     case commonName = "Common"
     case scientificName = "Scientific"
@@ -62,25 +61,6 @@ enum PlantDetail: String, Codable {
         }
     }
     
-    /*func careDetail(_ instructions: CareInstructions) -> CareDetail? {
-        switch self {
-        case .water:
-            return CareDetail.water(instructions.currentSeason(.water))
-        case .sun:
-            return CareDetail.sun(instructions.currentSeason(.sun))
-        case .fertilize:
-            return CareDetail.fertilize(instructions.currentSeason(.fertilize))
-        case .pestControl:
-            return CareDetail.pestControl(instructions.currentSeason(.pestControl))
-        case .prune:
-            return CareDetail.prune
-        case .repot:
-            return CareDetail.repot
-        default:
-            return nil
-        }
-    }*/
-    
     func data(for plant: Plant) -> String {
         switch self {
         case .nickname:
@@ -92,13 +72,13 @@ enum PlantDetail: String, Codable {
         case .location:
             return Location.manager!.get(plant.location)!.name
         case .water:
-            return CareDetail.water(plant.care.currentSeason(.water)).data(plant.care)
+            return CareDetail.water(plant.care.currentSeason(.water).id).data(plant.care)
         case .sun:
-            return CareDetail.sun(plant.care.currentSeason(.sun)).data(plant.care)
+            return CareDetail.sun(plant.care.currentSeason(.light).id).data(plant.care)
         case .fertilize:
-            return CareDetail.fertilize(plant.care.currentSeason(.fertilize)).data(plant.care)
+            return CareDetail.fertilize(plant.care.currentSeason(.fertilize).id).data(plant.care)
         case .pestControl:
-            return CareDetail.pestControl(plant.care.currentSeason(.pestControl)).data(plant.care)
+            return CareDetail.pestControl(plant.care.currentSeason(.pestControl).id).data(plant.care)
         case .prune:
             return CareDetail.prune.data(plant.care)
         case .repot:

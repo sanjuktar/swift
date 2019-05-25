@@ -16,8 +16,8 @@ extension Location {
         }
         
         static var defaultName = "Location.Manager"
-        private var unknownLocationObj: UnknownLocation?
-        var unknownLocation: UnknownLocation {
+        private var unknownLocationObj: UniqueId?
+        var unknownLocation: UniqueId {
             return unknownLocationObj!
         }
         
@@ -28,7 +28,7 @@ extension Location {
         required init(from decoder: Decoder) throws {
             try super.init(from: decoder)
             let container = try decoder.container(keyedBy: LocationManagerKeys.self)
-            unknownLocationObj = try container.decode(UnknownLocation.self, forKey: .unknownLocation)
+            unknownLocationObj = try container.decode(UniqueId.self, forKey: .unknownLocation)
         }
         
         init(_ name: String = Manager.defaultName) {
@@ -43,11 +43,12 @@ extension Location {
         
         func addUnknownLocation() throws {
             if unknownLocationObj == nil {
-                unknownLocationObj = UnknownLocation()
+                let obj = UnknownLocation()
                 do {
-                    try add(unknownLocationObj!)
+                    try add(obj)
+                    unknownLocationObj = obj.id
                 } catch {
-                    throw GenericError("Unable to add \"\(unknownLocationObj!)\" to \(self)")
+                    throw GenericError("Unable to add \"\(obj)\" to \(self)")
                 }
             }
         }

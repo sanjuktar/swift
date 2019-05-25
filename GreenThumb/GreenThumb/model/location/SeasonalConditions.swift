@@ -8,14 +8,16 @@
 
 import Foundation
 
-class SeasonalConditions: Codable {
+class SeasonalConditions: Storable {
     enum CodingKeys: String, CodingKey {
+        case version = "version"
         case conditions = "conditions"
     }
     
+    var version: String
     var conditions: [UniqueId:Conditions]
-    var seasons: [Season]? {
-        return Season.manager?.objects(conditions.keys.map{$0})
+    var seasons: [UniqueId]? {
+        return Season.manager?.ids
     }
     var currentSeason: Season {
         return Season.Manager.find(Date(), in: seasons ?? [])
@@ -23,6 +25,7 @@ class SeasonalConditions: Codable {
     
     required init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
+        version = try container.decode(String.self, forKey: .version)
         let codable = try container.decode([UniqueId:CodableConditions].self, forKey: .conditions)
         conditions = [:]
         for condition in codable {
@@ -31,10 +34,12 @@ class SeasonalConditions: Codable {
     }
     
     init(_ conditions: [UniqueId:Conditions] = [:]) {
+        version = Defaults.version
         self.conditions = conditions
     }
     
     init(_ seasons: [UniqueId], _ value: Conditions) {
+        version = Defaults.version
         conditions = [:]
         seasons.forEach{conditions[$0] = value}
     }
@@ -45,6 +50,7 @@ class SeasonalConditions: Codable {
             codable[condition.key] = try CodableConditions(condition.value)
         }
         var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(version, forKey: .version)
         try container.encode(codable, forKey: .conditions)
     }
     

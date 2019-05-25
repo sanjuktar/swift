@@ -16,13 +16,13 @@ struct CodableConditions: Storable {
     }
     
     var version: String
-    var type: Location.ConditionsType
+    var type: ConditionsType
     var condition: Conditions
     
     init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         version = try container.decode(String.self, forKey: .version)
-        type = try container.decode(Location.ConditionsType.self, forKey: .type)
+        type = try container.decode(ConditionsType.self, forKey: .type)
         switch type {
         case .inOrOut:
             condition = try container.decode(InOrOut.self, forKey: .condition)
@@ -38,7 +38,7 @@ struct CodableConditions: Storable {
     }
     
     init(_ condition: Conditions) throws {
-        version = CodableAction.defaultVersion
+        version = Defaults.version
         self.condition = condition
         switch condition {
         case is InOrOut: type = .inOrOut

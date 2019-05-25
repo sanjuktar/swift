@@ -18,7 +18,7 @@ class LocationDetailsViewController: UIViewController {
     @IBAction func sliderMoved(_ sender: UISlider) {
         guard let condition = sliders[sender] else {return}
         var values: [Conditions]
-        var detail: Location.ConditionsType
+        var detail: ConditionsType
         var prevVal: Conditions?
         switch condition {
         case .inOrOut:
@@ -75,8 +75,6 @@ class LocationDetailsViewController: UIViewController {
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "saveLocationUnwindToLocList" {
-        }
     }
     
     override func shouldPerformSegue(withIdentifier identifier: String, sender: Any?) -> Bool {

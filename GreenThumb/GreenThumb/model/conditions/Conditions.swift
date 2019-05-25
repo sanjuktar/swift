@@ -15,7 +15,7 @@ class Conditions: Storable, Hashable {
         case specifics = "specifics"
     }
     
-    var version: String = Location.defaultVersion
+    var version: String = Defaults.version
     var name: String {fatalError("Must override")}
     
     static func == (lhs: Conditions, rhs: Conditions) -> Bool {

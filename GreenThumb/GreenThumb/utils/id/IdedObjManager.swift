@@ -32,17 +32,20 @@ class IdedObjManager<T:IdedObj>: Storable, CustomStringConvertible {
     required init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         version = try container.decode(String.self, forKey: .version)
-        name = try container.decode(String.self, forKey: .name)
+        let str  = try container.decode(String.self, forKey: .name)
+        name = str
         idGenerator = try container.decode(IdGenerator.self, forKey: .idGenerator)
         ids = try container.decode([UniqueId].self, forKey: .objIds)
         objs = [:]
+        log?.out(.info, "Loading \(str)")
         for id in ids {
             objs[id] = try Documents.instance?.retrieve(id, as: T.self)
+            log?.out(.info, "Loaded \(id)")
         }
     }
     
     init(_ name: String, _ idPrefix: String, _ lastId: Int = 0, objects: [T] = []) {
-        version = IdedObjManager<T>.defaultVersion
+        version = Defaults.version
         self.name = name
         idGenerator = IdGenerator(idPrefix, lastId)
         ids = objects.map{$0.id}

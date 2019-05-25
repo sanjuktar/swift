@@ -49,7 +49,7 @@ class PlantsListViewController: UIViewController {
         }
     }
     
-    private func location(_ indexPath: IndexPath) -> Location {
+    private func location(_ indexPath: IndexPath) -> UniqueId {
         return Location.manager!.unknownLocation
     }
 }

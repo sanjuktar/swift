@@ -11,7 +11,6 @@ import UIKit
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
     static var current: AppDelegate?
-    var version: String = "0.1"
     var window: UIWindow?
     var log: Log? = Log("GreenThumb")
     var docs: Documents? = Documents()
@@ -19,18 +18,39 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         AppDelegate.current = self
+        Defaults.create()
+        setupSeasons()
+        setupLocations()
+        setupActions()
+        setupCare()
+        setupPlants()
+        do {
+           try Defaults.commit()
+        } catch {
+            log?.out(.error, "Unable to commit Defaults.")
+        }
+        return true
+    }
+    
+    func setupSeasons() {
         do {
             Season.manager = try Season.Manager.load()
         } catch {
             log?.out(.error, "Unable to load seasons list: \(error.localizedDescription)")
             Season.manager = Season.Manager()
+            let season = AllYear()
+            Season.allYear = season.id
             do {
-                try Season.manager!.add(Season.allYear)
+                try Season.manager!.add(season)
                 
             } catch {
                 log?.output(.error, "Unable to add \"(Season.allYear)\" to \(Season.manager!): \(error.localizedDescription)")
             }
         }
+        Defaults.initSeasonal()
+    }
+    
+    func setupLocations() {
         do {
             Location.manager = try Location.Manager.load()
         } catch {
@@ -42,6 +62,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 log!.out(.error, "Error in creating locations: \(error.localizedDescription)")
             }
         }
+        Defaults.initLocations()
+    }
+    
+    func setupActions() {
         do {
             Action.manager = try ActionManager.load()
         } catch {
@@ -53,6 +77,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             }
             log?.out(.error, "Unable to load list of actions: \(error.localizedDescription)")
         }
+    }
+    
+    func setupCare() {
         do {
             CareInstructions.manager = try CareInstructions.Manager.load()
         } catch {
@@ -64,64 +91,21 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             }
             log?.out(.error, "Unable to load list of care instructions: \(error.localizedDescription)")
         }
+        Defaults.initCare()
+    }
+    
+    func setupPlants() {
         do {
             Plant.manager = try Plant.Manager.load()
         } catch {
+            log?.out(.error, "Unable to load list of plants: \(error.localizedDescription)")
             Plant.manager = Plant.Manager()
             do {
                 try Plant.manager?.commit()
             } catch {
                 log?.out(.error, "Unable to save new plants manager.")
             }
-            log?.out(.error, "Unable to load list of plants: \(error.localizedDescription)")
         }
-        return true
-    }
-
-    func applicationWillResignActive(_ application: UIApplication) {
-    }
-
-    func applicationDidEnterBackground(_ application: UIApplication) {
-    }
-
-    func applicationWillEnterForeground(_ application: UIApplication) {
-    }
-
-    func applicationDidBecomeActive(_ application: UIApplication) {
-    }
-
-    func applicationWillTerminate(_ application: UIApplication) {
-        saveSnapshot()
-    }
-    
-    private func saveSnapshot() {
-        do {
-            try Season.manager?.commit()
-            log?.out(.info, "Saved list of seasons.")
-        } catch {
-            log?.out(.error, "Unable to save list of seasons: \(error.localizedDescription)")
-        }
-        do {
-            try Location.manager?.commit()
-        } catch {
-            log?.out(.error, "Unable to save locations list: \(error.localizedDescription)")
-        }
-        do {
-            try Action.manager?.commit()
-        } catch {
-            log?.out(.error, "Unable to save list of actions: \(error.localizedDescription)")
-        }
-        do {
-            try CareInstructions.manager?.commit()
-        } catch {
-            log?.out(.error, "Unable to save list of care instructions: \(error.localizedDescription)")
-        }
-        do {
-            try Plant.manager?.commit()
-        } catch {
-            log?.out(.error, "Unable to save plants list: \(error.localizedDescription)")
-        }
-        log!.out(.info, "Saved snapshot")
     }
 }
 
