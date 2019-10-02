@@ -11,11 +11,12 @@ import Foundation
 class AnnualConditions: Storable {
     var version: String
     var conditions: [ConditionsType:SeasonalConditions]
+    var name: String = ""
     var isOutdoors: Bool {
         return ((value(.inOrOut) as? InOrOut) ?? InOrOut()).isOutdoors
     }
     
-    init() {
+    init(_ name: String = "") {
         version = Defaults.version
         conditions = [:]
         for condition in ConditionsType.allCases {
@@ -34,7 +35,7 @@ class AnnualConditions: Storable {
     
     func addValue(_ detail: ConditionsType, season: UniqueId? = nil, value: Conditions? = nil) {
         let val = (value == nil ? detail.defaultValue : value)
-        let saison = (season == nil ? currentSeason(detail)?.id ?? Season.allYear! : season)
+        let saison = (season == nil ? currentSeason(detail)?.id ?? AllYear.id : season)
         if conditions[detail] == nil {
             conditions[detail] = SeasonalConditions()
         }

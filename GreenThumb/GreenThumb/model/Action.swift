@@ -8,43 +8,109 @@
 
 import UIKit
 
-class Action: IdedObj {
+protocol ActionType: Storable {
+    var name: String {get}
+}
+
+extension ActionType {
+    static func create(_ name: String) throws -> ActionType? {
+        if name == NoAction.Typ.obj.name {
+            return NoAction.Typ.obj
+        }
+        if let type = CareType(rawValue: name) {
+            return type
+        }
+        else {
+            throw GenericError("Unknown action type: \(name)")
+        }
+    }
+}
+
+enum ActionClass: String, Storable, CaseIterable {
+    case none = "none"
+    case care = "care"
+    
+    var version: String {
+        return Defaults.version
+    }
+    var name: String {
+        return rawValue
+    }
+    var actions: [ActionType] {
+        switch self {
+        case .care:
+            return CareType.seasonal + CareType.nonSeasonal
+        default:
+            return []
+        }
+    }
+}
+
+class Action: Storable {
     enum CodingKeys: String, CodingKey {
         case version
-        case id
+        //case id
+        case name
     }
     
-    static var manager: ActionManager? 
     var version: String
-    var id: UniqueId
     var description: String {fatalError("Needs override.")}
+    var name: String {
+        return description
+    }
+    var clas: ActionClass {
+        fatalError("Needs override.")
+    }
+    var type: ActionType {
+        fatalError("Needs override.")
+    }
     
     static func ==(_ lhs: Action, _ rhs: Action) -> Bool {
-        return lhs.id == rhs.id
+        return lhs.description == rhs.description
     }
     
     required init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         version = try container.decode(String.self, forKey: .version)
-        id = try container.decode(UniqueId.self, forKey: .id)
     }
     
     init() {
         version = Defaults.version
-        id = (Action.manager?.newId())!
     }
     
     func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encode(version, forKey: .version)
-        try container.encode(id, forKey: .id)
+        try container.encode(name, forKey: .name)
+    }
+}
+
+class NoAction: Action {
+    class Typ: ActionType, Storable {
+        private static var instance: Typ?
+        static var obj: Typ {
+            if instance == nil {
+                instance = Typ()
+            }
+            return instance!
+        }
+        var name: String {
+            return "dummy"
+        }
+        var version: String {
+            return Defaults.version
+        }
     }
     
-    func persist() throws {
-        try Action.manager?.add(self)
+    override var description: String {
+        return "Unknown action type"
     }
     
-    func unpersist() throws {
-        try Action.manager?.remove(self)
+    override var clas: ActionClass {
+        return .none
+    }
+    
+    override var type: ActionType {
+        return Typ.obj
     }
 }

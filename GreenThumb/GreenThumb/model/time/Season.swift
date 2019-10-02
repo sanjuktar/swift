@@ -10,40 +10,70 @@ import Foundation
 import UIKit
 
 class AllYear: Season {
+    static var defaultName: String = "all year"
+    private static var instance: AllYear?
+    static var obj: AllYear {
+        if instance == nil {
+            instance = AllYear()
+            instance!.id = "allYear"
+            do {
+                try Season.manager?.add(instance!)
+            } catch {
+                AppDelegate.current?.log!.out(.error, "Unable to add \(instance!) to \(Season.manager)")
+            }
+        }
+        return instance!
+    }
+    static var id: UniqueId {
+        return obj.id
+    }
+    
     required init(from decoder: Decoder) throws {
         try super.init(from: decoder)
     }
     
-    init() {
-        super.init("all year", TimeOfYear.start, TimeOfYear.end)
+    private init() {
+        super.init(AllYear.defaultName, TimeOfYear.start, TimeOfYear.end)
     }
 }
 
 class RestOfTheYear: Season {
+    static var defaultName: String = "rest of the year"
+    private static var instance: RestOfTheYear?
+    static var obj: RestOfTheYear {
+        if instance == nil {
+            instance = RestOfTheYear()
+            instance?.id = "restOfTheYear"
+            do {
+                try RestOfTheYear.manager?.add(instance!)
+            } catch {
+                AppDelegate.current?.log?.out(.error, "Unable to add \(instance!) to \(Season.manager)")
+            }
+        }
+        return instance!
+    }
+    static var id: UniqueId {
+        return obj.id
+    }
+    
     required init(from decoder: Decoder) throws {
         try super.init(from: decoder)
     }
     
-    init() {
-        super.init("rest of the year", TimeOfYear.start, TimeOfYear.end)
+    private init() {
+        super.init(RestOfTheYear.defaultName, TimeOfYear.start, TimeOfYear.end)
     }
 }
 
 class Season: TimeWindow, IdedObj {
-    enum CodingKeys: String, CodingKey {
-        case version
+    enum SeasonKeys: String, CodingKey {
         case id
         case name
-        case start
-        case end
     }
     
-    static var manager: Manager? 
-    static var allYear: UniqueId?
-    static var restOfYear: UniqueId?
-    var version: String
+    static var manager: Manager?
+    var version: String = Defaults.version
     var id: UniqueId
-    var name: String?
     var desc: String {
         return description
     }
@@ -53,40 +83,32 @@ class Season: TimeWindow, IdedObj {
     }
     
     static func current(in seasons: [Season]) -> Season {
-        guard !(Season.manager?.objs.isEmpty)! else {return Season.manager!.get(Season.allYear!)!}
+        guard !(Season.manager?.objs.isEmpty)! else {return Season.manager!.get(AllYear.id)!}
         let today = Date()
         for season in seasons {
             if season.contains(today) {
                 return season
             }
         }
-        return Season.manager!.get(Season.restOfYear!)!
+        return Season.manager!.get(RestOfTheYear.id)!
     }
     
     required init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        version = try container.decode(String.self, forKey: .version)
+        let container = try decoder.container(keyedBy: SeasonKeys.self)
         id = try container.decode(UniqueId.self, forKey: .id)
-        name = try container.decode(String.self, forKey: .name)
-        let t1 = try container.decode(TimeOfYear.self, forKey: .start)
-        let t2 = try container.decode(TimeOfYear.self, forKey: .end)
-        super.init(start: t1, end: t2)
+        try super.init(from: decoder)
     }
     
     init(_ name: String, _ start: TimeOfYear, _ end: TimeOfYear) {
-        version = Defaults.version
         id = (Season.manager?.newId())!
-        super.init(start: start, end: end)
-        self.name = name
+        super.init(name, start: start, end: end)
     }
     
-    func encode(to encoder: Encoder) throws {
-        var container = encoder.container(keyedBy: CodingKeys.self)
-        try container.encode(version, forKey: .version)
+    override func encode(to encoder: Encoder) throws {
+        try super.encode(to: encoder)
+        var container = encoder.container(keyedBy: SeasonKeys.self)
         try container.encode(id, forKey: .id)
         try container.encode(name, forKey: .name)
-        try container.encode((start as! TimeOfYear), forKey: .start)
-        try container.encode((end as! TimeOfYear), forKey: .end)
     }
     
     func persist() throws {

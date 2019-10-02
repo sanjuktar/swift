@@ -23,7 +23,7 @@ class Conditions: Storable, Hashable {
     }
     
     static func decode(from decoder: Decoder) throws -> Conditions {
-        return try CodableConditions(from: decoder).condition
+        return try StorableConditions(from: decoder).condition
     }
     
     required init(from decoder: Decoder) throws {

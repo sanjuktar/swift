@@ -11,15 +11,15 @@ import UIKit
 
 extension Location {
     class Manager: IdedObjManager<Location> {
-        enum LocationManagerKeys: String, CodingKey {
+        /*enum LocationManagerKeys: String, CodingKey {
             case unknownLocation = "unknown location"
-        }
+        }*/
         
         static var defaultName = "Location.Manager"
-        private var unknownLocationObj: UniqueId?
+        /*private var unknownLocationObj: UniqueId?
         var unknownLocation: UniqueId {
             return unknownLocationObj!
-        }
+        }*/
         
         static func load(name: String = defaultName) throws -> Manager {
             return try (Documents.instance?.retrieve(name, as: Manager.self))!
@@ -27,15 +27,15 @@ extension Location {
         
         required init(from decoder: Decoder) throws {
             try super.init(from: decoder)
-            let container = try decoder.container(keyedBy: LocationManagerKeys.self)
-            unknownLocationObj = try container.decode(UniqueId.self, forKey: .unknownLocation)
+            //let container = try decoder.container(keyedBy: LocationManagerKeys.self)
+            //unknownLocationObj = try container.decode(UniqueId.self, forKey: .unknownLocation)
         }
         
         init(_ name: String = Manager.defaultName) {
             super.init(Location.Manager.defaultName, "Location")
         }
         
-        override func encode(to encoder: Encoder) throws {
+        /*override func encode(to encoder: Encoder) throws {
             try super.encode(to: encoder)
             var container = encoder.container(keyedBy: LocationManagerKeys.self)
             try container.encode(unknownLocationObj, forKey: .unknownLocation)
@@ -52,5 +52,6 @@ extension Location {
                 }
             }
         }
+ */
     }
 }

@@ -45,14 +45,19 @@ class DiskStorage: Storage {
         guard let url = directoryUrl?.appendingPathComponent(filename, isDirectory: false) else {
             throw GenericError("Unable to determine url for \(filename)")
         }
+        var data: Data
         do {
-            let data = try DiskStorage.encoder.encode(object)
+            data = try DiskStorage.encoder.encode(object)
+        } catch {
+            throw GenericError("Unable to encode \(object): \(error.localizedDescription)")
+        }
+        do {
             if FileManager.default.fileExists(atPath: url.path) {
                 try FileManager.default.removeItem(at: url)
             }
             FileManager.default.createFile(atPath: url.path, contents: data, attributes: nil)
         } catch {
-            throw GenericError("Unable to encode aand store \(object): \(error.localizedDescription)")
+            throw GenericError("Unable to store \(object): \(error.localizedDescription)")
         }
     }
     

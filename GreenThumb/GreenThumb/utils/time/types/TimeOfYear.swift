@@ -9,8 +9,8 @@
 import Foundation
 
 class TimeOfYear: Time, Codable {
-    static var start = TimeOfYear(1, 1)
-    static var end = TimeOfYear(31,12)
+    static var start = TimeOfYear(name: "start of year", 1, 1)
+    static var end = TimeOfYear(name: "end of year", 31, 12)
     static var formatter: DateFormatter {
         let formatter = DateFormatter()
         formatter.dateStyle = .medium
@@ -18,13 +18,14 @@ class TimeOfYear: Time, Codable {
         return formatter
     }
     
+    var name: String = ""
     var date: Int
     var month: Int
     var value: Date {
         return DateComponents(calendar: Calendar.current, year: 1970, month: month, day: date).date!
     }
     var description: String {
-        return TimeOfYear.formatter.string(from: value)
+        return name.isEmpty ? TimeOfYear.formatter.string(from: value) : name
     }
     
     init(_ date: Date) {
@@ -32,7 +33,7 @@ class TimeOfYear: Time, Codable {
         month = date.month
     }
     
-    init(_ date: Int, _ month: Int) {
+    init(name: String = "", _ date: Int, _ month: Int) {
         self.date = date
         self.month = month-1
     }

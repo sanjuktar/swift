@@ -6,8 +6,7 @@
 //  Copyright © 2018 Mana Roy Studio. All rights reserved.
 //
 
-import Foundation
-
+import UIKit
 
 enum PlantDetail: String, Codable {
     enum Section: String, CaseIterable {
@@ -28,7 +27,7 @@ enum PlantDetail: String, Codable {
     case scientificName = "Scientific"
     // Care
     case water = "Water"
-    case sun = "Sun exposure"
+    case light = "Light"
     case fertilize = "Fertilizer"
     case pestControl = "Pest Control"
     case prune = "Pruning"
@@ -37,7 +36,7 @@ enum PlantDetail: String, Codable {
     static var items: [Section:[PlantDetail]] =
         [.noSection:[.location],
          .names:[.nickname, .commonName, .scientificName],
-         .care:[.water, .fertilize, .pestControl, .sun]]
+         .care:[.water, .fertilize, .pestControl, .light]]
     var section: Section {
         for section in PlantDetail.Section.cases {
             for item in PlantDetail.items[section]! {
@@ -49,16 +48,10 @@ enum PlantDetail: String, Codable {
         return .noSection
     }
     var isName: Bool {
-        switch self {
-        case .nickname:
-            return true
-        case .commonName:
-            return true
-        case .scientificName:
-            return true
-        default:
-            return false
-        }
+        return PlantDetail.items[.names]?.firstIndex(of: self) != nil
+    }
+    var isCare: Bool {
+        return PlantDetail.items[.care]?.firstIndex(of: self) != nil
     }
     
     func data(for plant: Plant) -> String {
@@ -72,17 +65,17 @@ enum PlantDetail: String, Codable {
         case .location:
             return Location.manager!.get(plant.location)!.name
         case .water:
-            return CareDetail.water(plant.care.currentSeason(.water).id).data(plant.care)
-        case .sun:
-            return CareDetail.sun(plant.care.currentSeason(.light).id).data(plant.care)
+            return plant.care.current(.water).description
+        case .light:
+            return plant.care.current(.light).description
         case .fertilize:
-            return CareDetail.fertilize(plant.care.currentSeason(.fertilize).id).data(plant.care)
+            return plant.care.current(.fertilize).description
         case .pestControl:
-            return CareDetail.pestControl(plant.care.currentSeason(.pestControl).id).data(plant.care)
+            return plant.care.current(.pestControl).description
         case .prune:
-            return CareDetail.prune.data(plant.care)
+            return plant.care.current(.prune).description
         case .repot:
-            return CareDetail.repot.data(plant.care)
+            return "" 
         }
     }
 }

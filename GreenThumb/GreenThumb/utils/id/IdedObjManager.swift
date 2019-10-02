@@ -39,8 +39,13 @@ class IdedObjManager<T:IdedObj>: Storable, CustomStringConvertible {
         objs = [:]
         log?.out(.info, "Loading \(str)")
         for id in ids {
-            objs[id] = try Documents.instance?.retrieve(id, as: T.self)
-            log?.out(.info, "Loaded \(id)")
+            do {
+                objs[id] = try Documents.instance?.retrieve(id, as: T.self)
+                //log?.out(.info, "Loaded \(id)")
+            } catch {
+                AppDelegate.current?.log?.out(.error, "Unable to load and add object \(id) to \(self).")
+                ids.remove(at: ids.firstIndex(of: id)!)
+            }
         }
     }
     
@@ -65,6 +70,23 @@ class IdedObjManager<T:IdedObj>: Storable, CustomStringConvertible {
         return idGenerator.newId()
     }
     
+    func replaceId(from: UniqueId, to: UniqueId) throws {
+        if from != to {
+            return
+        }
+        guard let pos = ids.firstIndex(of: from) else {
+            throw GenericError("Unable to replace id \(from) to \(to)", specs: "Id \(from) not found.")
+        }
+        if let _ = objs[to] {
+            throw GenericError("Object matching id \(to) found in \(name). Unable to change id for object \(to).")
+        }
+        var obj = objs[from]
+        obj?.id = to
+        ids[pos] = to
+        objs[to] = obj
+        objs[from] = nil
+    }
+    
     func commit() throws {
         do {
             try Documents.instance?.store(self, as: name)
@@ -74,14 +96,14 @@ class IdedObjManager<T:IdedObj>: Storable, CustomStringConvertible {
     }
     
     func add(_ obj: T) throws {
-        if objs[obj.id] == nil {
-            ids.append(obj.id)
-            objs[obj.id] = obj
-        }
         do {
             try Documents.instance?.store(obj, as: obj.id)
         } catch {
-            throw GenericError("Unable to store \(obj)")
+            throw GenericError("Unable to store \(obj): \(error.localizedDescription)")
+        }
+        if objs[obj.id] == nil {
+            ids.append(obj.id)
+            objs[obj.id] = obj
         }
         try commit()
     }

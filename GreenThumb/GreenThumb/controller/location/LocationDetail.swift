@@ -92,19 +92,39 @@ enum LocationDetail: String, Codable {
             return EditLocDetailTextCell.getCell(rawValue, data(for: location), table: table)
         case .inOrOut:
             let value = InOrOut.Values(rawValue: location.conditions.value(.inOrOut).name)!
-            return EditLocDetailWithSliderCell.getCell(rawValue, values: InOrOut.values.map{$0.rawValue}, pos: InOrOut.values.firstIndex(of: value), table: table, editMode: editFlag)
+            return EditLocDetailWithSliderCell.getCell(
+                rawValue,
+                values: InOrOut.values.map{$0.rawValue},
+                pos: InOrOut.values.firstIndex(of: value),
+                table: table, editMode: editFlag)
         case .light:
             let value = LightExposure.Values(rawValue: location.conditions.value(.light).name)
-            return EditLocDetailWithSliderCell.getCell(rawValue, values: LightExposure.values.map{$0.rawValue}, pos: LightExposure.values.firstIndex(of: value!)!, table: table, editMode: editFlag)
+            return EditLocDetailWithSliderCell.getCell(
+                rawValue,
+                values: LightExposure.values.map{$0.rawValue},
+                pos: LightExposure.values.firstIndex(of: value!)!,
+                table: table, editMode: editFlag)
         case .rain:
             let value = Rain.Values(rawValue: location.conditions.value(.rain).name)
-            return EditLocDetailWithSliderCell.getCell(rawValue, values: Rain.values.map{$0.rawValue}, pos: Rain.values.firstIndex(of: value!), table: table, editMode: editFlag)
+            return EditLocDetailWithSliderCell.getCell(
+                rawValue,
+                values: Rain.values.map{$0.rawValue},
+                pos: Rain.values.firstIndex(of: value!),
+                table: table, editMode: editFlag)
         case .wind:
             let value = Wind.Values.get(location.conditions.value(.wind).name)
-            return EditLocDetailWithSliderCell.getCell(rawValue, values: Wind.values.map{$0.name}, pos: Wind.values.firstIndex(of: value!), table: table, editMode: editFlag)
+            return EditLocDetailWithSliderCell.getCell(
+                rawValue,
+                values: Wind.values.map{$0.name},
+                pos: Wind.values.firstIndex(of: value!),
+                table: table, editMode: editFlag)
         case .humidity:
             let value = Humidity.Values(rawValue: location.conditions.value(.humidity).name)
-            return EditLocDetailWithSliderCell.getCell(rawValue, values: Humidity.values.map{$0.rawValue}, pos: Humidity.values.firstIndex(of: value!), table: table, editMode: editFlag)
+            return EditLocDetailWithSliderCell.getCell(
+                rawValue,
+                values: Humidity.values.map{$0.rawValue},
+                pos: Humidity.values.firstIndex(of: value!),
+                table: table, editMode: editFlag)
         }
     }
 }

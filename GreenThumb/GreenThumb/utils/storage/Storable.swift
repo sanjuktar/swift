@@ -10,4 +10,5 @@ import Foundation
 
 protocol Storable: Codable {
     var version: String {get}
+    var name: String {get}
 }

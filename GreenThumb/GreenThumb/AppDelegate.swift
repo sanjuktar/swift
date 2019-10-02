@@ -36,15 +36,24 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         do {
             Season.manager = try Season.Manager.load()
         } catch {
-            log?.out(.error, "Unable to load seasons list: \(error.localizedDescription)")
+            log?.out(.error, "Unable to load seasons list: \(error.localizedDescription). Using defaults.")
             Season.manager = Season.Manager()
-            let season = AllYear()
-            Season.allYear = season.id
+            var season: Season? = AllYear.obj
             do {
-                try Season.manager!.add(season)
-                
+                try Season.manager!.add(season!)
             } catch {
-                log?.output(.error, "Unable to add \"(Season.allYear)\" to \(Season.manager!): \(error.localizedDescription)")
+                log?.out(.error, "Unable to add \(AllYear.obj.name) to \(Season.manager!): \(error.localizedDescription)")
+            }
+            season = RestOfTheYear.obj
+            do {
+                try Season.manager!.add(season!)
+            } catch {
+                log?.out(.error, "Unable to add \(RestOfTheYear.obj.name)) to \(Season.manager!): \(error.localizedDescription)")
+            }
+            do {
+                try Season.manager!.commit()
+            } catch {
+                log?.out(.error, "Unable to store default seasons list to be used later.")
             }
         }
         Defaults.initSeasonal()
@@ -57,40 +66,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             log!.out(.error, "Unable to load list of locations: \(error.localizedDescription)")
             Location.manager = Location.Manager()
             do {
-                try Location.manager?.addUnknownLocation()
+                try Location.manager?.add(UnknownLocation.obj)
             } catch {
-                log!.out(.error, "Error in creating locations: \(error.localizedDescription)")
+                log!.out(.error, "Error adding \(UnknownLocation.obj.name) to \(Location.manager): \(error.localizedDescription)")
             }
         }
         Defaults.initLocations()
     }
     
     func setupActions() {
-        do {
-            Action.manager = try ActionManager.load()
-        } catch {
-            Action.manager = ActionManager()
-            do {
-                try Action.manager?.commit()
-            } catch {
-                log?.out(.error, "Unable to save new actions manager.")
-            }
-            log?.out(.error, "Unable to load list of actions: \(error.localizedDescription)")
-        }
     }
     
     func setupCare() {
-        do {
-            CareInstructions.manager = try CareInstructions.Manager.load()
-        } catch {
-            CareInstructions.manager = CareInstructions.Manager()
-            do {
-                try CareInstructions.manager?.commit()
-            } catch {
-                log?.out(.error, "Unable to save new care manager.")
-            }
-            log?.out(.error, "Unable to load list of care instructions: \(error.localizedDescription)")
-        }
         Defaults.initCare()
     }
     

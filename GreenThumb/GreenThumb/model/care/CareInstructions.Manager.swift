@@ -8,7 +8,7 @@
 
 import UIKit
 
-extension CareInstructions {
+/*extension CareInstructions {
     class Manager: IdedObjManager<CareInstructions> {
         static var defaultName = "CareInstructions.Manager"
         
@@ -24,4 +24,4 @@ extension CareInstructions {
             super.init(name, "CareInstruction")
         }
     }
-}
+}*/

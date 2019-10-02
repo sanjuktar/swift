@@ -10,13 +10,23 @@ import Foundation
 
 typealias TimeDuration = TimeInterval
 
-protocol Time : CustomStringConvertible{
+protocol Time : CustomStringConvertible, Storable {
     var value :Date {get}
 }
 
 extension Time {
+    var version: String {
+        return Defaults.version
+    }
+    
     func equals(_ rhs :Time) -> Bool {
         return description == rhs.description
+    }
+}
+
+extension TimeDuration {
+    var inUnits: String {
+        return TimeUnit.description(self)
     }
 }
 

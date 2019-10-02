@@ -9,8 +9,18 @@
 import Foundation
 
 class SeasonalSchedule: Storable {
+    enum CodingKeys: String, CodingKey {
+        case version = "version"
+        case name = "name"
+        case timetable = "timetable"
+    }
+    
     var version: String
+    var name: String
     var timetable: [UniqueId:Timetable]
+    var description: String {
+        return name
+    }
     var seasons: [UniqueId] {
         return timetable.keys.map{$0}
     }
@@ -18,13 +28,14 @@ class SeasonalSchedule: Storable {
         return timetable[Season.Manager.find(Date(), in: seasons).id]
     }
     
-    init() {
+    init(_ name: String = "") {
         version = Defaults.version
+        self.name = name
         timetable = [UniqueId:Timetable]()
         for season in Defaults.seasonal.seasonsList {
             for care in CareType.allCases {
                 if let action = Defaults.care[care] {
-                    timetable[season] = Timetable(action!.id, Defaults.frequency[care]!)
+                    timetable[season] = Timetable(action!, Defaults.frequency[care]!)
                 }
             }
         }

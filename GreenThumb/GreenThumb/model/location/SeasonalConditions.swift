@@ -15,6 +15,7 @@ class SeasonalConditions: Storable {
     }
     
     var version: String
+    var name = "SeasonalConditions"
     var conditions: [UniqueId:Conditions]
     var seasons: [UniqueId]? {
         return Season.manager?.ids
@@ -26,7 +27,7 @@ class SeasonalConditions: Storable {
     required init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         version = try container.decode(String.self, forKey: .version)
-        let codable = try container.decode([UniqueId:CodableConditions].self, forKey: .conditions)
+        let codable = try container.decode([UniqueId:StorableConditions].self, forKey: .conditions)
         conditions = [:]
         for condition in codable {
             conditions[condition.key] = condition.value.condition
@@ -45,9 +46,9 @@ class SeasonalConditions: Storable {
     }
     
     func encode(to encoder: Encoder) throws {
-        var codable: [UniqueId:CodableConditions] = [:]
+        var codable: [UniqueId:StorableConditions] = [:]
         for condition in conditions {
-            codable[condition.key] = try CodableConditions(condition.value)
+            codable[condition.key] = try StorableConditions(condition.value)
         }
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encode(version, forKey: .version)

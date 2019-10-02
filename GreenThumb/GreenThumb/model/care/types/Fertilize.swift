@@ -11,6 +11,9 @@ import Foundation
 class Fertilize: Action {
     var fertilizer: String = "unknown"
     var quantity: Volume = .any
+    override var type: ActionType {
+        return CareType.fertilize
+    }
     override var description: String {
         return "\(quantity) of \(fertilizer)"
     }

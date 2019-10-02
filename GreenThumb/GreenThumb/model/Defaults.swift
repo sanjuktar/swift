@@ -36,6 +36,7 @@ class Defaults: Storable {
     private var seasonal: Seasonal?
     private var location: UniqueId?
     private var care: [CareType:Action?]?
+    var name: String = "defaults"
     
     class Seasonal: Codable {
         enum CodingKeys: String, CodingKey {
@@ -46,9 +47,9 @@ class Defaults: Storable {
         var season: UniqueId
         var seasonsList: [UniqueId]
         
-        init() {
-            season = Season.allYear!
-            seasonsList = [Season.allYear!]
+        init(_ name: String = "defaults") {
+            season = AllYear.id
+            seasonsList = [AllYear.id]
         }
     }
     
@@ -95,9 +96,12 @@ class Defaults: Storable {
     }
     
     static func initFrequency() {
+        let careList = CareType.allCases
         inUse?.frequency = [:]
-        for care in CareType.allCases {
+        for care in careList {
             switch care {
+            case .none:
+                break
             case .water:
                 inUse?.frequency![.water] = ActionFrequency.weekly.times(2)
             case .fertilize:
@@ -110,6 +114,8 @@ class Defaults: Storable {
                 inUse?.frequency![.move] = ActionFrequency.yearly.times(0)
             case .pestControl:
                 inUse?.frequency![.pestControl] = ActionFrequency.monthly.times(2)
+            default:
+                AppDelegate.current?.log?.out(.error, "Unknown care type \(care). Unable to set frequency.")
             }
         }
     }
@@ -119,25 +125,29 @@ class Defaults: Storable {
     }
     
     static func initLocations() {
-        inUse?.location = Location.unknownLocation
+        inUse?.location = UnknownLocation.id
     }
     
     static func initCare() {
         inUse?.care = [:]
         for care in CareType.allCases {
             switch care {
+            case .none:
+                break
             case .water:
-                inUse?.care![.water] = Water(Water.soak)
+                inUse?.care![care] = Water(Water.soak)
             case .fertilize:
-                inUse?.care![.fertilize] = nil
+                inUse?.care![care] = Fertilize("kelp fertilizer", Volume.ml(2))
             case .light:
-                inUse?.care![.light] = Light(LightExposure())
+                inUse?.care![care] = Light(LightExposure())
             case .prune:
-                inUse?.care![.prune] = Pruning()
+                inUse?.care![care] = Pruning()
             case .move:
-                inUse?.care![.move] = Move()
+                inUse?.care![care] = Move()
             case .pestControl:
-                inUse?.care![.pestControl] = PestControl()
+                inUse?.care![care] = PestControl()
+            default:
+                AppDelegate.current?.log?.out(.error, "Unknown care type \(care). Unable to set up action.")
             }
         }
     }

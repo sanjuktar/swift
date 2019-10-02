@@ -13,15 +13,18 @@ class Water: Action {
         case quantity
     }
     
-    static var soak: Volume = .custom("Soak")
-    static var light: Volume = .custom("Water lightly")
+    static var soak: Volume = .custom("soak")
+    static var light: Volume = .custom("water lightly")
     var quantity: Volume = .any
+    override var type: ActionType {
+        return CareType.water
+    }
     override var description: String {
         switch quantity {
         case .custom(_):
             return quantity.description
         default:
-            return "Water with \(quantity)"
+            return "water with \(quantity)"
         }
     }
     

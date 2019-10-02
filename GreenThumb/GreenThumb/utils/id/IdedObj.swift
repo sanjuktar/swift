@@ -12,7 +12,7 @@ typealias UniqueId = String
 
 protocol IdedObj: Storable, Hashable, CustomStringConvertible {
     var version: String {get}
-    var id: UniqueId {get}
+    var id: UniqueId {get set}
     var description: String {get}
     
     func persist() throws
@@ -21,6 +21,10 @@ protocol IdedObj: Storable, Hashable, CustomStringConvertible {
 }
 
 extension IdedObj {
+    var name: String {
+        return id
+    }
+    
     static func ==(_ lhs: Self, _ rhs: Self) -> Bool {
         return lhs.id == rhs.id
     }

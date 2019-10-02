@@ -148,7 +148,7 @@ class PlantDetailsViewController: UIViewController {
             return validateNames()
         case .water:
             return true
-        case .sun:
+        case .light:
             return true
         case .fertilize:
             return true
@@ -264,12 +264,16 @@ extension PlantDetailsViewController: UITableViewDelegate, UITableViewDataSource
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let item = dataItem(at: indexPath)
         let label = "\(item.rawValue): "
-        if editMode {
+        if editMode && !item.isCare {
             let cell = editModeCell(label, item.data(for: plant!))
             addToTextFields(cell.detailTextField, dataItem: item)
             return cell
         }
-        return viewModeCell(label, item.data(for: plant!))
+        let cell = viewModeCell(label, item.data(for: plant!))
+        if item.isCare {
+            cell.accessoryType = .disclosureIndicator
+        }
+        return cell
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {

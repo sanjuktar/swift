@@ -9,11 +9,16 @@
 import Foundation
 
 extension Date :Time {
-    static var formatter = Date.getFormatter()
-    var description :String {
-        return Date.formatter.string(from :self)
+    static var formatter = Date.getFormatter(.medium)
+    static var shortFormatter = Date.getFormatter(.short)
+    var description: String {
+        //return Date.formatter.string(from :self)
+        return Date.shortFormatter.string(from: self)
     }
-    var value :Date {
+    var name: String {
+        return "Date"
+    }
+    var value: Date {
         return self
     }
     var startOfDay: Date {
@@ -36,9 +41,9 @@ extension Date :Time {
         return Calendar.current.dateComponents([.month], from: self).day!
     }
     
-    static func getFormatter() -> DateFormatter {
+    static func getFormatter(_ style: DateFormatter.Style) -> DateFormatter {
         let formatter = DateFormatter()
-        formatter.dateStyle = .medium
+        formatter.dateStyle = style
         formatter.timeStyle = .none
         return formatter
     }

@@ -81,10 +81,8 @@ class Plant: IdedObj {
         image = Plant.image(from: data)
     }
     
-    init(_ names: NameList = [:],
-         location: UniqueId = Defaults.location,
-         image: UIImage? = nil,
-         care: CareInstructions = CareInstructions(),
+    init(_ names: NameList = [:], location: UniqueId = Defaults.location,
+         image: UIImage? = nil, care: CareInstructions = CareInstructions(),
          preferedNameType: NameType = .nickname) {
         version = Defaults.version
         id = (Plant.manager?.newId())!
@@ -100,8 +98,8 @@ class Plant: IdedObj {
         try container.encode(id, forKey: .id)
         try container.encode(names, forKey: .names)
         try container.encode(location, forKey: .location)
-        try container.encode(care, forKey: .care)
         try container.encode(imageData, forKey: .image)
+        try container.encode(care, forKey: .care)
     }
     
     func persist() throws {

@@ -1,5 +1,5 @@
 //
-//  CodableConditions.swift
+//  StorableConditions.swift
 //  GreenThumb
 //
 //  Created by Sanjukta Roy on 5/21/19.
@@ -8,9 +8,10 @@
 
 import Foundation
 
-struct CodableConditions: Storable {
+struct StorableConditions: Storable {
     enum CodingKeys: String, CodingKey {
         case version = "version"
+        case name = "name"
         case type = "type"
         case condition = "condition"
     }
@@ -18,6 +19,9 @@ struct CodableConditions: Storable {
     var version: String
     var type: ConditionsType
     var condition: Conditions
+    var name: String {
+        return condition.name
+    }
     
     init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
@@ -53,6 +57,7 @@ struct CodableConditions: Storable {
     func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encode(version, forKey: .version)
+        try container.encode(name, forKey: .name)
         try container.encode(type, forKey: .type)
         try container.encode(condition, forKey: .condition)
     }

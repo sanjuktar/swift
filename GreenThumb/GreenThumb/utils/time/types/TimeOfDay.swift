@@ -10,12 +10,13 @@ import Foundation
 
 class TimeOfDay :Time {
     static let formatter = TimeOfDay.getFormatter()
-    static let start = TimeOfDay(0.seconds)
-    static let end = TimeOfDay(23.hours+59.minutes+59.seconds)
-    static let noon = TimeOfDay(12.hours)
+    static let start = TimeOfDay(name: "midnight", 0.seconds)
+    static let end = TimeOfDay(name: "end of day", 23.hours+59.minutes+59.seconds)
+    static let noon = TimeOfDay(name: "noon", 12.hours)
+    var name: String = ""
     var nSeconds :TimeInterval = noon.nSeconds
     var description: String {
-        return TimeOfDay.formatter.string(from: DateComponents(second: Int(nSeconds)))!
+        return name.isEmpty ? TimeOfDay.formatter.string(from: DateComponents(second: Int(nSeconds)))! : name
     }
     var value :Date {
         return Date(timeIntervalSince1970: nSeconds)
@@ -32,11 +33,12 @@ class TimeOfDay :Time {
         return formatter
     }
     
-    init(_ timeinterval :TimeInterval) {
+    init(name: String = "", _ timeinterval :TimeInterval) {
         nSeconds = timeinterval
     }
     
-    init(_ time :Time) {
+    init(name: String = "", _ time :Time) {
+        self.name = name
         if let date = time as? Date {
             self.nSeconds = TimeInterval(Int(date.timeIntervalSince1970) % Int(1.days))
         }

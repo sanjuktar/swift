@@ -8,7 +8,7 @@
 
 import Foundation
 
-enum TimeUnit : String {
+enum TimeUnit : String, CaseIterable, CustomStringConvertible {
     case seconds = "seconds"
     case minutes = "minutes"
     case hours = "hours"
@@ -16,10 +16,25 @@ enum TimeUnit : String {
     case weeks = "weeks"
     case months = "months"
     
-    static var cases: [TimeUnit] = [seconds, minutes, hours, days, weeks, months]
     static var defaut: TimeUnit = TimeUnit.days
-    var name: String {
+    var description: String {
         return rawValue
+    }
+    var duration: TimeDuration {
+        switch self {
+        case .seconds:
+            return 1.seconds
+        case .minutes:
+            return 1.minutes
+        case .hours:
+            return 1.hours
+        case .days:
+            return 1.days
+        case .weeks:
+            return 1.weeks
+        case .months:
+            return 1.months
+        }
     }
     var singleName: String {
         var name = rawValue
@@ -27,12 +42,23 @@ enum TimeUnit : String {
         return name
     }
     var index: Int {
-        for i in 0..<TimeUnit.cases.count {
-            if TimeUnit.cases[i] == self {
-                return i
+        return TimeUnit.allCases.firstIndex(of: self)!
+    }
+    
+    static func description(_ time: TimeDuration) -> String {
+        if time == 0 {
+            return "0 \(TimeUnit.seconds)"
+        }
+        var current = Int(time)
+        var units: [String] = []
+        for unit in TimeUnit.allCases.reversed() {
+            let n = Int(time/unit.duration)
+            if n != 0 {
+                units.append("\(n) \(unit)")
+                current -= n*Int(unit.duration)
             }
         }
-        return -1
+        return units.joined(separator: " ")
     }
     
     init(_ unit: Double) throws {
@@ -50,6 +76,6 @@ enum TimeUnit : String {
     
     func string(_ val: Double) -> String {
         let interval: TimeInterval = val
-        return String(format:"%.2f ", interval) + (val == 1.0 ? singleName : name)
+        return String(format:"%.2f ", interval) + (val == 1.0 ? singleName : description)
     }
 }

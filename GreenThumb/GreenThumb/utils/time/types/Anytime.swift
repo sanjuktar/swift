@@ -8,13 +8,18 @@
 
 import Foundation
 
+var anytime = "anytime"
+
 protocol Anytime: Time {
     func equals(_ time: Anytime) -> Bool
 }
 
 extension Anytime {
+    var name: String {
+        return anytime
+    }
     var description: String {
-        return "anytime"
+        return anytime
     }
     
     static func ==(_ lhs: Anytime, _ rhs: Anytime) -> Bool {
@@ -23,8 +28,21 @@ extension Anytime {
 }
 
 class AnyTimeEver: Anytime {
+    private static var instance: AnyTimeEver?
+    static var obj: AnyTimeEver {
+        if instance == nil {
+            instance = AnyTimeEver()
+        }
+        return instance!
+    }
+    var name: String {
+        return "\(anytime)Ever"
+    }
     var value: Date {
         return Date.distantFuture
+    }
+    
+    private init() {
     }
     
     func equals(_ time: Anytime) -> Bool {
@@ -43,6 +61,12 @@ class AnyTimeEver: Anytime {
 
 class AnyTimeOfDay: Anytime {
     var date: Date?
+    var name: String {
+        return "\(anytime)\(date)"
+    }
+    var description: String {
+        return "\(anytime) on \(date)"
+    }
     var value: Date {
         return date ?? TimeOfDay.end.value
     }
@@ -67,6 +91,12 @@ class AnyTimeOfDay: Anytime {
 
 class AnyTimeOfYear: Anytime {
     var year: Int?
+    var name: String {
+        return "\(anytime)\(year)"
+    }
+    var description: String {
+        return "\(anytime) in \(year)"
+    }
     var value: Date {
         return TimeOfYear.end.value
     }

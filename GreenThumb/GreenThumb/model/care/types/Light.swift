@@ -14,6 +14,9 @@ class Light: Action {
     }
     
     var quantity: LightExposure?
+    override var type: ActionType {
+        return CareType.light
+    }
     override var description: String {
         return quantity!.name
     }

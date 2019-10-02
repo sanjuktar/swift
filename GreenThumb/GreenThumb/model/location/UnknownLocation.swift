@@ -10,6 +10,17 @@ import Foundation
 
 class UnknownLocation: Location {
     static var defaultName = "Location unknown"
+    private static var instance: UnknownLocation?
+    static var obj: UnknownLocation {
+        if instance == nil {
+            instance = UnknownLocation()
+            instance!.id = id
+        }
+        return instance!
+    }
+    static var id: UniqueId {
+        return "UnknownLocation"
+    }
     
     required init(from decoder: Decoder) throws {
         try super.init(from: decoder)
@@ -17,6 +28,6 @@ class UnknownLocation: Location {
     
     init(_ inOrOut: InOrOut = InOrOut(.indoors)) {
         super.init(UnknownLocation.defaultName)
-        conditions.addValue(.inOrOut, season: Season.allYear!, value: inOrOut)
+        conditions.addValue(.inOrOut, season: AllYear.id, value: inOrOut)
     }
 }

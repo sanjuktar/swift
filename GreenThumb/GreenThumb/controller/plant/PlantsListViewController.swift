@@ -50,7 +50,7 @@ class PlantsListViewController: UIViewController {
     }
     
     private func location(_ indexPath: IndexPath) -> UniqueId {
-        return Location.manager!.unknownLocation
+        return UnknownLocation.id
     }
 }
 

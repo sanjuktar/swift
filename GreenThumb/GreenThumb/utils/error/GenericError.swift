@@ -8,10 +8,14 @@
 
 import Foundation
 
-class GenericError : Error {
+class GenericError : Error, CustomStringConvertible {
     var localizedDescription: String
+    var description: String {
+        return localizedDescription
+    }
     
-    init(_ desc: String) {
+    init(_ desc: String, specs: String = "") {
+        AppDelegate.current?.log?.out(.error, "\(specs)\(!specs.isEmpty ? "" : ": ")\(desc)")
         localizedDescription = desc
     }
 }

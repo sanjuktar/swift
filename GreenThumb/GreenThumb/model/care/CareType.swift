@@ -8,7 +8,8 @@
 
 import Foundation
 
-enum CareType: String, Codable, CaseIterable, CustomStringConvertible {
+enum CareType: String, ActionType, Storable, CaseIterable {
+    case none = "None"
     case water = "Water"
     case fertilize = "Fertilize"
     case light = "Light exposure"
@@ -18,7 +19,12 @@ enum CareType: String, Codable, CaseIterable, CustomStringConvertible {
     
     static var seasonal: [CareType] = [.water, .fertilize, .light, .pestControl]
     static var nonSeasonal: [CareType] = [.prune]
-    
+    var version: String {
+        return Defaults.version
+    }
+    var name: String {
+        return rawValue
+    }
     var description: String {
         return rawValue
     }

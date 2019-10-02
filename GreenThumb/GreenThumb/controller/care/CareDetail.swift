@@ -48,7 +48,7 @@ enum CareDetail {
         case .fertilize(let season):
             return seasonalData(care, .fertilize, season)
         case .prune:
-            return seasonalData(care, .prune, Season.allYear!)
+            return seasonalData(care, .prune, AllYear.id)
         case .repot:
             return ""
         case .notes:

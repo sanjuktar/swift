@@ -9,17 +9,14 @@
 import Foundation
 import UIKit
 
-class CareInstructions: IdedObj {
+class CareInstructions: Storable {
     enum CodingKeys: String, CodingKey {
         case version
-        case id
         case name
         case schedule
         case notes
     }
-    static var manager: Manager? 
     var version: String
-    var id: UniqueId
     var name: String
     var schedule: [CareType:SeasonalSchedule]
     var notes: String
@@ -30,18 +27,23 @@ class CareInstructions: IdedObj {
     required init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         version = try container.decode(String.self, forKey: .version)
-        id = try container.decode(UniqueId.self, forKey: .id)
         name = try container.decode(String.self, forKey: .name)
-        schedule = try container.decode([CareType:SeasonalSchedule].self, forKey: .schedule)
+        do {
+            schedule = try container.decode([CareType:SeasonalSchedule].self, forKey: .schedule)
+        } catch {
+            schedule = [:]
+        }
         notes = try container.decode(String.self, forKey: .notes)
     }
     
     init(_ name: String = "") {
         version = Defaults.version
-        id = (CareInstructions.manager?.newId())!
         self.name = name
         schedule = [:]
         for care in CareType.seasonal {
+            if Defaults.care.index(forKey: care) == nil {
+                continue
+            }
             schedule[care] = SeasonalSchedule()
         }
         notes = ""
@@ -50,7 +52,6 @@ class CareInstructions: IdedObj {
     func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encode(version, forKey: .version)
-        try container.encode(id, forKey: .id)
         try container.encode(name, forKey: .name)
         try container.encode(schedule, forKey: .schedule)
         try container.encode(notes, forKey: .notes)
@@ -58,18 +59,12 @@ class CareInstructions: IdedObj {
     
     func currentSeason(_ detail: CareType) -> Season {
         if !schedule.keys.contains(detail) {
-            return Season.manager!.get(Season.allYear!)!
+            return Season.manager!.get(AllYear.id)!
         }
         return Season.Manager.find(Date(), in: schedule[detail]!.seasons)
     }
     
-    func persist() throws {
-        try Documents.instance?.store(self, as: id)
-        try CareInstructions.manager?.add(self)
-    }
-    
-    func unpersist() throws {
-        try Documents.instance?.remove(id)
-        try CareInstructions.manager?.remove(self)
+    func current(_ detail: CareType) -> Timetable {
+        return (schedule[detail]?.current)!
     }
 }
