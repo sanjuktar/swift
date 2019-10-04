@@ -138,6 +138,8 @@ class PlantDetailsViewController: UIViewController {
     
     private func validate(_ item: PlantDetail) -> Bool {
         switch item {
+        case .ignore:
+            fatalError("Invalid detail!!!")
         case .location:
             return true
         case .nickname:

@@ -85,7 +85,7 @@ enum Volume: Quantity {
         case .ml(_), .oz(_), .drops(_), .tbsp(_):
             return Regex(stringLiteral: "\(Regex.decimalNumber)\(unit.suffix)")
         case .custom(_):
-            return Regex(stringLiteral: Regex.any)
+            return Regex(stringLiteral: Regex.someString)
         case .customUnit(_,_):
             return Regex(stringLiteral: "\(Regex.decimalNumber) Volume.ml(0).suffix")
         }

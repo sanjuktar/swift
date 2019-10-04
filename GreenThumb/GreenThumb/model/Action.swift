@@ -14,8 +14,8 @@ protocol ActionType: Storable {
 
 extension ActionType {
     static func create(_ name: String) throws -> ActionType? {
-        if name == NoAction.Typ.obj.name {
-            return NoAction.Typ.obj
+        if name == NoAction.Typ.name {
+            return NoAction.Typ()
         }
         if let type = CareType(rawValue: name) {
             return type
@@ -39,7 +39,7 @@ enum ActionClass: String, Storable, CaseIterable {
     var actions: [ActionType] {
         switch self {
         case .care:
-            return CareType.seasonal + CareType.nonSeasonal
+            return CareType.inUseList
         default:
             return []
         }
@@ -54,10 +54,10 @@ class Action: Storable {
     }
     
     var version: String
-    var description: String {fatalError("Needs override.")}
-    var name: String {
-        return description
+    var description: String {
+        return name
     }
+    var name: String
     var clas: ActionClass {
         fatalError("Needs override.")
     }
@@ -72,10 +72,12 @@ class Action: Storable {
     required init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         version = try container.decode(String.self, forKey: .version)
+        name = try container.decode(String.self, forKey: .name)
     }
     
-    init() {
+    init(_ name: String = "") {
         version = Defaults.version
+        self.name = name
     }
     
     func encode(to encoder: Encoder) throws {
@@ -87,15 +89,11 @@ class Action: Storable {
 
 class NoAction: Action {
     class Typ: ActionType, Storable {
-        private static var instance: Typ?
-        static var obj: Typ {
-            if instance == nil {
-                instance = Typ()
-            }
-            return instance!
+        static var name: String {
+            return "noAction"
         }
         var name: String {
-            return "dummy"
+            return Typ.name
         }
         var version: String {
             return Defaults.version
@@ -103,14 +101,20 @@ class NoAction: Action {
     }
     
     override var description: String {
-        return "Unknown action type"
+        return "no action to be performed"
     }
-    
     override var clas: ActionClass {
         return .none
     }
-    
     override var type: ActionType {
-        return Typ.obj
+        return Typ()
+    }
+    
+    required init(from decoder: Decoder) throws {
+        try super.init(from: decoder)
+    }
+    
+    init() {
+        super.init("noAction")
     }
 }

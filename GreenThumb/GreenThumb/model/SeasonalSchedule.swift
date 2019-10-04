@@ -28,16 +28,12 @@ class SeasonalSchedule: Storable {
         return timetable[Season.Manager.find(Date(), in: seasons).id]
     }
     
-    init(_ name: String = "") {
+    init(_ name: String = "", care: CareType) {
         version = Defaults.version
         self.name = name
         timetable = [UniqueId:Timetable]()
         for season in Defaults.seasonal.seasonsList {
-            for care in CareType.allCases {
-                if let action = Defaults.care[care] {
-                    timetable[season] = Timetable(action!, Defaults.frequency[care]!)
-                }
-            }
+            timetable[season] = Defaults.care[care]
         }
     }
 }

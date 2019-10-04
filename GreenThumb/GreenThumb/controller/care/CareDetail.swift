@@ -19,38 +19,63 @@ enum CareDetail {
             case .beforeTable:
                 return [.name]
             case .inTable:
-                return [.water(nil), .sun(nil), .fertilize(nil), .prune]
+                return CareType.inUseList.map{CareDetail($0)}
             case .afterTable:
                 return [.notes]
             }
         }
     }
     
+    case ignore
     case name
-    case water(UniqueId?)
-    case sun(UniqueId?)
-    case pestControl(UniqueId?)
-    case fertilize(UniqueId?)
+    case water
+    case light
+    case pestControl
+    case fertilize
     case prune
+    case move
     case repot
     case notes
     
-    func data(_ care: CareInstructions) -> String {
+    init(_ careType: CareType) {
+        switch careType {
+        case .none:
+            self = .ignore
+        case .water:
+            self = .water
+        case .fertilize:
+            self = .fertilize
+        case .light:
+            self = .light
+        case .prune:
+            self = .prune
+        case .move:
+            self = .move
+        case .pestControl:
+            self = .pestControl
+        }
+    }
+    
+    func data(_ care: CareInstructions, _ season: UniqueId? = nil) -> String {
         switch self {
+        case .ignore:
+            fatalError("Ignore care detail")
         case .name:
-            return ""
-        case .water(let season):
+            return care.name
+        case .water:
             return seasonalData(care, .water, season)
-        case .sun(let season):
+        case .light:
             return seasonalData(care, .light, season)
-        case .pestControl(let season):
+        case .pestControl:
             return seasonalData(care, .pestControl, season)
-        case .fertilize(let season):
+        case .fertilize:
             return seasonalData(care, .fertilize, season)
         case .prune:
-            return seasonalData(care, .prune, AllYear.id)
+            return seasonalData(care, .prune, season)
         case .repot:
             return ""
+        case .move:
+            return seasonalData(care, .move, season)
         case .notes:
             return care.notes
         }

@@ -40,11 +40,8 @@ class CareInstructions: Storable {
         version = Defaults.version
         self.name = name
         schedule = [:]
-        for care in CareType.seasonal {
-            if Defaults.care.index(forKey: care) == nil {
-                continue
-            }
-            schedule[care] = SeasonalSchedule()
+        for care in CareType.inUseList {
+            schedule[care] = SeasonalSchedule(care: care)
         }
         notes = ""
     }

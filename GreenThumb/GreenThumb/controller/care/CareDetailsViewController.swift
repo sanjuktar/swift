@@ -24,13 +24,13 @@ class CareDetailsViewController: UIViewController, UITableViewDelegate, UITableV
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         switch CareDetail.Sections.inTable.items[section] {
-        case .water(_):
+        case .water:
             return care?.schedule[.water]?.timetable.count ?? 0
-        case .sun(_):
+        case .light:
             return care?.schedule[.light]?.timetable.count ?? 0
-        case .pestControl(_):
+        case .pestControl:
             return care?.schedule[.pestControl]?.timetable.count ?? 0
-        case .fertilize(_):
+        case .fertilize:
             return care?.schedule[.fertilize]?.timetable.count ?? 0
         case .prune:
             return 1
@@ -44,31 +44,26 @@ class CareDetailsViewController: UIViewController, UITableViewDelegate, UITableV
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         var text = ""
         var detail = ""
-        switch CareDetail.Sections.inTable.items[indexPath.section] {
-        case .water(_):
-            let s = season(.water, indexPath.row)
-            text = s.description
-            detail = timetable(.water, s).description
-        case .sun(_):
-            let s = season(.light, indexPath.row)
-            text = s.description
-            detail = timetable(.light, s).description
-        case .pestControl(_):
-            let s = season(.pestControl, indexPath.row)
-            text = s.description
-            detail = timetable(.pestControl, s).description
-        case .fertilize(_):
-            let s = season(.fertilize, indexPath.row)
-            text = s.description
-            detail = timetable(.fertilize, s).description
+        let careDetail = CareDetail.Sections.inTable.items[indexPath.section]
+        var careType: CareType?
+        switch careDetail {
+        case .water:
+            careType = .water
+        case .light:
+            careType = .light
+        case .pestControl:
+            careType = .pestControl
+        case .fertilize:
+            careType = .fertilize
         case .prune:
-            text = PlantDetail.prune.rawValue
-            detail = (care?.schedule[.prune]?.current?.description)!
-        /*case .repot:
-            text = PlantDetail.repot.rawValue
-            detail = (care?.schedule[.repot].current.description)!*/
+            careType = .prune
         default:
             break
+        }
+        if careType != nil {
+            let saison = season(careType!, indexPath.row)
+            text = (Season.manager?.get(saison)?.description)!
+            detail = careDetail.data(care!, saison)
         }
         let cell = tableView.dequeueReusableCell(withIdentifier: "careCell")
         cell?.textLabel?.text = text

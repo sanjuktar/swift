@@ -24,11 +24,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         setupActions()
         setupCare()
         setupPlants()
-        do {
+        /*do {
            try Defaults.commit()
         } catch {
             log?.out(.error, "Unable to commit Defaults.")
-        }
+        }*/
         return true
     }
     

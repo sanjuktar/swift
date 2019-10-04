@@ -20,6 +20,7 @@ enum PlantDetail: String, Codable {
         }
     }
     
+    case ignore = "ignore"
     case location = "Location"
     // Names
     case nickname = "Nickname"
@@ -36,7 +37,7 @@ enum PlantDetail: String, Codable {
     static var items: [Section:[PlantDetail]] =
         [.noSection:[.location],
          .names:[.nickname, .commonName, .scientificName],
-         .care:[.water, .fertilize, .pestControl, .light]]
+         .care:CareType.inUseList.map{PlantDetail($0)}] 
     var section: Section {
         for section in PlantDetail.Section.cases {
             for item in PlantDetail.items[section]! {
@@ -54,8 +55,27 @@ enum PlantDetail: String, Codable {
         return PlantDetail.items[.care]?.firstIndex(of: self) != nil
     }
     
+    init(_ type: CareType) {
+        switch type {
+        case .water:
+            self = PlantDetail.water
+        case .fertilize:
+            self = PlantDetail.fertilize
+        case .light:
+            self = PlantDetail.light
+        case .prune:
+            self = PlantDetail.prune
+        case .pestControl:
+            self = PlantDetail.pestControl
+        default:
+            self = PlantDetail.ignore
+        }
+    }
+    
     func data(for plant: Plant) -> String {
         switch self {
+        case .ignore:
+            fatalError("Invalid detail!!!!!")
         case .nickname:
             return plant.names[Plant.NameType.nickname] ?? ""
         case .commonName:
@@ -65,17 +85,17 @@ enum PlantDetail: String, Codable {
         case .location:
             return Location.manager!.get(plant.location)!.name
         case .water:
-            return plant.care.current(.water).description
+            return CareDetail.water.data(plant.care)
         case .light:
-            return plant.care.current(.light).description
+            return CareDetail.light.data(plant.care)
         case .fertilize:
-            return plant.care.current(.fertilize).description
+            return CareDetail.fertilize.data(plant.care)
         case .pestControl:
-            return plant.care.current(.pestControl).description
+            return CareDetail.pestControl.data(plant.care)
         case .prune:
-            return plant.care.current(.prune).description
+            return CareDetail.prune.data(plant.care)
         case .repot:
-            return "" 
+            return CareDetail.repot.data(plant.care)
         }
     }
 }

@@ -8,7 +8,7 @@
 
 import Foundation
 
-class Defaults: Storable {
+class Defaults {//}: Storable {
     static var filename: String = "defaults"
     static var version: String {
         return "v0.1"
@@ -16,26 +16,22 @@ class Defaults: Storable {
     static var conditions: [ConditionsType:Conditions] {
         return inUse!.conditions!
     }
-    static var frequency: [CareType:ActionFrequency] {
-        return inUse!.frequency!
-    }
     static var seasonal: Seasonal {
         return inUse!.seasonal!
     }
     static var location: UniqueId {
         return inUse!.location!
     }
-    static var care: [CareType:Action?] {
+    static var care: [CareType:Timetable] {
         return inUse!.care!
     }
     private static var inUse: Defaults?
     
     var version: String = Defaults.version
     private var conditions: [ConditionsType:Conditions]?
-    private var frequency: [CareType:ActionFrequency]?
     private var seasonal: Seasonal?
     private var location: UniqueId?
-    private var care: [CareType:Action?]?
+    private var care: [CareType:Timetable]?
     var name: String = "defaults"
     
     class Seasonal: Codable {
@@ -54,7 +50,8 @@ class Defaults: Storable {
     }
     
     static func create() {
-        do {
+        inUse = Defaults()
+        /*do {
             try load()
         } catch {
             AppDelegate.current!.log?.out(.error, "Unable to load defaults: \(error.localizedDescription)")
@@ -64,18 +61,17 @@ class Defaults: Storable {
             } catch {
                 AppDelegate.current!.log?.out(.error, "Unable to save defaults.")
             }
-        }
-        initFrequency()
+        }*/
         initConditions()
     }
     
-    static func load() throws {
+    /*static func load() throws {
         inUse = try Documents.instance?.retrieve(filename, as: Defaults.self)
     }
     
     static func commit() throws {
         try Documents.instance?.store(inUse!, as: Defaults.filename)
-    }
+    }*/
     
     private static func initConditions() {
         inUse?.conditions = [:]
@@ -95,31 +91,6 @@ class Defaults: Storable {
         }
     }
     
-    static func initFrequency() {
-        let careList = CareType.allCases
-        inUse?.frequency = [:]
-        for care in careList {
-            switch care {
-            case .none:
-                break
-            case .water:
-                inUse?.frequency![.water] = ActionFrequency.weekly.times(2)
-            case .fertilize:
-                inUse?.frequency![.fertilize] = ActionFrequency.monthly.times(2)
-            case .light:
-                inUse?.frequency![.light] = ActionFrequency.hourly.times(6)
-            case .prune:
-                inUse?.frequency![.prune] = ActionFrequency.yearly
-            case .move:
-                inUse?.frequency![.move] = ActionFrequency.yearly.times(0)
-            case .pestControl:
-                inUse?.frequency![.pestControl] = ActionFrequency.monthly.times(2)
-            default:
-                AppDelegate.current?.log?.out(.error, "Unknown care type \(care). Unable to set frequency.")
-            }
-        }
-    }
-    
     static func initSeasonal() {
         inUse?.seasonal = Seasonal()
     }
@@ -130,24 +101,22 @@ class Defaults: Storable {
     
     static func initCare() {
         inUse?.care = [:]
-        for care in CareType.allCases {
+        for care in (CareType.seasonal + CareType.nonSeasonal) {
             switch care {
             case .none:
-                break
+                inUse?.care![.none] = Timetable(NoAction(), ActionFrequency.never)
             case .water:
-                inUse?.care![care] = Water(Water.soak)
+                inUse?.care![.water] = Timetable(Water(Water.Quantity.soak), ActionFrequency.weekly.times(2))
             case .fertilize:
-                inUse?.care![care] = Fertilize("kelp fertilizer", Volume.ml(2))
+                inUse?.care![care] = Timetable(Fertilize("kelp fertilizer", Volume.any), ActionFrequency.monthly)
             case .light:
-                inUse?.care![care] = Light(LightExposure())
+                inUse?.care![care] = Timetable(Light(LightExposure()), ActionFrequency.daily.times(6))
             case .prune:
-                inUse?.care![care] = Pruning()
+                inUse?.care![care] = Timetable(Pruning(), ActionFrequency.yearly)
             case .move:
-                inUse?.care![care] = Move()
+                inUse?.care![care] = Timetable(Move(), ActionFrequency.never)
             case .pestControl:
-                inUse?.care![care] = PestControl()
-            default:
-                AppDelegate.current?.log?.out(.error, "Unknown care type \(care). Unable to set up action.")
+                inUse?.care![care] = Timetable(PestControl(), ActionFrequency.monthly.times(2))
             }
         }
     }

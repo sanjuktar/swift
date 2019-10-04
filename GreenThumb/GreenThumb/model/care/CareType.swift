@@ -15,10 +15,11 @@ enum CareType: String, ActionType, Storable, CaseIterable {
     case light = "Light exposure"
     case prune = "Prune"
     case move = "Move"
-    case pestControl = "Pest Control"
+    case pestControl = "pestControl"
     
     static var seasonal: [CareType] = [.water, .fertilize, .light, .pestControl]
     static var nonSeasonal: [CareType] = [.prune]
+    static var inUseList: [CareType] = Defaults.care.keys.map{$0}
     var version: String {
         return Defaults.version
     }

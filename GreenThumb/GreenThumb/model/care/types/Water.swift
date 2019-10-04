@@ -9,38 +9,77 @@
 import Foundation
 
 class Water: Action {
-    enum WaterKeys: String, CodingKey {
-        case quantity
+    enum Quantity: Storable, CustomStringConvertible {
+        case soak
+        case light
+        //case volume(Volume)
+        
+        static var volumePrefix = "water with "
+        var version: String {
+            return Defaults.version
+        }
+        var name: String {
+            return description
+        }
+        var description: String {
+            switch self {
+            case .soak:
+                return "soak"
+            case .light:
+                return "water lightly"
+            //case .volume(let v):
+            //    return "\(Quantity.volumePrefix)\(v)"
+            }
+        }
+        
+        init(from decoder: Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let str = try container.decode(String.self)
+            switch str {
+            case Quantity.soak.description:
+                self = .soak
+            case Quantity.light.description:
+                self = .light
+            default:
+                /*if str.hasPrefix(Quantity.volumePrefix) {
+                    let indx = str.index(str.startIndex, offsetBy: str.count, limitedBy: str.endIndex)
+                    if indx != str.endIndex {
+                        self = .volume(Volume(from: String(str.suffix(from: indx!))))
+                        break
+                    }
+                }*/
+                throw GenericError("Unable to decode Water action \"\(str)\"")
+            }
+        }
+        
+        func encode(to encoder: Encoder) throws {
+            var container = encoder.singleValueContainer()
+            try container.encode(description)
+        }
     }
     
-    static var soak: Volume = .custom("soak")
-    static var light: Volume = .custom("water lightly")
-    var quantity: Volume = .any
+    var quantity: Quantity = .soak
     override var type: ActionType {
         return CareType.water
     }
     override var description: String {
-        switch quantity {
-        case .custom(_):
-            return quantity.description
-        default:
-            return "water with \(quantity)"
-        }
+        return quantity.description
     }
     
     required init(from decoder: Decoder) throws {
-        quantity = try decoder.container(keyedBy: WaterKeys.self).decode(Volume.self, forKey: .quantity)
         try super.init(from: decoder)
+        let container = try decoder.singleValueContainer()
+        quantity = try container.decode(Quantity.self)
     }
     
-    init(_ quantity: Volume) {
+    init(_ quantity: Quantity) {
         super.init()
         self.quantity = quantity
     }
     
     override func encode(to encoder: Encoder) throws {
         try super.encode(to: encoder)
-        var container = encoder.container(keyedBy: WaterKeys.self)
-        try container.encode(quantity, forKey: .quantity)
+        var container = encoder.singleValueContainer()
+//        try container.encode(quantity)
     }
 }
