@@ -46,7 +46,7 @@ enum ActionClass: String, Storable, CaseIterable {
     }
 }
 
-class Action: Storable {
+class Action: Storable, CustomStringConvertible {
     enum CodingKeys: String, CodingKey {
         case version
         //case id

@@ -20,9 +20,6 @@ class Location: IdedObj, CustomStringConvertible {
     }
     
     static var manager: Location.Manager?
-    /*static var unknownLocation: UniqueId? {
-        return manager?.unknownLocation
-    }*/
     var version: String
     var id: UniqueId
     var name: String

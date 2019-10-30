@@ -28,6 +28,13 @@ class SeasonalSchedule: Storable {
         return timetable[Season.Manager.find(Date(), in: seasons).id]
     }
     
+    required init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        version = try container.decode(String.self, forKey: .version)
+        name = try container.decode(String.self, forKey: .name)
+        timetable = try container.decode([UniqueId:Timetable].self, forKey: .timetable)
+    }
+    
     init(_ name: String = "", care: CareType) {
         version = Defaults.version
         self.name = name
@@ -35,5 +42,12 @@ class SeasonalSchedule: Storable {
         for season in Defaults.seasonal.seasonsList {
             timetable[season] = Defaults.care[care]
         }
+    }
+    
+    func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(version, forKey: .version)
+        try container.encode(name, forKey: .name)
+        try container.encode(timetable, forKey: .timetable)
     }
 }

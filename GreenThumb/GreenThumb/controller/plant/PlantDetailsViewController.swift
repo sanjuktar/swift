@@ -340,7 +340,7 @@ extension PlantDetailsViewController: UITextFieldDelegate, KeyboardHandler {
         if validate(detail!) {
             editSaveButton.isEnabled = true
             if detail!.isName {
-                nameLabel.text = name
+                nameValueLabel.text = name
             }
         }
         return true

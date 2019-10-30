@@ -49,6 +49,11 @@ enum TimeUnit : String, CaseIterable, CustomStringConvertible {
         if time == 0 {
             return "0 \(TimeUnit.seconds)"
         }
+        for unit in TimeUnit.allCases {
+            if unit.duration == time {
+                return unit.singleName
+            }
+         }
         var current = Int(time)
         var units: [String] = []
         for unit in TimeUnit.allCases.reversed() {

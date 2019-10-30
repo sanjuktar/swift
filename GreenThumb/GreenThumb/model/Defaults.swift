@@ -8,7 +8,7 @@
 
 import Foundation
 
-class Defaults {//}: Storable {
+class Defaults {
     static var filename: String = "defaults"
     static var version: String {
         return "v0.1"
@@ -51,27 +51,8 @@ class Defaults {//}: Storable {
     
     static func create() {
         inUse = Defaults()
-        /*do {
-            try load()
-        } catch {
-            AppDelegate.current!.log?.out(.error, "Unable to load defaults: \(error.localizedDescription)")
-            inUse = Defaults()
-            do {
-                try commit()
-            } catch {
-                AppDelegate.current!.log?.out(.error, "Unable to save defaults.")
-            }
-        }*/
         initConditions()
     }
-    
-    /*static func load() throws {
-        inUse = try Documents.instance?.retrieve(filename, as: Defaults.self)
-    }
-    
-    static func commit() throws {
-        try Documents.instance?.store(inUse!, as: Defaults.filename)
-    }*/
     
     private static func initConditions() {
         inUse?.conditions = [:]
