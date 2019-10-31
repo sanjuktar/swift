@@ -81,6 +81,7 @@ class PlantDetailsViewController: UIViewController {
         setupImagePicker()
         setEditMode(editMode)
         textFields.removeAll()
+        editSaveButton.isEnabled = false
     }
     
     override func shouldPerformSegue(withIdentifier identifier: String, sender: Any?) -> Bool {
@@ -180,7 +181,7 @@ class PlantDetailsViewController: UIViewController {
             editSaveButton.title = "Edit"
             navigationItem.title = "Plant Details"
         }
-        editButtonItem.isEnabled = validate()
+        editSaveButton.isEnabled = validate()
         setupName()
         setupLocation()
     }
@@ -275,6 +276,9 @@ extension PlantDetailsViewController: UITableViewDelegate, UITableViewDataSource
         if item.isCare {
             cell.accessoryType = .disclosureIndicator
         }
+        else {
+            performSegue = false
+        }
         return cell
     }
     
@@ -342,6 +346,9 @@ extension PlantDetailsViewController: UITextFieldDelegate, KeyboardHandler {
             if detail!.isName {
                 nameValueLabel.text = name
             }
+        }
+        else {
+            editSaveButton.isEnabled = false
         }
         return true
     }
