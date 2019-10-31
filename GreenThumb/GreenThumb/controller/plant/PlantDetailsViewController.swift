@@ -11,8 +11,6 @@ import UIKit
 class PlantDetailsViewController: UIViewController {
     @IBOutlet weak var imageView: UIImageView!
     @IBOutlet weak var detailsTable: UITableView!
-    @IBOutlet weak var nameLabel: UILabel!
-    @IBOutlet weak var nameValueLabel: UILabel!
     @IBOutlet weak var locationLabel: UILabel!
     @IBOutlet weak var locationValueView: UIView!
     @IBOutlet weak var editSaveButton: UIBarButtonItem!
@@ -74,14 +72,18 @@ class PlantDetailsViewController: UIViewController {
                 details[item] = item.data(for: plant!)
             }
         }
-        setupName()
+        if !plant!.name.isEmpty {
+            setupTitle(plant!.name)
+        }
         setupLocation()
         setupDetailsTable()
         setupGestures()
         setupImagePicker()
         setEditMode(editMode)
         textFields.removeAll()
-        editSaveButton.isEnabled = false
+        if editMode {
+            editSaveButton.isEnabled = false
+        }
     }
     
     override func shouldPerformSegue(withIdentifier identifier: String, sender: Any?) -> Bool {
@@ -175,22 +177,16 @@ class PlantDetailsViewController: UIViewController {
         cameraButton.isHidden = !flag
         if flag {
             editSaveButton.title = "Save"
-            navigationItem.title = "Edit Plant Details"
         }
         else {
             editSaveButton.title = "Edit"
-            navigationItem.title = "Plant Details"
         }
         editSaveButton.isEnabled = validate()
-        setupName()
         setupLocation()
     }
     
-    private func setupName() {
-        nameLabel.font = PlantDetailsViewController.detailLabelFont
-        nameLabel.textColor = PlantDetailsViewController.detailLabelColor
-        nameValueLabel.text = plant?.name
-        nameValueLabel.font = PlantDetailsViewController.detailTextFont
+    private func setupTitle(_ name: String) {
+        self.title = name
     }
     
     private func setupLocation() {
@@ -344,7 +340,7 @@ extension PlantDetailsViewController: UITextFieldDelegate, KeyboardHandler {
         if validate(detail!) {
             editSaveButton.isEnabled = true
             if detail!.isName {
-                nameValueLabel.text = name
+                setupTitle(name)
             }
         }
         else {
