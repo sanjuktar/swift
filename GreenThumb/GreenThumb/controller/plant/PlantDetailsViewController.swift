@@ -19,8 +19,16 @@ class PlantDetailsViewController: UIViewController {
     
     @IBAction func unwindToPlantDetails(segue: UIStoryboardSegue) {
         if let source = segue.source as? LocationListPopoverViewController {
-            plant?.location = source.location!.id
-            (locationValueSubview as! UITextField).text = source.location!.name
+            let loc = source.location!.id
+            details[.location] = loc
+            for item in textFields {
+                if item.value == .location {
+                    item.key.text =  Location.manager!.get(loc)!.name
+                    if validate() {
+                        editSaveButton.isEnabled = true
+                    }
+                }
+            }
             return
         }
     }
@@ -37,7 +45,6 @@ class PlantDetailsViewController: UIViewController {
     var details: [PlantDetail:String] = [:]
     var imagePicker: UIImagePickerController?
     var textFields: [UITextField:PlantDetail] = [:]
-    var locationValueSubview: UIView?
     var performSegue = true
     
     var name: String {
@@ -75,14 +82,13 @@ class PlantDetailsViewController: UIViewController {
         if !plant!.name.isEmpty {
             setupTitle(plant!.name)
         }
-        setupLocation()
+        //setupLocation()
         setupDetailsTable()
-        setupGestures()
         setupImagePicker()
         setEditMode(editMode)
         textFields.removeAll()
-        if editMode {
-            editSaveButton.isEnabled = false
+        if !editMode {
+            editSaveButton.isEnabled = true
         }
     }
     
@@ -118,18 +124,19 @@ class PlantDetailsViewController: UIViewController {
         plant?.names[Plant.NameType.nickname] = details[PlantDetail.nickname]
         plant?.names[Plant.NameType.common] = details[PlantDetail.commonName]
         plant?.names[Plant.NameType.scientific] = details[PlantDetail.scientificName]
+        plant?.location = details[.location]!
     }
     
     private func validate() -> Bool {
-        for item in PlantDetail.items[PlantDetail.Section.noSection]! {
+        /*for item in PlantDetail.items[PlantDetail.Section.noSection]! {
             if !validate(item) {
                 return false
             }
-        }
+        }*/
         for section in PlantDetail.Section.cases {
-            if section == PlantDetail.Section.names && !validateNames() {
+            /*if section == PlantDetail.Section.names && !validateNames() {
                 return false
-            }
+            }*/
             for item in PlantDetail.items[section]! {
                 if !validate(item) {
                     return false
@@ -144,7 +151,7 @@ class PlantDetailsViewController: UIViewController {
         case .ignore:
             fatalError("Invalid detail!!!")
         case .location:
-            return true
+            return true //Location.manager?.get(details[.location]!) != nil
         case .nickname:
             return validateNames()
         case .commonName:
@@ -182,14 +189,13 @@ class PlantDetailsViewController: UIViewController {
             editSaveButton.title = "Edit"
         }
         editSaveButton.isEnabled = validate()
-        setupLocation()
     }
     
     private func setupTitle(_ name: String) {
         self.title = name
     }
     
-    private func setupLocation() {
+    /*private func setupLocation() {
         locationLabel.font = PlantDetailsViewController.detailLabelFont
         locationLabel.textColor = PlantDetailsViewController.detailLabelColor
         let frame = CGRect(origin: locationValueView.frame.origin, size: CGSize(width: locationValueView.frame.width, height: 30))
@@ -225,7 +231,7 @@ class PlantDetailsViewController: UIViewController {
             locationValueSubview = subview
         }
         view.addSubview(locationValueSubview!)
-    }
+    }*/
     
     private func showLocationPopup(_ sender: UIView) {
         let controller =  self.storyboard!.instantiateViewController(
@@ -239,11 +245,11 @@ class PlantDetailsViewController: UIViewController {
         self.present(controller, animated: true)
     }
     
-    @objc private func didTap(sender: UITapGestureRecognizer) {
+    /*@objc private func didTap(sender: UITapGestureRecognizer) {
         if editMode {
             showLocationPopup(locationValueView)
         }
-    }
+    }*/
 }
 
 extension PlantDetailsViewController: UITableViewDelegate, UITableViewDataSource {
@@ -264,7 +270,7 @@ extension PlantDetailsViewController: UITableViewDelegate, UITableViewDataSource
         let item = dataItem(at: indexPath)
         let label = "\(item.rawValue): "
         if editMode && !item.isCare {
-            let cell = editModeCell(label, item.data(for: plant!))
+            let cell = editModeCell(label, item)
             addToTextFields(cell.detailTextField, dataItem: item)
             return cell
         }
@@ -291,13 +297,13 @@ extension PlantDetailsViewController: UITableViewDelegate, UITableViewDataSource
         detailsTable.dataSource = self
     }
     
-    private func editModeCell(_ label: String, _ detail: String) -> EditPlantTextCell {
+    private func editModeCell(_ label: String, _ item: PlantDetail) -> EditPlantTextCell {
         let cell = detailsTable.dequeueReusableCell(withIdentifier: "editPlantTextCell") as! EditPlantTextCell
         cell.titleLabel.text = label
         cell.titleLabel.font = PlantDetailsViewController.detailLabelFont
         cell.titleLabel.textColor = PlantDetailsViewController.detailLabelColor
         cell.titleLabel.sizeToFit()
-        cell.detailTextField.text = detail
+        cell.detailTextField.text = item.data(for: plant!)
         cell.detailTextField.font = PlantDetailsViewController.detailTextFont
         cell.detailTextField.delegate = self
         return cell
@@ -313,9 +319,6 @@ extension PlantDetailsViewController: UITableViewDelegate, UITableViewDataSource
     
     private func indexPath(_ item: PlantDetail) -> IndexPath? {
         let section = item.section
-        if section == .noSection {
-            return nil
-        }
         return IndexPath(row: (PlantDetail.items[section]?.firstIndex(of: item))!,
                          section: PlantDetail.Section.cases.firstIndex(of: section)!)
         
@@ -350,6 +353,10 @@ extension PlantDetailsViewController: UITextFieldDelegate, KeyboardHandler {
     }
     
     func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
+        if textFields[textField] == PlantDetail.location {
+            showLocationPopup(textField)
+            return false
+        }
         if textFields[textField]?.section == PlantDetail.Section.care {
             performSegue = true
             return false

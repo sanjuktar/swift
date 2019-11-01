@@ -89,19 +89,6 @@
                                 <rect key="frame" x="16" y="93" width="159" height="151"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </imageView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Location:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PhG-nZ-Xhy">
-                                <rect key="frame" x="183" y="175" width="71" height="21"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="aC7-it-XZe">
-                                <rect key="frame" x="183" y="204" width="176" height="40"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <gestureRecognizers/>
-                            </view>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fFk-hk-cJV">
                                 <rect key="frame" x="135" y="204" width="40" height="40"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -154,7 +141,7 @@
                                                     <rect key="frame" x="118" y="7" width="210" height="30"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                                    <textInputTraits key="textInputTraits"/>
+                                                    <textInputTraits key="textInputTraits" autocorrectionType="no"/>
                                                     <connections>
                                                         <segue destination="JR1-AQ-QHa" kind="show" identifier="plantDetailsToCareSegue" id="jbc-eW-1Bb"/>
                                                     </connections>
@@ -186,8 +173,6 @@
                         <outlet property="detailsTable" destination="wZR-2L-mQm" id="dPk-q5-q08"/>
                         <outlet property="editSaveButton" destination="F51-Zy-8nf" id="Vzf-IK-kcF"/>
                         <outlet property="imageView" destination="hc5-ED-BKg" id="Ql1-K6-Lbc"/>
-                        <outlet property="locationLabel" destination="PhG-nZ-Xhy" id="VOi-gF-wHV"/>
-                        <outlet property="locationValueView" destination="aC7-it-XZe" id="2dt-u2-01E"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="UQv-3f-1lJ" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -253,7 +238,7 @@
                     <navigationItem key="navigationItem" id="DVf-Jl-CGO">
                         <nil key="title"/>
                         <barButtonItem key="leftBarButtonItem" systemItem="edit" id="nOF-V0-vcG"/>
-                        <segmentedControl key="titleView" opaque="NO" contentMode="scaleToFill" misplaced="YES" restorationIdentifier="careSegmentedControl" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="bar" selectedSegmentIndex="0" id="Q8O-zs-PvY">
+                        <segmentedControl key="titleView" opaque="NO" contentMode="scaleToFill" restorationIdentifier="careSegmentedControl" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="bar" selectedSegmentIndex="0" id="Q8O-zs-PvY">
                             <rect key="frame" x="95" y="6" width="185" height="32"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <segments>

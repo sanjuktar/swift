@@ -40,7 +40,7 @@ class PlantsListViewController: UIViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "viewPlantDetailsSegue" {
             let dest = segue.destination as! PlantDetailsViewController
-            dest.plant = Plant.manager!.get(selectedPlant()!)
+            dest.plant = Plant.manager!.get(selectedPlant()!)?.copy
         }
         else if segue.identifier == "addNewPlantSegue" {
             let dest = segue.destination as! PlantDetailsViewController

@@ -10,11 +10,11 @@ import UIKit
 
 enum PlantDetail: String, Codable {
     enum Section: String, CaseIterable {
+        case noHeading = ""
         case names = "Names"
         case care = "Care Schedule"
-        case noSection = ""
         
-        static var cases: [Section] = [.names, .care]
+        static var cases: [Section] = [.noHeading, .names, .care]
         static var nSections: Int {
             return cases.count
         }
@@ -35,7 +35,7 @@ enum PlantDetail: String, Codable {
     case repot = "Repot"
     
     static var items: [Section:[PlantDetail]] =
-        [.noSection:[.location],
+        [.noHeading:[.location],
          .names:[.nickname, .commonName, .scientificName],
          .care:CareType.inUseList.map{PlantDetail($0)}] 
     var section: Section {
@@ -46,7 +46,7 @@ enum PlantDetail: String, Codable {
                 }
             }
         }
-        return .noSection
+        return .noHeading
     }
     var isName: Bool {
         return PlantDetail.items[.names]?.firstIndex(of: self) != nil

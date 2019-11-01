@@ -14,7 +14,7 @@ protocol IdedObj: Storable, Hashable, CustomStringConvertible {
     var version: String {get}
     var id: UniqueId {get set}
     var description: String {get}
-    
+
     func persist() throws
     func unpersist() throws
     func updatePersisted() throws

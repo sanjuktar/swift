@@ -28,7 +28,6 @@ class IdedObjManager<T:IdedObj>: Storable, CustomStringConvertible {
         return name
     }
     
-    
     required init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         version = try container.decode(String.self, forKey: .version)
@@ -70,7 +69,7 @@ class IdedObjManager<T:IdedObj>: Storable, CustomStringConvertible {
         return idGenerator.newId()
     }
     
-    func replaceId(from: UniqueId, to: UniqueId) throws {
+    /*func replaceId(from: UniqueId, to: UniqueId) throws {
         if from != to {
             return
         }
@@ -85,7 +84,7 @@ class IdedObjManager<T:IdedObj>: Storable, CustomStringConvertible {
         ids[pos] = to
         objs[to] = obj
         objs[from] = nil
-    }
+    }*/
     
     func commit() throws {
         do {
@@ -103,8 +102,8 @@ class IdedObjManager<T:IdedObj>: Storable, CustomStringConvertible {
         }
         if objs[obj.id] == nil {
             ids.append(obj.id)
-            objs[obj.id] = obj
         }
+        objs[obj.id] = obj
         try commit()
     }
     

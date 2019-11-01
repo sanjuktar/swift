@@ -69,6 +69,14 @@ class Plant: IdedObj {
     var description: String {
         return name
     }
+    var preferedNameType: NameType {
+        return NameType.prefered
+    }
+    var copy: Plant? {
+        var p = Plant(names, location: location, image: image, care: care, preferedNameType: preferedNameType)
+        p.id = id
+        return p
+    }
     
     required init(from: Decoder) throws {
         let container = try from.container(keyedBy: CodingKeys.self)
