@@ -114,11 +114,11 @@ class PlantDetailsViewController: UIViewController {
         case .location:
             return Location.manager?.get(plant!.location) != nil
         case .nickname:
-            return validateNames()
+            return plant!.names.validate()
         case .commonName:
-            return validateNames()
+            return plant!.names.validate()
         case .scientificName:
-            return validateNames()
+            return plant!.names.validate()
         case .water:
             return true
         case .light:
@@ -132,12 +132,6 @@ class PlantDetailsViewController: UIViewController {
         case .repot:
             return true
         }
-    }
-    
-    private func validateNames() -> Bool {
-        return Plant.NameType.nickname.isValid(plant?.names[.nickname]) ||
-            Plant.NameType.common.isValid(plant?.names[.common]) ||
-            Plant.NameType.scientific.isValid(plant?.names[.scientific])
     }
     
     private func setEditMode(_ flag: Bool) {
@@ -258,9 +252,9 @@ extension PlantDetailsViewController: UITextFieldDelegate, KeyboardHandler {
         let detail = textFields[textField]
         let text = ((textField.text! as NSString).replacingCharacters(in: range, with: string))
         switch detail {
-        case .nickname: plant?.names[.nickname] = text
-        case .commonName: plant?.names[.common] = text
-        case .scientificName: plant?.names[.scientific] = text
+        case .nickname: plant?.names.nickname = text
+        case .commonName: plant?.names.common = text
+        case .scientificName: plant?.names.scientific = text
         default: break
         }
         if validate(detail!) {

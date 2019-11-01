@@ -77,11 +77,11 @@ enum PlantDetail: String, Codable {
         case .ignore:
             fatalError("Invalid detail!!!!!")
         case .nickname:
-            return plant.names[Plant.NameType.nickname] ?? ""
+            return plant.names.nickname
         case .commonName:
-            return plant.names[Plant.NameType.common] ?? ""
+            return plant.names.common
         case .scientificName:
-            return plant.names[Plant.NameType.scientific] ?? ""
+            return plant.names.scientific
         case .location:
             return Location.manager!.get(plant.location)!.name
         case .water:

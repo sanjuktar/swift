@@ -9,8 +9,6 @@
 import Foundation
 import UIKit
 
-typealias NameList = [Plant.NameType:String]
-
 class Plant: IdedObj {
     enum NameType: String, Codable {
         case common
@@ -34,6 +32,37 @@ class Plant: IdedObj {
         }
     }
     
+    struct NameList: Codable {
+        var version: String = Defaults.version
+        var nickname: String
+        var common: String
+        var scientific: String
+        var use: String {
+            if NameType.nickname.isValid(nickname) {
+                return nickname
+            }
+            if NameType.common.isValid(common) {
+                return common
+            }
+            if NameType.scientific.isValid(scientific) {
+                return scientific
+            }
+            return ""
+        }
+        
+        init(nickName: String = "", common: String = "", scientific: String = "") {
+            self.nickname = nickName
+            self.common = common
+            self.scientific = scientific
+        }
+        
+        func validate() -> Bool {
+            return Plant.NameType.nickname.isValid(nickname) ||
+                Plant.NameType.common.isValid(common) ||
+                Plant.NameType.scientific.isValid(scientific)
+        }
+    }
+    
     enum CodingKeys: String, CodingKey {
         case version
         case id
@@ -50,30 +79,14 @@ class Plant: IdedObj {
     var location: UniqueId
     var care: CareInstructions
     var image: UIImage?
-    var name: String {
-        var str: String? = names[NameType.prefered]
-        if (NameType.prefered.isValid(str)) {
-            return str!
-        }
-        for type in Plant.NameType.cases {
-            str = names[type]
-            if type.isValid(str) {
-                return str!
-            }
-        }
-        return ""
-    }
     var imageData: Data? {
         return (image == nil ? nil : image!.jpegData(compressionQuality: 0.5))
     }
     var description: String {
         return name
     }
-    var preferedNameType: NameType {
-        return NameType.prefered
-    }
     var copy: Plant? {
-        var p = Plant(names, location: location, image: image, care: care, preferedNameType: preferedNameType)
+        var p = Plant(names, location: location, image: image, care: care)
         p.id = id
         return p
     }
@@ -82,7 +95,7 @@ class Plant: IdedObj {
         let container = try from.container(keyedBy: CodingKeys.self)
         version = try container.decode(String.self, forKey: .version)
         id = try container.decode(String.self, forKey: .id)
-        names = try container.decode([NameType:String].self, forKey: .names)
+        names = try container.decode(NameList.self, forKey: .names)
         location = try container.decode(UniqueId.self, forKey: .location)
         if Plant.manager?.get(location) == nil {
             location = Defaults.location
@@ -92,7 +105,7 @@ class Plant: IdedObj {
         image = Plant.image(from: data)
     }
     
-    init(_ names: NameList = [:], location: UniqueId = Defaults.location,
+    init(_ names: NameList = NameList(), location: UniqueId = Defaults.location,
          image: UIImage? = nil, care: CareInstructions = CareInstructions(),
          preferedNameType: NameType = .nickname) {
         version = Defaults.version
