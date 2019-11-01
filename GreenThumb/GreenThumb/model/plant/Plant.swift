@@ -84,6 +84,9 @@ class Plant: IdedObj {
         id = try container.decode(String.self, forKey: .id)
         names = try container.decode([NameType:String].self, forKey: .names)
         location = try container.decode(UniqueId.self, forKey: .location)
+        if Plant.manager?.get(location) == nil {
+            location = Defaults.location
+        }
         care = try container.decode(CareInstructions.self, forKey: .care)
         let data = try container.decode(Data?.self, forKey: .image)
         image = Plant.image(from: data)

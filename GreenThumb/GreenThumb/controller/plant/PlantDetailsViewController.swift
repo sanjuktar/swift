@@ -20,7 +20,7 @@ class PlantDetailsViewController: UIViewController {
     @IBAction func unwindToPlantDetails(segue: UIStoryboardSegue) {
         if let source = segue.source as? LocationListPopoverViewController {
             let loc = source.location!.id
-            details[.location] = loc
+            plant?.location = loc
             for item in textFields {
                 if item.value == .location {
                     item.key.text =  Location.manager!.get(loc)!.name
@@ -42,47 +42,20 @@ class PlantDetailsViewController: UIViewController {
     var plant: Plant?
     var editMode: Bool = false
     var output: Output?
-    var details: [PlantDetail:String] = [:]
     var imagePicker: UIImagePickerController?
     var textFields: [UITextField:PlantDetail] = [:]
     var performSegue = true
     
     var name: String {
-        var preferred: PlantDetail
-        switch Plant.NameType.prefered {
-        case Plant.NameType.nickname:
-            preferred = .nickname
-        case .common:
-            preferred = .commonName
-        case .scientific:
-            preferred = .scientificName
-        }
-        if let n = details[preferred] {
-            if !n.isEmpty {
-                return n
-            }
-        }
-        if !details[.nickname]!.isEmpty {
-            return details[.nickname]!
-        }
-        if !details[.commonName]!.isEmpty {
-            return details[.commonName]!
-        }
-        return details[.scientificName]!
+        return plant?.name ?? ""
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         output = MessageWindow(self)
-        for items in PlantDetail.items.values {
-            for item in items {
-                details[item] = item.data(for: plant!)
-            }
-        }
         if !plant!.name.isEmpty {
             setupTitle(plant!.name)
         }
-        //setupLocation()
         setupDetailsTable()
         setupImagePicker()
         setEditMode(editMode)
@@ -111,7 +84,10 @@ class PlantDetailsViewController: UIViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == PlantDetailsViewController.returnToPlantListSegue {
             if editMode {
-                saveDetails()
+                if !validate() {
+                    plant = nil
+                    return
+                }
             }
         }
         if segue.identifier == PlantDetailsViewController.careDetailsSegue {
@@ -120,23 +96,8 @@ class PlantDetailsViewController: UIViewController {
         }
     }
     
-    private func saveDetails() {
-        plant?.names[Plant.NameType.nickname] = details[PlantDetail.nickname]
-        plant?.names[Plant.NameType.common] = details[PlantDetail.commonName]
-        plant?.names[Plant.NameType.scientific] = details[PlantDetail.scientificName]
-        plant?.location = details[.location]!
-    }
-    
     private func validate() -> Bool {
-        /*for item in PlantDetail.items[PlantDetail.Section.noSection]! {
-            if !validate(item) {
-                return false
-            }
-        }*/
         for section in PlantDetail.Section.cases {
-            /*if section == PlantDetail.Section.names && !validateNames() {
-                return false
-            }*/
             for item in PlantDetail.items[section]! {
                 if !validate(item) {
                     return false
@@ -151,7 +112,7 @@ class PlantDetailsViewController: UIViewController {
         case .ignore:
             fatalError("Invalid detail!!!")
         case .location:
-            return true //Location.manager?.get(details[.location]!) != nil
+            return Location.manager?.get(plant!.location) != nil
         case .nickname:
             return validateNames()
         case .commonName:
@@ -174,9 +135,9 @@ class PlantDetailsViewController: UIViewController {
     }
     
     private func validateNames() -> Bool {
-        return Plant.NameType.nickname.isValid(details[PlantDetail.nickname]) ||
-            Plant.NameType.common.isValid(details[PlantDetail.commonName]) ||
-            Plant.NameType.scientific.isValid(details[PlantDetail.scientificName])
+        return Plant.NameType.nickname.isValid(plant?.names[.nickname]) ||
+            Plant.NameType.common.isValid(plant?.names[.common]) ||
+            Plant.NameType.scientific.isValid(plant?.names[.scientific])
     }
     
     private func setEditMode(_ flag: Bool) {
@@ -195,44 +156,6 @@ class PlantDetailsViewController: UIViewController {
         self.title = name
     }
     
-    /*private func setupLocation() {
-        locationLabel.font = PlantDetailsViewController.detailLabelFont
-        locationLabel.textColor = PlantDetailsViewController.detailLabelColor
-        let frame = CGRect(origin: locationValueView.frame.origin, size: CGSize(width: locationValueView.frame.width, height: 30))
-        let location = Location.manager?.get(plant!.location)?.name
-        if editMode {
-            if locationValueSubview != nil {
-                if locationValueSubview is UITextField {
-                    (locationValueSubview as! UITextField).text = location
-                    return
-                }
-                locationValueSubview?.removeFromSuperview()
-            }
-            let subview = UITextField(frame: frame)
-            subview.text = location
-            subview.font = PlantDetailsViewController.detailTextFont
-            subview.clearsOnBeginEditing = true
-            subview.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(didTap(sender:))))
-            locationValueSubview = subview
-            addToTextFields(subview, dataItem: PlantDetail.location)
-        }
-        else {
-            if locationValueSubview != nil {
-                if locationValueSubview is UILabel {
-                    (locationValueSubview as! UILabel).text = location
-                    return
-                }
-                locationValueSubview?.gestureRecognizers?.remove(at: 0)
-                locationValueSubview?.removeFromSuperview()
-            }
-            let subview = UILabel(frame: frame)
-            subview.text = location
-            subview.font = PlantDetailsViewController.detailTextFont
-            locationValueSubview = subview
-        }
-        view.addSubview(locationValueSubview!)
-    }*/
-    
     private func showLocationPopup(_ sender: UIView) {
         let controller =  self.storyboard!.instantiateViewController(
             withIdentifier: "locationListPopoverViewController")
@@ -244,12 +167,6 @@ class PlantDetailsViewController: UIViewController {
         presentationController.permittedArrowDirections = [.down, .up]
         self.present(controller, animated: true)
     }
-    
-    /*@objc private func didTap(sender: UITapGestureRecognizer) {
-        if editMode {
-            showLocationPopup(locationValueView)
-        }
-    }*/
 }
 
 extension PlantDetailsViewController: UITableViewDelegate, UITableViewDataSource {
@@ -339,7 +256,13 @@ extension PlantDetailsViewController: UITextFieldDelegate, KeyboardHandler {
     
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         let detail = textFields[textField]
-        details[detail!] = ((textField.text! as NSString).replacingCharacters(in: range, with: string))
+        let text = ((textField.text! as NSString).replacingCharacters(in: range, with: string))
+        switch detail {
+        case .nickname: plant?.names[.nickname] = text
+        case .commonName: plant?.names[.common] = text
+        case .scientificName: plant?.names[.scientific] = text
+        default: break
+        }
         if validate(detail!) {
             editSaveButton.isEnabled = true
             if detail!.isName {
