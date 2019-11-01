@@ -9,12 +9,12 @@
 import UIKit
 
 class PlantDetailsViewController: UIViewController {
-    @IBOutlet weak var imageView: UIImageView!
+    //@IBOutlet weak var imageView: UIImageView!
     @IBOutlet weak var detailsTable: UITableView!
     @IBOutlet weak var locationLabel: UILabel!
     @IBOutlet weak var locationValueView: UIView!
     @IBOutlet weak var editSaveButton: UIBarButtonItem!
-    @IBOutlet weak var cameraButton: UIButton!
+    //@IBOutlet weak var cameraButton: UIButton!
     @IBOutlet weak var addLocationButton: UIButton!
     
     @IBAction func unwindToPlantDetails(segue: UIStoryboardSegue) {
@@ -44,6 +44,7 @@ class PlantDetailsViewController: UIViewController {
     var output: Output?
     var imagePicker: UIImagePickerController?
     var textFields: [UITextField:PlantDetail] = [:]
+    var plantImageTableCell: ImageTableCell?
     var performSegue = true
     
     var name: String {
@@ -111,6 +112,8 @@ class PlantDetailsViewController: UIViewController {
         switch item {
         case .ignore:
             fatalError("Invalid detail!!!")
+        case .image:
+            return true
         case .location:
             return Location.manager?.get(plant!.location) != nil
         case .nickname:
@@ -136,7 +139,6 @@ class PlantDetailsViewController: UIViewController {
     
     private func setEditMode(_ flag: Bool) {
         editMode = flag
-        cameraButton.isHidden = !flag
         if flag {
             editSaveButton.title = "Save"
         }
@@ -144,6 +146,9 @@ class PlantDetailsViewController: UIViewController {
             editSaveButton.title = "Edit"
         }
         editSaveButton.isEnabled = validate()
+        if plantImageTableCell != nil {
+            plantImageTableCell?.cameraButton.isHidden = !editMode
+        }
     }
     
     private func setupTitle(_ name: String) {
@@ -179,6 +184,12 @@ extension PlantDetailsViewController: UITableViewDelegate, UITableViewDataSource
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let item = dataItem(at: indexPath)
+        if case .image = item {
+            let cell = detailsTable.dequeueReusableCell(withIdentifier: "imageTableCell") as! ImageTableCell
+            cell.cameraButton.isHidden = !editMode
+            plantImageTableCell = cell
+            return cell
+        }
         let label = "\(item.rawValue): "
         if editMode && !item.isCare {
             let cell = editModeCell(label, item)
@@ -196,6 +207,9 @@ extension PlantDetailsViewController: UITableViewDelegate, UITableViewDataSource
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        if dataItem(at: indexPath) == PlantDetail.image {
+            return 175
+        }
         return 40
     }
     
@@ -316,8 +330,8 @@ extension PlantDetailsViewController: UIImagePickerControllerDelegate {
     private func imagePickerController(_ picker: UIImagePickerController,
                                        didFinishPickingMediaWithInfo info: [String : AnyObject]) {
         let image = info[convertFromUIImagePickerControllerInfoKey(UIImagePickerController.InfoKey.originalImage)] as! UIImage
-        imageView.contentMode = .scaleAspectFit
-        imageView.image = image
+        plantImageTableCell?.imgView.contentMode = .scaleAspectFit
+        plantImageTableCell?.imgView.image = image
         dismiss(animated:true, completion: nil)
     }
     

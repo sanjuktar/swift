@@ -41,7 +41,6 @@
 		33900D162298919C00E653D1 /* ConditionsType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33900D152298919C00E653D1 /* ConditionsType.swift */; };
 		33900D1822991EA300E653D1 /* TimeType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33900D1722991EA300E653D1 /* TimeType.swift */; };
 		33900D1A229922F800E653D1 /* StorableTime.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33900D19229922F800E653D1 /* StorableTime.swift */; };
-		33AC0CDE21CC7C4600F52D55 /* TableCellWithTable.xib in Resources */ = {isa = PBXBuildFile; fileRef = 33AC0CDD21CC7C4600F52D55 /* TableCellWithTable.xib */; };
 		33AC0CE021CC7FE900F52D55 /* CareActions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33AC0CDF21CC7FE900F52D55 /* CareActions.swift */; };
 		33AC0CE221CC80A500F52D55 /* Quantity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33AC0CE121CC80A500F52D55 /* Quantity.swift */; };
 		33AC0CE421CC820B00F52D55 /* Action.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33AC0CE321CC820B00F52D55 /* Action.swift */; };
@@ -56,6 +55,7 @@
 		33AC0CFC21D321E300F52D55 /* Plant.Manager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33AC0CFB21D321E300F52D55 /* Plant.Manager.swift */; };
 		33AC0CFE21D3223300F52D55 /* Location.Manager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33AC0CFD21D3223300F52D55 /* Location.Manager.swift */; };
 		33AC0D0121D3282A00F52D55 /* Season.Manager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33AC0D0021D3282A00F52D55 /* Season.Manager.swift */; };
+		33B1A1E6236C12600031C75E /* ImageTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33B1A1E5236C12600031C75E /* ImageTableCell.swift */; };
 		33C1A11A2193AD48003003F5 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33C1A1192193AD48003003F5 /* AppDelegate.swift */; };
 		33C1A1212193AD48003003F5 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 33C1A11F2193AD48003003F5 /* Main.storyboard */; };
 		33C1A1232193AD4B003003F5 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 33C1A1222193AD4B003003F5 /* Assets.xcassets */; };
@@ -79,7 +79,6 @@
 		33C1A181219AB573003003F5 /* Log.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33C1A180219AB573003003F5 /* Log.swift */; };
 		33C1A183219AB59F003003F5 /* MessageWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33C1A182219AB59F003003F5 /* MessageWindow.swift */; };
 		33C1A187219FBAE7003003F5 /* PlantDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33C1A186219FBAE7003003F5 /* PlantDetail.swift */; };
-		33C1A18A21C898F6003003F5 /* TableCellWithTable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33C1A18921C898F6003003F5 /* TableCellWithTable.swift */; };
 		33C1A18C21C8CECB003003F5 /* CareInstructions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33C1A18B21C8CECB003003F5 /* CareInstructions.swift */; };
 		33C1A19021C8CF76003003F5 /* Time.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33C1A18F21C8CF76003003F5 /* Time.swift */; };
 		33C1A19221C8E240003003F5 /* Anytime.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33C1A19121C8E240003003F5 /* Anytime.swift */; };
@@ -143,7 +142,6 @@
 		33900D152298919C00E653D1 /* ConditionsType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConditionsType.swift; sourceTree = "<group>"; };
 		33900D1722991EA300E653D1 /* TimeType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeType.swift; sourceTree = "<group>"; };
 		33900D19229922F800E653D1 /* StorableTime.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorableTime.swift; sourceTree = "<group>"; };
-		33AC0CDD21CC7C4600F52D55 /* TableCellWithTable.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TableCellWithTable.xib; sourceTree = "<group>"; };
 		33AC0CDF21CC7FE900F52D55 /* CareActions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CareActions.swift; sourceTree = "<group>"; };
 		33AC0CE121CC80A500F52D55 /* Quantity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Quantity.swift; sourceTree = "<group>"; };
 		33AC0CE321CC820B00F52D55 /* Action.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Action.swift; sourceTree = "<group>"; };
@@ -158,6 +156,7 @@
 		33AC0CFB21D321E300F52D55 /* Plant.Manager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Plant.Manager.swift; sourceTree = "<group>"; };
 		33AC0CFD21D3223300F52D55 /* Location.Manager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Location.Manager.swift; sourceTree = "<group>"; };
 		33AC0D0021D3282A00F52D55 /* Season.Manager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Season.Manager.swift; sourceTree = "<group>"; };
+		33B1A1E5236C12600031C75E /* ImageTableCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageTableCell.swift; sourceTree = "<group>"; };
 		33C1A1162193AD48003003F5 /* GreenThumb.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GreenThumb.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		33C1A1192193AD48003003F5 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		33C1A1202193AD48003003F5 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -187,7 +186,6 @@
 		33C1A180219AB573003003F5 /* Log.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Log.swift; sourceTree = "<group>"; };
 		33C1A182219AB59F003003F5 /* MessageWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageWindow.swift; sourceTree = "<group>"; };
 		33C1A186219FBAE7003003F5 /* PlantDetail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlantDetail.swift; sourceTree = "<group>"; };
-		33C1A18921C898F6003003F5 /* TableCellWithTable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableCellWithTable.swift; sourceTree = "<group>"; };
 		33C1A18B21C8CECB003003F5 /* CareInstructions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CareInstructions.swift; sourceTree = "<group>"; };
 		33C1A18F21C8CF76003003F5 /* Time.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Time.swift; sourceTree = "<group>"; };
 		33C1A19121C8E240003003F5 /* Anytime.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Anytime.swift; sourceTree = "<group>"; };
@@ -531,8 +529,7 @@
 			children = (
 				33C1A174219955D6003003F5 /* EditPlantTextCell.swift */,
 				33C1A16C21994C7A003003F5 /* PlantListCell.swift */,
-				33C1A18921C898F6003003F5 /* TableCellWithTable.swift */,
-				33AC0CDD21CC7C4600F52D55 /* TableCellWithTable.xib */,
+				33B1A1E5236C12600031C75E /* ImageTableCell.swift */,
 			);
 			path = plant;
 			sourceTree = "<group>";
@@ -669,7 +666,6 @@
 				33C1A1262193AD4B003003F5 /* LaunchScreen.storyboard in Resources */,
 				33C1A1232193AD4B003003F5 /* Assets.xcassets in Resources */,
 				33C1A1212193AD48003003F5 /* Main.storyboard in Resources */,
-				33AC0CDE21CC7C4600F52D55 /* TableCellWithTable.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -708,6 +704,7 @@
 				33AC0CE221CC80A500F52D55 /* Quantity.swift in Sources */,
 				33AC0CFE21D3223300F52D55 /* Location.Manager.swift in Sources */,
 				338E491222800CC2007FF826 /* UISlider.swift in Sources */,
+				33B1A1E6236C12600031C75E /* ImageTableCell.swift in Sources */,
 				33900D0E22952EC600E653D1 /* UnknownLocation.swift in Sources */,
 				331F6908229126AC003542D6 /* Storable.swift in Sources */,
 				33C1A16F2199509B003003F5 /* GenericError.swift in Sources */,
@@ -751,7 +748,6 @@
 				33AC0D0121D3282A00F52D55 /* Season.Manager.swift in Sources */,
 				33C1A1552193C267003003F5 /* DiskStorage.swift in Sources */,
 				33900D1A229922F800E653D1 /* StorableTime.swift in Sources */,
-				33C1A18A21C898F6003003F5 /* TableCellWithTable.swift in Sources */,
 				33900D0A2295244A00E653D1 /* AnnualConditions.swift in Sources */,
 				33900D102296246F00E653D1 /* Defaults.swift in Sources */,
 				338E490D227C0F27007FF826 /* Wind.swift in Sources */,

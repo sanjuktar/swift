@@ -21,6 +21,7 @@ enum PlantDetail: String, Codable {
     }
     
     case ignore = "ignore"
+    case image = "image"
     case location = "Location"
     // Names
     case nickname = "Nickname"
@@ -35,7 +36,7 @@ enum PlantDetail: String, Codable {
     case repot = "Repot"
     
     static var items: [Section:[PlantDetail]] =
-        [.noHeading:[.location],
+        [.noHeading:[.image, .location],
          .names:[.nickname, .commonName, .scientificName],
          .care:CareType.inUseList.map{PlantDetail($0)}] 
     var section: Section {
@@ -53,6 +54,12 @@ enum PlantDetail: String, Codable {
     }
     var isCare: Bool {
         return PlantDetail.items[.care]?.firstIndex(of: self) != nil
+    }
+    var isStringConvertable: Bool {
+        switch self {
+        case .image: return false
+        default: return true
+        }
     }
     
     init(_ type: CareType) {
@@ -76,6 +83,8 @@ enum PlantDetail: String, Codable {
         switch self {
         case .ignore:
             fatalError("Invalid detail!!!!!")
+        case .image:
+            fatalError("Trying to convert image to string")
         case .nickname:
             return plant.names.nickname
         case .commonName:
