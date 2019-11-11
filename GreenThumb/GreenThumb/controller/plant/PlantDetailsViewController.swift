@@ -9,12 +9,10 @@
 import UIKit
 
 class PlantDetailsViewController: UIViewController {
-    //@IBOutlet weak var imageView: UIImageView!
     @IBOutlet weak var detailsTable: UITableView!
     @IBOutlet weak var locationLabel: UILabel!
     @IBOutlet weak var locationValueView: UIView!
     @IBOutlet weak var editSaveButton: UIBarButtonItem!
-    //@IBOutlet weak var cameraButton: UIButton!
     @IBOutlet weak var addLocationButton: UIButton!
     
     @IBAction func unwindToPlantDetails(segue: UIStoryboardSegue) {

@@ -79,6 +79,9 @@ class Plant: IdedObj {
     var location: UniqueId
     var care: CareInstructions
     var image: UIImage?
+    var name: String {
+        return names.use
+    }
     var imageData: Data? {
         return (image == nil ? nil : image!.jpegData(compressionQuality: 0.5))
     }
