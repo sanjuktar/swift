@@ -19,18 +19,13 @@ class PlantDetailsViewController: UIViewController {
             for item in textFields {
                 if item.value == .location {
                     item.key.text =  Location.manager!.get(loc)!.name
-                    if validate() {
-                        editSaveButton.isEnabled = true
-                    }
+                    editSaveButton.isEnabled = validate()
                 }
             }
             return
         }
     }
     
-    static var detailTextFont = UIFont(name: "detailText", size: 5)
-    static var detailLabelFont = UIFont(name: "detailLabel", size: 5)
-    static var detailLabelColor: UIColor = .gray
     static var returnToPlantListSegue = "unwindEditPlantToList"
     static var careDetailsSegue = "plantDetailsToCareSegue"
     
@@ -49,16 +44,13 @@ class PlantDetailsViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         output = MessageWindow(self)
+        setEditMode(editMode)
         if !plant!.name.isEmpty {
             setupTitle(plant!.name)
         }
         setupDetailsTable()
-        setupImagePicker()
-        setEditMode(editMode)
         textFields.removeAll()
-        if !editMode {
-            editSaveButton.isEnabled = true
-        }
+        imagePicker = UIImagePickerController()
     }
     
     override func shouldPerformSegue(withIdentifier identifier: String, sender: Any?) -> Bool {
@@ -197,32 +189,20 @@ extension PlantDetailsViewController: UITableViewDelegate, UITableViewDataSource
     }
 }
 
-extension PlantDetailsViewController: UITextFieldDelegate, KeyboardHandler {
+extension PlantDetailsViewController: TextFieldManager {
+    typealias D = PlantDetail
+    
     var handler: UIViewController? {
-        get {
-            return self
-        }
+        return self
     }
     
-    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-        let detail = textFields[textField]
-        let text = ((textField.text! as NSString).replacingCharacters(in: range, with: string))
-        switch detail {
-        case .nickname: plant?.names.nickname = text
-        case .commonName: plant?.names.common = text
-        case .scientificName: plant?.names.scientific = text
-        default: break
+    var object: Plant? {
+        get {
+            return plant
         }
-        if validate(detail!) {
-            editSaveButton.isEnabled = true
-            if detail!.isName {
-                setupTitle(name)
-            }
+        set {
+            plant = newValue
         }
-        else {
-            editSaveButton.isEnabled = false
-        }
-        return true
     }
     
     func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
@@ -238,54 +218,34 @@ extension PlantDetailsViewController: UITextFieldDelegate, KeyboardHandler {
         return true
     }
     
-    private func addToTextFields(_ textField: UITextField, dataItem: PlantDetail) {
-        if let field = textFieldFor(dataItem) {
-            textFields.remove(at: textFields.index(forKey: field)!)
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        if !modifyObject(textField, shouldChangeCharactersIn: range, replacementString: string) {
+            return false
         }
-        textFields[textField] = dataItem
-    }
-    
-    private func textFieldFor(_ item: PlantDetail) -> UITextField? {
-        for t in textFields.keys {
-            if textFields[t] == item {
-                return t
+        if validate(textFields[textField]!) {
+            editSaveButton.isEnabled = true
+            if textFields[textField]!.isName {
+                setupTitle(name)
             }
         }
-        return nil
+        else {
+            editSaveButton.isEnabled = false
+        }
+        return true
     }
 }
 
-extension PlantDetailsViewController: UIImagePickerControllerDelegate {
+extension PlantDetailsViewController: ImagePickerDelegate {
+    var imgPickerDelegate: PlantDetailsViewController? {
+        return self
+    }
+    
     @IBAction func takePicture(_ sender: Any) {
-        if UIImagePickerController.isSourceTypeAvailable(.camera) {
-            imagePicker?.allowsEditing = false
-            imagePicker?.sourceType = UIImagePickerController.SourceType.camera
-            imagePicker?.cameraCaptureMode = .photo
-            imagePicker?.modalPresentationStyle = .fullScreen
-            present(imagePicker!, animated: true, completion: nil)
-        }
-        else {
-            output?.output(.error, "Camera not available.")
-        }
+        snapPicture(sender)
     }
     
     private func imagePickerController(_ picker: UIImagePickerController,
                                        didFinishPickingMediaWithInfo info: [String : AnyObject]) {
-        let image = info[convertFromUIImagePickerControllerInfoKey(UIImagePickerController.InfoKey.originalImage)] as! UIImage
-        plantImageTableCell?.imgView.contentMode = .scaleAspectFit
-        plantImageTableCell?.imgView.image = image
-        dismiss(animated:true, completion: nil)
+        didPickImage(plantImageTableCell!.imgView, info)
     }
-    
-    internal func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
-        dismiss(animated: true, completion: nil)
-    }
-    
-    private func setupImagePicker() {
-        imagePicker = UIImagePickerController()
-    }
-}
-
-fileprivate func convertFromUIImagePickerControllerInfoKey(_ input: UIImagePickerController.InfoKey) -> String {
-	return input.rawValue
 }

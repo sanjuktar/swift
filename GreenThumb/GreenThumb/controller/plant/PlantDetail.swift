@@ -150,7 +150,9 @@ enum PlantDetail: String, Codable, ObjectDetail {
             if let image = value as? UIImage {
                 obj.image = image
             }
-            return false
+            else {
+                return false
+            }
         case .location:
             if let loc = value as? Location {
                 obj.location = loc.id
@@ -158,22 +160,30 @@ enum PlantDetail: String, Codable, ObjectDetail {
             else if let id = value as? String {
                 obj.location = id
             }
-            return false
+            else {
+                return false
+            }
         case .nickname:
             if let text = value as? String {
                 obj.names.nickname = text
             }
-            return false
+            else {
+                return false
+            }
         case .commonName:
             if let text = value as? String {
                 obj.names.common = text
             }
-            return false
+            else {
+                return false
+            }
         case .scientificName:
             if let text = value as? String {
                 obj.names.scientific = text
             }
-            return false
+            else {
+                return false
+            }
         default:
             break
         }
@@ -193,14 +203,14 @@ enum PlantDetail: String, Codable, ObjectDetail {
         default:
             break
         }
-        if editMode {
-            let cell = EditDetailTextCell.get(detailsVC, label, value(for: obj!) as! String)
-            detailsVC.textFields[cell.detailTextField] = self
-            return cell
+        if !editMode {
+            return DetailsTableCell.get(detailsVC.detailsTable, label, value(for: obj!) as! String)
         }
-        return DetailsTableCell.get(detailsVC.detailsTable, label, value(for: obj!) as! String)
+        let cell = EditDetailTextCell.get(detailsVC, label, value(for: obj!) as! String)
+        detailsVC.textFields[cell.detailTextField] = self
+        cell.detailTextField.delegate = detailsVC
+        return cell
     }
-
     
     private static func getSection(_ pos: Int) -> Section {
         return Section.allCases[pos] 
