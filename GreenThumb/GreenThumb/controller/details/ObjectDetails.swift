@@ -8,18 +8,18 @@
 
 import UIKit
 
-protocol ObjectDetail: Equatable {
+protocol ObjectDetail: Equatable, CustomStringConvertible {
     associatedtype T:AnyObject
     static var sections: [String] {get}
     var cellHeight: CGFloat {get}
     static func items(in section: Int) -> [String]
-    static func item(_ section: Int, _ pos: Int) -> Self
+    static func item(_ section: Int, _ pos: Int) -> Self?
     static func == (left: Self, right: Self) -> Bool
     func equals(_ detail: Self) -> Bool
-    func value(for obj: AnyObject) -> Any?
-    func validate(_ obj: AnyObject) -> Bool
-    func modify(_ obj: AnyObject, with text: Any) -> Bool
-    func cell(_ detailsVC: DetailsViewController<Self,T>, obj: T?, editMode: Bool) -> DetailsTableCell
+    func value(for obj: T) -> Any?
+    func validate(_ obj: T) -> Bool
+    func modify(_ obj: T, with value: Any) -> Bool
+    func cell(_ detailsVC: PlantDetailsViewController, obj: T?, editMode: Bool) -> DetailsTableCell
 }
 
 extension ObjectDetail {

@@ -12,10 +12,12 @@ class EditDetailTextCell: DetailsTableCell {
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var detailTextField: UITextField!
     
-    static func get(delegate: UITextFieldDelegate, _ tableview: UITableView, _ label: String, _ detail: String) -> EditDetailTextCell {
-        let cell = tableview.dequeueReusableCell(withIdentifier: "editDetailTextCell") as! EditDetailTextCell
+    static func get(_ detailsVC: PlantDetailsViewController, _ label: String, _ detail: String) -> EditDetailTextCell {
+        let cell = detailsVC.detailsTable.dequeueReusableCell(withIdentifier: "editDetailTextCell") as! EditDetailTextCell
         cell.titleLabel.text = label
         cell.detailTextField.text = detail
+        cell.detailTextField.delegate = detailsVC
+        cell.titleLabel.sizeToFit()
         cell.customize()
         return cell
     }

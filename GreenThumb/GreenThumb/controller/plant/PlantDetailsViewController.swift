@@ -10,10 +10,7 @@ import UIKit
 
 class PlantDetailsViewController: UIViewController {
     @IBOutlet weak var detailsTable: UITableView!
-    @IBOutlet weak var locationLabel: UILabel!
-    @IBOutlet weak var locationValueView: UIView!
     @IBOutlet weak var editSaveButton: UIBarButtonItem!
-    @IBOutlet weak var addLocationButton: UIButton!
     
     @IBAction func unwindToPlantDetails(segue: UIStoryboardSegue) {
         if let source = segue.source as? LocationListPopoverViewController {
@@ -96,9 +93,9 @@ class PlantDetailsViewController: UIViewController {
     }
     
     private func validate() -> Bool {
-        for section in PlantDetail.Section.cases {
-            for item in PlantDetail.items[section]! {
-                if !validate(item) {
+        for section in 0..<PlantDetail.sections.count {
+            for row in 0..<PlantDetail.items(in: section).count {
+                if !validate(PlantDetail.item(section, row)!) {
                     return false
                 }
             }
@@ -168,47 +165,26 @@ class PlantDetailsViewController: UIViewController {
 
 extension PlantDetailsViewController: UITableViewDelegate, UITableViewDataSource {
     func numberOfSections(in tableView: UITableView) -> Int {
-        return PlantDetail.Section.nSections
+        return PlantDetail.sections.count
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        guard (0..<PlantDetail.Section.nSections).contains(section) else {return 0}
-        return (PlantDetail.items[PlantDetail.Section.cases[section]]?.count)!
+        return PlantDetail.items(in: section).count
     }
     
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        return PlantDetail.Section.cases[section].rawValue
+        return PlantDetail.sections[section]
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let item = dataItem(at: indexPath)
-        if case .image = item {
-            let cell = detailsTable.dequeueReusableCell(withIdentifier: "imageTableCell") as! ImageTableCell
-            cell.cameraButton.isHidden = !editMode
-            plantImageTableCell = cell
-            return cell
+        guard let detail = PlantDetail.item(indexPath.section, indexPath.row) else {
+            return DetailsTableCell.get(detailsTable, "", PlantDetail.unknownValue)
         }
-        let label = "\(item.rawValue): "
-        if editMode && !item.isCare {
-            let cell = editModeCell(label, item)
-            addToTextFields(cell.detailTextField, dataItem: item)
-            return cell
-        }
-        let cell = viewModeCell(label, item.data(for: plant!))
-        if item.isCare {
-            cell.accessoryType = .disclosureIndicator
-        }
-        else {
-            performSegue = false
-        }
-        return cell
+        return detail.cell(self, obj: plant, editMode: editMode)
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        if dataItem(at: indexPath) == PlantDetail.image {
-            return 175
-        }
-        return 40
+        return PlantDetail.item(indexPath.section, indexPath.row)!.cellHeight
     }
     
     func tableView(_ tableView: UITableView, shouldHighlightRowAt indexPath: IndexPath) -> Bool {
@@ -218,38 +194,6 @@ extension PlantDetailsViewController: UITableViewDelegate, UITableViewDataSource
     private func setupDetailsTable() {
         detailsTable.delegate = self
         detailsTable.dataSource = self
-    }
-    
-    private func editModeCell(_ label: String, _ item: PlantDetail) -> EditPlantTextCell {
-        let cell = detailsTable.dequeueReusableCell(withIdentifier: "editPlantTextCell") as! EditPlantTextCell
-        cell.titleLabel.text = label
-        cell.titleLabel.font = PlantDetailsViewController.detailLabelFont
-        cell.titleLabel.textColor = PlantDetailsViewController.detailLabelColor
-        cell.titleLabel.sizeToFit()
-        cell.detailTextField.text = item.data(for: plant!)
-        cell.detailTextField.font = PlantDetailsViewController.detailTextFont
-        cell.detailTextField.delegate = self
-        return cell
-    }
-    
-    private func viewModeCell(_ label: String, _ detail: String) -> UITableViewCell {
-        let cell = detailsTable.dequeueReusableCell(withIdentifier: "plantTextCell")
-        cell?.textLabel?.text = label
-        cell?.textLabel?.textColor = PlantDetailsViewController.detailLabelColor
-        cell?.detailTextLabel?.text = detail
-        return cell!
-    }
-    
-    private func indexPath(_ item: PlantDetail) -> IndexPath? {
-        let section = item.section
-        return IndexPath(row: (PlantDetail.items[section]?.firstIndex(of: item))!,
-                         section: PlantDetail.Section.cases.firstIndex(of: section)!)
-        
-    }
-    
-    private func dataItem(at: IndexPath) -> PlantDetail {
-        let section = PlantDetail.Section.cases[at.section]
-        return PlantDetail.items[section]![at.row]
     }
 }
 
@@ -286,7 +230,7 @@ extension PlantDetailsViewController: UITextFieldDelegate, KeyboardHandler {
             showLocationPopup(textField)
             return false
         }
-        if textFields[textField]?.section == PlantDetail.Section.care {
+        if textFields[textField]!.isCare {
             performSegue = true
             return false
         }
