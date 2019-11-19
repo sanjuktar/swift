@@ -44,21 +44,33 @@ class PlantDetailsViewController: DetailsViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         editSaveButton = _editSaveButton
+        setEditMode(editMode)
+        editSaveButton?.isEnabled = PlantDetail.validate(plant!)
         table = detailsTable
-        tableController = DetailsTableController<PlantDetail>.create(plant!, self)
+        table!.allowsSelection = true
+        tableController = DetailsTableController<PlantDetail>.setup(plant!, self)
         textController = DetailTextFieldDelegate<PlantDetail>(plant!, self)
         title = !plant!.name.isEmpty ? plant?.name : noNameTitle
     }
     
     override func shouldPerformSegue(withIdentifier identifier: String, sender: Any?) -> Bool {
-        if identifier == PlantDetailsViewController.returnToPlantListSegue {
+        switch identifier {
+        case PlantDetailsViewController.returnToPlantListSegue:
             if !editMode {
                 setEditMode(true)
                 table!.reloadData()
                 return false
             }
+            return true
+        case PlantDetailsViewController.careDetailsSegue:
+            let indexPath = table?.indexPathForSelectedRow
+            if let detail = PlantDetail.item(indexPath!.section, indexPath!.row) {
+                return detail.seguesToDetails
+            }
+            return false
+        default:
+            return false
         }
-        return true
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -93,6 +105,13 @@ class PlantDetailsViewController: DetailsViewController {
         presentationController.sourceRect = sender.bounds
         presentationController.permittedArrowDirections = [.down, .up]
         self.present(controller, animated: true)
+    }
+    
+    override func selectedRow(_ indexPath: IndexPath) {
+        guard let detail = PlantDetail.item(indexPath.section, indexPath.row) else {return}
+        if detail.isCare {
+            performSegue(withIdentifier: PlantDetailsViewController.careDetailsSegue, sender: self)
+        }
     }
     
     override func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {

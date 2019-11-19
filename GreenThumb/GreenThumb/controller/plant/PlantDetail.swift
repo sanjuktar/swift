@@ -42,6 +42,9 @@ enum PlantDetail: String, Codable, ObjectDetail {
     var description: String {
         return rawValue
     }
+    var seguesToDetails: Bool {
+        return isCare
+    }
     var cellHeight: CGFloat {
         switch self {
         case .image:
@@ -200,26 +203,19 @@ enum PlantDetail: String, Codable, ObjectDetail {
         return true
     }
     
-    func cell(_ parent: DetailsViewController, obj: Plant?, editMode: Bool) -> DetailsTableCell {
+    func cell(_ parent: DetailsViewController, obj: Plant?, editMode: Bool) -> UITableViewCell {
         let label = "\(rawValue): "
         switch self {
         case .image:
             return ImageDetailCell.get(parent, obj?.image, editMode)
-        case let detail where detail.isCare:
-            let cell = DetailsTableCell.get(parent.table!, label, value(for: obj!) as! String, ReuseId.detailsTableCell)
-            cell.accessoryType = .disclosureIndicator
-            return cell
+        case let detail where detail.seguesToDetails:
+            return EditableDetailTextCell.getWithDisclosure(parent, label, value(for: obj!) as! String)
         default:
-            break
+            let cell = EditableDetailTextCell.get(parent, label, value(for: obj!) as! String, editMode: editMode)
+            (parent.textController as! DetailTextFieldDelegate<PlantDetail>).textFields[cell.detailValueTextField] = self
+            cell.detailValueTextField.delegate = parent.textController
+            return cell
         }
-        if !editMode {
-            return EditDetailTextCell.get(parent, label, value(for: obj!) as! String, editMode: editMode)
-            //return DetailsTableCell.get(parent.table!, label, value(for: obj!) as! String, ReuseId.detailsTableCell)
-        }
-        let cell = EditDetailTextCell.get(parent, label, value(for: obj!) as! String)
-        parent.textController!.link(cell.detailValueTextField, to: self)
-        cell.detailValueTextField.delegate = parent.textController
-        return cell
     }
     
     private static func getSection(_ pos: Int) -> Section {

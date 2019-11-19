@@ -8,15 +8,15 @@
 
 import UIKit
 
-class ImageDetailCell: DetailsTableCell {
+class ImageDetailCell: UITableViewCell {
     @IBOutlet weak var imgView: UIImageView!
     @IBOutlet weak var cameraButton: UIButton!
     
     static func get(_ detailsVC: DetailsViewController, _ image: UIImage? = nil, _ editMode: Bool = false) -> ImageDetailCell {
         detailsVC.table?.register(UINib(nibName: "ImageDetailCell", bundle: nil), forCellReuseIdentifier: ReuseId.imageDetailCell)
         let cell = detailsVC.table?.dequeueReusableCell(withIdentifier: ReuseId.imageDetailCell) as! ImageDetailCell
-        cell.customize()
         cell.cameraButton.isHidden = !editMode
+        cell.backgroundColor = DetailsConstants.Table.Cell.Color.background
         return cell
     }
 }

@@ -15,7 +15,7 @@ class DetailsTableController<DetailType:ObjectDetail>: NSObject, DetailsTableVie
     var parent: DetailsViewController
     var detailsObject: DetailType.ObjectType
     
-    static func create(_ object: DetailType.ObjectType, _ parent: DetailsViewController) -> DetailsTableController<DetailType> {
+    static func setup(_ object: DetailType.ObjectType, _ parent: DetailsViewController) -> DetailsTableController<DetailType> {
         let controller = DetailsTableController<DetailType>(object, parent)
         parent.table!.dataSource = controller
         parent.table!.delegate = controller
@@ -42,7 +42,7 @@ class DetailsTableController<DetailType:ObjectDetail>: NSObject, DetailsTableVie
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let detail = DetailType.item(indexPath.section, indexPath.row) else {
-            return DetailsTableCell.get(tableView, "", DetailType.unknownValue, ReuseId.detailsTableCell)
+            return EditableDetailTextCell.get(parent, "", DetailType.unknownValue, editMode: false)
         }
         return detail.cell(parent, obj: detailsObject, editMode: parent.editMode)
     }
@@ -51,7 +51,13 @@ class DetailsTableController<DetailType:ObjectDetail>: NSObject, DetailsTableVie
         return DetailType.item(indexPath.section, indexPath.row)!.cellHeight
     }
     
-    func tableView(_ tableView: UITableView, shouldHighlightRowAt indexPath: IndexPath) -> Bool {
-        return false
+    func tableView(_ tableView: UITableView, willSelectRowAt indexPath: IndexPath) -> IndexPath? {
+        guard let detail = DetailType.item(indexPath.section, indexPath.row) else {return nil}
+        return (detail.seguesToDetails ? indexPath : nil)
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: false)
+        parent.selectedRow(indexPath)
     }
 }

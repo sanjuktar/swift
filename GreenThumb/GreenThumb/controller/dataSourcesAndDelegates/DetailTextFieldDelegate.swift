@@ -9,7 +9,6 @@
 import UIKit
 
 protocol TextFieldDelegate: UITextFieldDelegate {
-    func link(_ textField: UITextField, to value: Any)
     func reset()
 }
 
@@ -40,12 +39,7 @@ class DetailTextFieldDelegate<DetailType:ObjectDetail>: NSObject, TextFieldDeleg
     func reset() {
         textFields.removeAll()
     }
-    
-    func link(_ textField: UITextField, to value: Any) {
-        guard let detail = value as? DetailType else {return}
-        textFields[textField] = detail
-    }
-    
+        
     func addToTextFields(_ textField: UITextField, detail: DetailType) {
         if let field = textFieldFor(detail) {
             textFields.remove(at: (textFields.index(forKey: field))!)
@@ -61,20 +55,6 @@ class DetailTextFieldDelegate<DetailType:ObjectDetail>: NSObject, TextFieldDeleg
             }
         }
         return nil
-    }
-    
-    func setupGestures() {
-        let tap = UITapGestureRecognizer(target: parent?.view, action: #selector(UIView.endEditing(_:)))
-        tap.cancelsTouchesInView = false
-        parent?.view.addGestureRecognizer(tap)
-        /*NotificationCenter.default.addObserver(
-            self,
-            selector: #selector(self.keyboardNotification(notification:)),
-            name: UIResponder.keyboardWillChangeFrameNotification,
-            object: nil)*/
-        NotificationCenter.default.addObserver(forName: UIResponder.keyboardWillChangeFrameNotification, object: nil, queue: nil) { (note) in
-            self.keyboardNotification(notification: note)
-        }
     }
     
     func keyboardNotification(notification: Notification) {

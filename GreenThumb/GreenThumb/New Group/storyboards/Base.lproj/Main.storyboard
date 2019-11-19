@@ -111,6 +111,7 @@
                     <connections>
                         <outlet property="_editSaveButton" destination="F51-Zy-8nf" id="yVm-zl-cqw"/>
                         <outlet property="detailsTable" destination="wZR-2L-mQm" id="GwO-Zo-jzU"/>
+                        <segue destination="JR1-AQ-QHa" kind="show" identifier="plantDetailsToCareSegue" id="MJ8-4k-Ol0"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="UQv-3f-1lJ" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -196,7 +197,7 @@
             <objects>
                 <viewController storyboardIdentifier="careDetailsViewController" title="Care Instructions" useStoryboardIdentifierAsRestorationIdentifier="YES" id="JR1-AQ-QHa" customClass="CareDetailsViewController" customModule="GreenThumb" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="BGp-m0-3E9">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="647"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="QCj-g0-4kY">
@@ -242,6 +243,7 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <viewLayoutGuide key="safeArea" id="d1Y-Q2-5fm"/>
                     </view>
+                    <navigationItem key="navigationItem" title="Care Details" id="7Vt-Yw-jrA"/>
                     <connections>
                         <outlet property="tableView" destination="QCj-g0-4kY" id="6L6-7V-zhc"/>
                     </connections>
@@ -713,6 +715,7 @@
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="d6h-Hz-Ods"/>
+        <segue reference="MJ8-4k-Ol0"/>
         <segue reference="0Bh-rz-49X"/>
     </inferredMetricsTieBreakers>
 </document>

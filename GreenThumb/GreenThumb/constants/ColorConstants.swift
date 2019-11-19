@@ -14,7 +14,7 @@ class ColorConstants {
     }
     
     class TableCell {
-        static var background = fromRgb(123, 150, 124)
+        static var background = fromRgb(120, 220, 130)
         static var text = UIColor.white
         static var textField = UIColor.white
     }

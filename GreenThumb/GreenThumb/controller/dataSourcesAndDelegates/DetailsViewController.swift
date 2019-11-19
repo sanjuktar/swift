@@ -40,6 +40,9 @@ class DetailsViewController: UIViewController {
     func objectChanged() {
     }
     
+    func selectedRow(_ indexPath: IndexPath) {
+    }
+    
     func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
         return true
     }

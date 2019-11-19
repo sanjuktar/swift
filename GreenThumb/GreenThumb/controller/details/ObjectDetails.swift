@@ -11,6 +11,7 @@ import UIKit
 protocol ObjectDetail: Equatable, CustomStringConvertible {
     associatedtype ObjectType:AnyObject
     static var sections: [String] {get}
+    var seguesToDetails: Bool {get}
     var cellHeight: CGFloat {get}
     static func items(in section: Int) -> [String]
     static func item(_ section: Int, _ pos: Int) -> Self?
@@ -19,15 +20,12 @@ protocol ObjectDetail: Equatable, CustomStringConvertible {
     func value(for obj: ObjectType) -> Any?
     func validate(_ obj: ObjectType) -> Bool
     func modify(_ obj: ObjectType, with value: Any) -> Bool
-    func cell(_ controller: DetailsViewController, obj: ObjectType?, editMode: Bool) -> DetailsTableCell
+    func cell(_ controller: DetailsViewController, obj: ObjectType?, editMode: Bool) -> UITableViewCell
 }
 
 extension ObjectDetail {
     static var unknownValue: String {
         return "Unable to get plant detail"
-    }
-    var genericCellHeight: CGFloat {
-        return 40
     }
     
     static func == (left: Self, right: Self) -> Bool {
