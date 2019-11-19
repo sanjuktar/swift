@@ -9,23 +9,42 @@
 import UIKit
 
 class EditDetailTextCell: DetailsTableCell {
-    @IBOutlet weak var titleLabel: UILabel!
-    @IBOutlet weak var detailTextField: UITextField!
+    @IBOutlet weak var detailTitleLabel: UILabel!
+    @IBOutlet weak var detailValueTextField: UITextField!
     
-    static func get(_ detailsVC: PlantDetailsViewController, _ label: String, _ detail: String) -> EditDetailTextCell {
-        let cell = detailsVC.detailsTable.dequeueReusableCell(withIdentifier: "editDetailTextCell") as! EditDetailTextCell
-        cell.titleLabel.text = label
-        cell.detailTextField.text = detail
-        cell.detailTextField.delegate = detailsVC
-        cell.titleLabel.sizeToFit()
+    static func get(_ detailsVC: DetailsViewController, _ label: String, _ detail: String, editMode: Bool = true) -> EditDetailTextCell {
+        detailsVC.table?.register(UINib(nibName: "EditDetailTextCell", bundle: nil), forCellReuseIdentifier: ReuseId.editDetailTextCell)
+        let cell = detailsVC.table!.dequeueReusableCell(withIdentifier: ReuseId.editDetailTextCell) as! EditDetailTextCell
         cell.customize()
+        cell.detailTitleLabel.text = label
+        cell.detailTitleLabel.sizeToFit()
+        cell.detailValueTextField.text = detail
+        cell.detailValueTextField.delegate = detailsVC.textController
+        cell.setEditMode(editMode)
         return cell
     }
     
     override func customize() {
         super.customize()
-        titleLabel.font = DetailsTableCell.labelFont
-        titleLabel.textColor = DetailsTableCell.labelColor
-        titleLabel.sizeToFit()
+        detailTitleLabel.font = DetailsConstants.Table.Cell.Font.titleLabel
+        detailTitleLabel.textColor = DetailsConstants.Table.Cell.Color.label
+        detailTitleLabel.sizeToFit()
+    }
+    
+    func setEditMode(_ flag: Bool) {
+        let tf = detailValueTextField!
+        if flag {
+            tf.isEnabled = true
+            tf.backgroundColor = UIColor.white
+            tf.textColor = UIColor.darkText
+            tf.borderStyle = .roundedRect
+            
+        }
+        else {
+            tf.isEnabled = false
+            tf.backgroundColor = DetailsConstants.Table.Cell.Color.background
+            tf.textColor = DetailsConstants.Table.Cell.Color.label
+            tf.borderStyle = .none
+        }
     }
 }

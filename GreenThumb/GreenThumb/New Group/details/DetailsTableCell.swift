@@ -9,30 +9,24 @@
 import UIKit
 
 class DetailsTableCell: UITableViewCell {
-    static var detailFont: UIFont {
-        return UIFont(name: "detailText", size: 5) ?? UIFont.preferredFont(forTextStyle: .body)
-    }
-    static var labelFont: UIFont {
-        return UIFont(name: "detailLabel", size: 5) ?? UIFont.preferredFont(forTextStyle: .body)
-    }
-    static var labelColor: UIColor {
-        return .gray
-    }
-    static var genericHeight: CGFloat {
-        return 40
-    }
+    @IBOutlet weak var detailNameLabel: UILabel!
+    @IBOutlet weak var detailValueLabel: UILabel!
     
-    static func get(_ tableview: UITableView, _ label: String, _ detail: String, _ id: String = "detailsTableCell") -> DetailsTableCell {
-        let cell = tableview.dequeueReusableCell(withIdentifier: id) as! DetailsTableCell
-        cell.textLabel?.text = label
-        cell.detailTextLabel?.text = detail
+    static func get(_ tableview: UITableView, _ label: String, _ detail: String, _ id: String) -> DetailsTableCell {
+        tableview.register(UINib(nibName:"DetailsTableCell", bundle: nil), forCellReuseIdentifier: ReuseId.detailsTableCell)
+        let cell = (tableview.dequeueReusableCell(withIdentifier: id) as? DetailsTableCell) ?? DetailsTableCell(style: .default, reuseIdentifier: id)
         cell.customize()
+        cell.detailNameLabel?.text = label
+        cell.detailValueLabel?.text = detail
         return cell
     }
     
     func customize() {
-        textLabel?.textColor = DetailsTableCell.labelColor
-        textLabel?.font = DetailsTableCell.detailFont
-        detailTextLabel?.font = DetailsTableCell.detailFont
+        backgroundColor = DetailsConstants.Table.Cell.Color.background
+        detailNameLabel?.textColor = DetailsConstants.Table.Cell.Color.label
+        detailNameLabel?.font = DetailsConstants.Table.Cell.Font.titleLabel
+        detailTextLabel?.textColor = DetailsConstants.Table.Cell.Color.label
+        detailTextLabel?.font = DetailsConstants.Table.Cell.Font.detailLabel
+        //detailNameLabel?.sizeToFit()
     }
 }

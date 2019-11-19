@@ -9,17 +9,17 @@
 import UIKit
 
 protocol ObjectDetail: Equatable, CustomStringConvertible {
-    associatedtype T:AnyObject
+    associatedtype ObjectType:AnyObject
     static var sections: [String] {get}
     var cellHeight: CGFloat {get}
     static func items(in section: Int) -> [String]
     static func item(_ section: Int, _ pos: Int) -> Self?
     static func == (left: Self, right: Self) -> Bool
     func equals(_ detail: Self) -> Bool
-    func value(for obj: T) -> Any?
-    func validate(_ obj: T) -> Bool
-    func modify(_ obj: T, with value: Any) -> Bool
-    func cell(_ detailsVC: PlantDetailsViewController, obj: T?, editMode: Bool) -> DetailsTableCell
+    func value(for obj: ObjectType) -> Any?
+    func validate(_ obj: ObjectType) -> Bool
+    func modify(_ obj: ObjectType, with value: Any) -> Bool
+    func cell(_ controller: DetailsViewController, obj: ObjectType?, editMode: Bool) -> DetailsTableCell
 }
 
 extension ObjectDetail {

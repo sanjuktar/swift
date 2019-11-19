@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="15505" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15509"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" restorationIdentifier="imageDetailTableCell" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="imageDetailTableCell" rowHeight="175" id="k0V-Ks-MyK" customClass="ImageDetailCell" customModule="GreenThumb" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="444" height="199"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" restorationIdentifier="imageDetailCell" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="k0V-Ks-MyK" id="5S0-Xp-t1y" customClass="ImageDetailCell" customModule="GreenThumb" customModuleProvider="target">
+                <rect key="frame" x="0.0" y="0.0" width="444" height="199"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="PIh-VD-nWm">
+                        <rect key="frame" x="311" y="149" width="41" height="40"/>
+                        <state key="normal" image="camera"/>
+                    </button>
+                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="noImage" adjustsImageSizeForAccessibilityContentSizeCategory="YES" translatesAutoresizingMaskIntoConstraints="NO" id="tWo-Rd-Dlj">
+                        <rect key="frame" x="111" y="14" width="211" height="171"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    </imageView>
+                </subviews>
+                <constraints>
+                    <constraint firstAttribute="bottom" secondItem="PIh-VD-nWm" secondAttribute="bottom" constant="10" id="uUx-K7-9FR"/>
+                </constraints>
+            </tableViewCellContentView>
+            <connections>
+                <outlet property="cameraButton" destination="PIh-VD-nWm" id="aBG-CH-orh"/>
+                <outlet property="imgView" destination="tWo-Rd-Dlj" id="I77-js-j5J"/>
+            </connections>
+            <point key="canvasLocation" x="-17.39130434782609" y="127.56696428571428"/>
+        </tableViewCell>
+    </objects>
+    <resources>
+        <image name="camera" width="40" height="40"/>
+        <image name="noImage" width="100" height="100"/>
+    </resources>
+</document>

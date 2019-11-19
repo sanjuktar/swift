@@ -8,5 +8,47 @@
 
 import UIKit
 
-protocol DetailsViewController {
+class DetailsViewController: UIViewController {
+    var tableController: DetailsTableViewController?
+    var textController: TextFieldDelegate?
+    var imagePicker: ImagePickerController {
+        return ImagePickerController(self)
+    }
+    var editSaveButton: UIBarButtonItem?
+    var table: UITableView?
+    var output: Output?
+    var editMode: Bool = false
+    var keyboardHandler: UIViewController {
+        return self
+    }
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        textController?.reset()
+    }
+    
+    func setEditMode(_ flag: Bool) {
+        editMode = flag
+        if flag {
+            editSaveButton?.title = "Save"
+        }
+        else {
+            editSaveButton?.title = "Edit"
+        }
+    }
+    
+    func objectChanged() {
+    }
+    
+    func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
+        return true
+    }
+    
+    func hightlight(at indexPath: IndexPath) -> Bool {
+        return false
+    }
+    
+    func map(textField: UITextField, to value: Any) {
+        return
+    }
 }

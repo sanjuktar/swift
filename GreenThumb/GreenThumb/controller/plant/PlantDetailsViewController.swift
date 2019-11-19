@@ -8,9 +8,24 @@
 
 import UIKit
 
-class PlantDetailsViewController: UIViewController {
+let noNameTitle = "Plant Details"
+
+class PlantDetailsViewController: DetailsViewController {
+    @IBOutlet weak var _editSaveButton: UIBarButtonItem!
     @IBOutlet weak var detailsTable: UITableView!
-    @IBOutlet weak var editSaveButton: UIBarButtonItem!
+    
+    static var returnToPlantListSegue = "unwindEditPlantToList"
+    static var careDetailsSegue = "plantDetailsToCareSegue"
+    
+    var plant: Plant?
+    var plantImageTableCell: ImageDetailCell?
+    var textFields: [UITextField:PlantDetail] {
+        return (textController as! DetailTextFieldDelegate<PlantDetail>).textFields
+    }
+    
+    var name: String {
+        return plant?.name ?? ""
+    }
     
     @IBAction func unwindToPlantDetails(segue: UIStoryboardSegue) {
         if let source = segue.source as? LocationListPopoverViewController {
@@ -19,52 +34,29 @@ class PlantDetailsViewController: UIViewController {
             for item in textFields {
                 if item.value == .location {
                     item.key.text =  Location.manager!.get(loc)!.name
-                    editSaveButton.isEnabled = validate()
+                    editSaveButton!.isEnabled = PlantDetail.validate(plant!)
                 }
             }
             return
         }
     }
     
-    static var returnToPlantListSegue = "unwindEditPlantToList"
-    static var careDetailsSegue = "plantDetailsToCareSegue"
-    
-    var plant: Plant?
-    var editMode: Bool = false
-    var output: Output?
-    var imagePicker: UIImagePickerController?
-    var textFields: [UITextField:PlantDetail] = [:]
-    var plantImageTableCell: ImageTableCell?
-    var performSegue = true
-    
-    var name: String {
-        return plant?.name ?? ""
-    }
-    
     override func viewDidLoad() {
         super.viewDidLoad()
-        output = MessageWindow(self)
-        setEditMode(editMode)
-        if !plant!.name.isEmpty {
-            setupTitle(plant!.name)
-        }
-        setupDetailsTable()
-        textFields.removeAll()
-        imagePicker = UIImagePickerController()
+        editSaveButton = _editSaveButton
+        table = detailsTable
+        tableController = DetailsTableController<PlantDetail>.create(plant!, self)
+        textController = DetailTextFieldDelegate<PlantDetail>(plant!, self)
+        title = !plant!.name.isEmpty ? plant?.name : noNameTitle
     }
     
     override func shouldPerformSegue(withIdentifier identifier: String, sender: Any?) -> Bool {
         if identifier == PlantDetailsViewController.returnToPlantListSegue {
             if !editMode {
                 setEditMode(true)
-                detailsTable.reloadData()
+                table!.reloadData()
                 return false
             }
-        }
-        if identifier == PlantDetailsViewController.careDetailsSegue {
-            let retVal = performSegue
-            performSegue = true
-            return retVal
         }
         return true
     }
@@ -72,7 +64,7 @@ class PlantDetailsViewController: UIViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == PlantDetailsViewController.returnToPlantListSegue {
             if editMode {
-                if !validate() {
+                if !PlantDetail.validate(plant!) {
                     plant = nil
                     return
                 }
@@ -84,62 +76,11 @@ class PlantDetailsViewController: UIViewController {
         }
     }
     
-    private func validate() -> Bool {
-        for section in 0..<PlantDetail.sections.count {
-            for row in 0..<PlantDetail.items(in: section).count {
-                if !validate(PlantDetail.item(section, row)!) {
-                    return false
-                }
-            }
-        }
-        return true
-    }
-    
-    private func validate(_ item: PlantDetail) -> Bool {
-        switch item {
-        case .ignore:
-            fatalError("Invalid detail!!!")
-        case .image:
-            return true
-        case .location:
-            return Location.manager?.get(plant!.location) != nil
-        case .nickname:
-            return plant!.names.validate()
-        case .commonName:
-            return plant!.names.validate()
-        case .scientificName:
-            return plant!.names.validate()
-        case .water:
-            return true
-        case .light:
-            return true
-        case .fertilize:
-            return true
-        case .pestControl:
-            return true
-        case .prune:
-            return true
-        case .repot:
-            return true
-        }
-    }
-    
-    private func setEditMode(_ flag: Bool) {
-        editMode = flag
-        if flag {
-            editSaveButton.title = "Save"
-        }
-        else {
-            editSaveButton.title = "Edit"
-        }
-        editSaveButton.isEnabled = validate()
+    override func setEditMode(_ flag: Bool) {
+        super.setEditMode(flag)
         if plantImageTableCell != nil {
             plantImageTableCell?.cameraButton.isHidden = !editMode
         }
-    }
-    
-    private func setupTitle(_ name: String) {
-        self.title = name
     }
     
     private func showLocationPopup(_ sender: UIView) {
@@ -153,99 +94,26 @@ class PlantDetailsViewController: UIViewController {
         presentationController.permittedArrowDirections = [.down, .up]
         self.present(controller, animated: true)
     }
-}
-
-extension PlantDetailsViewController: UITableViewDelegate, UITableViewDataSource {
-    func numberOfSections(in tableView: UITableView) -> Int {
-        return PlantDetail.sections.count
-    }
     
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return PlantDetail.items(in: section).count
-    }
-    
-    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        return PlantDetail.sections[section]
-    }
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let detail = PlantDetail.item(indexPath.section, indexPath.row) else {
-            return DetailsTableCell.get(detailsTable, "", PlantDetail.unknownValue)
-        }
-        return detail.cell(self, obj: plant, editMode: editMode)
-    }
-    
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return PlantDetail.item(indexPath.section, indexPath.row)!.cellHeight
-    }
-    
-    func tableView(_ tableView: UITableView, shouldHighlightRowAt indexPath: IndexPath) -> Bool {
-        return false
-    }
-    
-    private func setupDetailsTable() {
-        detailsTable.delegate = self
-        detailsTable.dataSource = self
-    }
-}
-
-extension PlantDetailsViewController: TextFieldManager {
-    typealias D = PlantDetail
-    
-    var handler: UIViewController? {
-        return self
-    }
-    
-    var object: Plant? {
-        get {
-            return plant
-        }
-        set {
-            plant = newValue
-        }
-    }
-    
-    func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
+    override func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
         if textFields[textField] == PlantDetail.location {
             showLocationPopup(textField)
             return false
         }
-        if textFields[textField]!.isCare {
-            performSegue = true
-            return false
-        }
-        performSegue = false
         return true
     }
     
-    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-        if !modifyObject(textField, shouldChangeCharactersIn: range, replacementString: string) {
-            return false
-        }
-        if validate(textFields[textField]!) {
-            editSaveButton.isEnabled = true
-            if textFields[textField]!.isName {
-                setupTitle(name)
-            }
-        }
-        else {
-            editSaveButton.isEnabled = false
-        }
-        return true
-    }
-}
-
-extension PlantDetailsViewController: ImagePickerDelegate {
-    var imgPickerDelegate: PlantDetailsViewController? {
-        return self
+    override func objectChanged() {
+        title = name.isEmpty ? noNameTitle : name
+        editSaveButton?.isEnabled = PlantDetail.validate(plant!)
     }
     
     @IBAction func takePicture(_ sender: Any) {
-        snapPicture(sender)
+        imagePicker.snapPicture(sender)
     }
     
     private func imagePickerController(_ picker: UIImagePickerController,
                                        didFinishPickingMediaWithInfo info: [String : AnyObject]) {
-        didPickImage(plantImageTableCell!.imgView, info)
+        imagePicker.didPickImage(plantImageTableCell!.imgView, info)
     }
 }

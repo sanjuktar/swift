@@ -12,12 +12,10 @@ class ImageDetailCell: DetailsTableCell {
     @IBOutlet weak var imgView: UIImageView!
     @IBOutlet weak var cameraButton: UIButton!
     
-    static var height: CGFloat {
-        return 175
-    }
-    
-    static func get(_ tableView: UITableView, _ image: UIImage? = nil, _ editMode: Bool = false) -> ImageDetailCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "imageDetailCell") as! ImageDetailCell
+    static func get(_ detailsVC: DetailsViewController, _ image: UIImage? = nil, _ editMode: Bool = false) -> ImageDetailCell {
+        detailsVC.table?.register(UINib(nibName: "ImageDetailCell", bundle: nil), forCellReuseIdentifier: ReuseId.imageDetailCell)
+        let cell = detailsVC.table?.dequeueReusableCell(withIdentifier: ReuseId.imageDetailCell) as! ImageDetailCell
+        cell.customize()
         cell.cameraButton.isHidden = !editMode
         return cell
     }

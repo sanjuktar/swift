@@ -45,9 +45,9 @@ enum PlantDetail: String, Codable, ObjectDetail {
     var cellHeight: CGFloat {
         switch self {
         case .image:
-            return ImageDetailCell.height
+            return DetailsConstants.Table.Cell.Height.imageCell
         default:
-            return DetailsTableCell.genericHeight
+            return DetailsConstants.Table.Cell.Height.detailCell
         }
     }
     var isName: Bool {
@@ -75,6 +75,17 @@ enum PlantDetail: String, Codable, ObjectDetail {
         case .image: return false
         default: return true
         }
+    }
+    
+    static func validate(_ plant: Plant) -> Bool {
+        for section in details.values {
+            for detail in section {
+                if !detail.validate(plant) {
+                    return false
+                }
+            }
+        }
+        return true
     }
     
     private init(_ type: CareType) {
@@ -154,13 +165,12 @@ enum PlantDetail: String, Codable, ObjectDetail {
                 return false
             }
         case .location:
-            if let loc = value as? Location {
-                obj.location = loc.id
-            }
-            else if let id = value as? String {
-                obj.location = id
-            }
-            else {
+            switch value {
+            case let v where v is Location:
+                obj.location = (v as! Location).id
+            case let v where v is String:
+                obj.location = v as! String
+            default:
                 return false
             }
         case .nickname:
@@ -190,25 +200,25 @@ enum PlantDetail: String, Codable, ObjectDetail {
         return true
     }
     
-    func cell(_ detailsVC: PlantDetailsViewController, obj: Plant?, editMode: Bool) -> DetailsTableCell {
+    func cell(_ parent: DetailsViewController, obj: Plant?, editMode: Bool) -> DetailsTableCell {
         let label = "\(rawValue): "
         switch self {
         case .image:
-            return ImageDetailCell.get(detailsVC.detailsTable, obj?.image, editMode)
+            return ImageDetailCell.get(parent, obj?.image, editMode)
         case let detail where detail.isCare:
-            let cell = DetailsTableCell.get(detailsVC.detailsTable, label, value(for: obj!) as! String)
+            let cell = DetailsTableCell.get(parent.table!, label, value(for: obj!) as! String, ReuseId.detailsTableCell)
             cell.accessoryType = .disclosureIndicator
-            detailsVC.performSegue = true
             return cell
         default:
             break
         }
         if !editMode {
-            return DetailsTableCell.get(detailsVC.detailsTable, label, value(for: obj!) as! String)
+            return EditDetailTextCell.get(parent, label, value(for: obj!) as! String, editMode: editMode)
+            //return DetailsTableCell.get(parent.table!, label, value(for: obj!) as! String, ReuseId.detailsTableCell)
         }
-        let cell = EditDetailTextCell.get(detailsVC, label, value(for: obj!) as! String)
-        detailsVC.textFields[cell.detailTextField] = self
-        cell.detailTextField.delegate = detailsVC
+        let cell = EditDetailTextCell.get(parent, label, value(for: obj!) as! String)
+        parent.textController!.link(cell.detailValueTextField, to: self)
+        cell.detailValueTextField.delegate = parent.textController
         return cell
     }
     
