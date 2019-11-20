@@ -19,7 +19,7 @@ protocol ObjectDetail: Equatable, CustomStringConvertible {
     func equals(_ detail: Self) -> Bool
     func value(for obj: ObjectType) -> Any?
     func validate(_ obj: ObjectType) -> Bool
-    func modify(_ obj: ObjectType, with value: Any) -> Bool
+    func modify(_ obj: ObjectType, with value: Any?) -> Bool
     func cell(_ controller: DetailsViewController, obj: ObjectType?, editMode: Bool) -> UITableViewCell
 }
 

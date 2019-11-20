@@ -12,4 +12,5 @@ struct ReuseId {
     static var detailsTableCell = "detailsTableCell"
     static var editDetailTextCell = "editDetailTextCell"
     static var imageDetailCell = "imageDetailTableCell"
+    static var editDetailWithSliderCell = "editDetailWithSliderCell"
 }

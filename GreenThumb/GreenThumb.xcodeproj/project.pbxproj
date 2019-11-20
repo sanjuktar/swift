@@ -21,9 +21,6 @@
 		338DBF8C21E983DE006F5BA1 /* IdGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 338DBF8B21E983DE006F5BA1 /* IdGenerator.swift */; };
 		338E48ED22728317007FF826 /* LocationListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 338E48EC22728317007FF826 /* LocationListViewController.swift */; };
 		338E48EF22728334007FF826 /* LocationDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 338E48EE22728334007FF826 /* LocationDetailsViewController.swift */; };
-		338E48F222728534007FF826 /* EditLocDetailTextCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 338E48F122728534007FF826 /* EditLocDetailTextCell.swift */; };
-		338E48F42272858D007FF826 /* EditLocDetailWithSliderCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 338E48F32272858D007FF826 /* EditLocDetailWithSliderCell.swift */; };
-		338E48F6227285E3007FF826 /* EditLocDetailWithSwitchCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 338E48F5227285E3007FF826 /* EditLocDetailWithSwitchCell.swift */; };
 		338E48FC22783310007FF826 /* LocationDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = 338E48FB22783310007FF826 /* LocationDetail.swift */; };
 		338E4900227BAFD5007FF826 /* UIImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 338E48FF227BAFD5007FF826 /* UIImage.swift */; };
 		338E4903227C0A29007FF826 /* InOrOut.swift in Sources */ = {isa = PBXBuildFile; fileRef = 338E4902227C0A29007FF826 /* InOrOut.swift */; };
@@ -33,7 +30,6 @@
 		338E490B227C0E88007FF826 /* Humidity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 338E490A227C0E88007FF826 /* Humidity.swift */; };
 		338E490D227C0F27007FF826 /* Wind.swift in Sources */ = {isa = PBXBuildFile; fileRef = 338E490C227C0F27007FF826 /* Wind.swift */; };
 		338E491222800CC2007FF826 /* UISlider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 338E491122800CC2007FF826 /* UISlider.swift */; };
-		338E491422814097007FF826 /* LocDetailWithLabelCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 338E491322814097007FF826 /* LocDetailWithLabelCell.swift */; };
 		338E49162287F6C8007FF826 /* LocationListPopoverViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 338E49152287F6C8007FF826 /* LocationListPopoverViewController.swift */; };
 		338E4918228814A0007FF826 /* AlwaysPresentAsPopover.swift in Sources */ = {isa = PBXBuildFile; fileRef = 338E4917228814A0007FF826 /* AlwaysPresentAsPopover.swift */; };
 		33900D062295173F00E653D1 /* StorableConditions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33900D052295173F00E653D1 /* StorableConditions.swift */; };
@@ -100,6 +96,8 @@
 		33F6733F2383810B00F55861 /* ColorConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33F6733E2383810B00F55861 /* ColorConstants.swift */; };
 		33F673412383819C00F55861 /* FontConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33F673402383819C00F55861 /* FontConstants.swift */; };
 		33F67343238382FC00F55861 /* DetailsConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33F67342238382FC00F55861 /* DetailsConstants.swift */; };
+		33F6734B2384A01900F55861 /* EditDetailWithSliderCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 33F6734A2384A01900F55861 /* EditDetailWithSliderCell.xib */; };
+		33F6734D238524E500F55861 /* DetailsSliderController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33F6734C238524E500F55861 /* DetailsSliderController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -134,9 +132,6 @@
 		338DBF8B21E983DE006F5BA1 /* IdGenerator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IdGenerator.swift; sourceTree = "<group>"; };
 		338E48EC22728317007FF826 /* LocationListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationListViewController.swift; sourceTree = "<group>"; };
 		338E48EE22728334007FF826 /* LocationDetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationDetailsViewController.swift; sourceTree = "<group>"; };
-		338E48F122728534007FF826 /* EditLocDetailTextCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditLocDetailTextCell.swift; sourceTree = "<group>"; };
-		338E48F32272858D007FF826 /* EditLocDetailWithSliderCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditLocDetailWithSliderCell.swift; sourceTree = "<group>"; };
-		338E48F5227285E3007FF826 /* EditLocDetailWithSwitchCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditLocDetailWithSwitchCell.swift; sourceTree = "<group>"; };
 		338E48FB22783310007FF826 /* LocationDetail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationDetail.swift; sourceTree = "<group>"; };
 		338E48FF227BAFD5007FF826 /* UIImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIImage.swift; sourceTree = "<group>"; };
 		338E4902227C0A29007FF826 /* InOrOut.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InOrOut.swift; sourceTree = "<group>"; };
@@ -146,7 +141,6 @@
 		338E490A227C0E88007FF826 /* Humidity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Humidity.swift; sourceTree = "<group>"; };
 		338E490C227C0F27007FF826 /* Wind.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Wind.swift; sourceTree = "<group>"; };
 		338E491122800CC2007FF826 /* UISlider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UISlider.swift; sourceTree = "<group>"; };
-		338E491322814097007FF826 /* LocDetailWithLabelCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocDetailWithLabelCell.swift; sourceTree = "<group>"; };
 		338E49152287F6C8007FF826 /* LocationListPopoverViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationListPopoverViewController.swift; sourceTree = "<group>"; };
 		338E4917228814A0007FF826 /* AlwaysPresentAsPopover.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlwaysPresentAsPopover.swift; sourceTree = "<group>"; };
 		33900D052295173F00E653D1 /* StorableConditions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorableConditions.swift; sourceTree = "<group>"; };
@@ -219,6 +213,8 @@
 		33F6733E2383810B00F55861 /* ColorConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorConstants.swift; sourceTree = "<group>"; };
 		33F673402383819C00F55861 /* FontConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FontConstants.swift; sourceTree = "<group>"; };
 		33F67342238382FC00F55861 /* DetailsConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailsConstants.swift; sourceTree = "<group>"; };
+		33F6734A2384A01900F55861 /* EditDetailWithSliderCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = EditDetailWithSliderCell.xib; sourceTree = "<group>"; };
+		33F6734C238524E500F55861 /* DetailsSliderController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailsSliderController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -258,9 +254,10 @@
 			isa = PBXGroup;
 			children = (
 				336FAA18237A0686003E2ECF /* EditableDetailTextCell.swift */,
-				336FAA19237A0686003E2ECF /* EditDetailWithSliderCell.swift */,
-				336FAA1A237A0686003E2ECF /* ImageDetailCell.swift */,
 				33F673302380ABB200F55861 /* EditableDetailTextCell.xib */,
+				336FAA19237A0686003E2ECF /* EditDetailWithSliderCell.swift */,
+				33F6734A2384A01900F55861 /* EditDetailWithSliderCell.xib */,
+				336FAA1A237A0686003E2ECF /* ImageDetailCell.swift */,
 				33F673322380C31200F55861 /* ImageDetailCell.xib */,
 			);
 			path = details;
@@ -272,6 +269,7 @@
 				336FAA22237A75C3003E2ECF /* ImagePickerController.swift */,
 				33F67321237E522000F55861 /* DetailsTableController.swift */,
 				33F67325237E531600F55861 /* DetailTextFieldDelegate.swift */,
+				33F6734C238524E500F55861 /* DetailsSliderController.swift */,
 				336FAA26237A7BA9003E2ECF /* DetailsViewController.swift */,
 			);
 			path = dataSourcesAndDelegates;
@@ -303,17 +301,6 @@
 				338E48EE22728334007FF826 /* LocationDetailsViewController.swift */,
 				338E48FB22783310007FF826 /* LocationDetail.swift */,
 				338E49152287F6C8007FF826 /* LocationListPopoverViewController.swift */,
-			);
-			path = location;
-			sourceTree = "<group>";
-		};
-		338E48F0227283D7007FF826 /* location */ = {
-			isa = PBXGroup;
-			children = (
-				338E48F122728534007FF826 /* EditLocDetailTextCell.swift */,
-				338E48F32272858D007FF826 /* EditLocDetailWithSliderCell.swift */,
-				338E48F5227285E3007FF826 /* EditLocDetailWithSwitchCell.swift */,
-				338E491322814097007FF826 /* LocDetailWithLabelCell.swift */,
 			);
 			path = location;
 			sourceTree = "<group>";
@@ -535,7 +522,6 @@
 				33F673292380A84B00F55861 /* storyboards */,
 				336FAA16237A0686003E2ECF /* details */,
 				338E490E227FE0D2007FF826 /* uikit */,
-				338E48F0227283D7007FF826 /* location */,
 			);
 			name = view;
 			path = "New Group";
@@ -742,6 +728,7 @@
 				33C1A1262193AD4B003003F5 /* LaunchScreen.storyboard in Resources */,
 				33C1A1232193AD4B003003F5 /* Assets.xcassets in Resources */,
 				33F673332380C31200F55861 /* ImageDetailCell.xib in Resources */,
+				33F6734B2384A01900F55861 /* EditDetailWithSliderCell.xib in Resources */,
 				33F673312380ABB200F55861 /* EditableDetailTextCell.xib in Resources */,
 				33C1A1212193AD48003003F5 /* Main.storyboard in Resources */,
 			);
@@ -775,6 +762,7 @@
 				33AC0CE421CC820B00F52D55 /* Action.swift in Sources */,
 				33C1A17D219AB501003003F5 /* Output.swift in Sources */,
 				338E48EF22728334007FF826 /* LocationDetailsViewController.swift in Sources */,
+				33F6734D238524E500F55861 /* DetailsSliderController.swift in Sources */,
 				33AC0CE021CC7FE900F52D55 /* CareActions.swift in Sources */,
 				33F673412383819C00F55861 /* FontConstants.swift in Sources */,
 				33C1A17A21995B0C003003F5 /* TextType.swift in Sources */,
@@ -798,7 +786,6 @@
 				338DBF7C21E5DBB2006F5BA1 /* RegEx.swift in Sources */,
 				33F6733F2383810B00F55861 /* ColorConstants.swift in Sources */,
 				338E4918228814A0007FF826 /* AlwaysPresentAsPopover.swift in Sources */,
-				338E48F42272858D007FF826 /* EditLocDetailWithSliderCell.swift in Sources */,
 				338E4903227C0A29007FF826 /* InOrOut.swift in Sources */,
 				33900D1822991EA300E653D1 /* TimeType.swift in Sources */,
 				338E4905227C0ABB007FF826 /* LightExposure.swift in Sources */,
@@ -829,7 +816,6 @@
 				33900D062295173F00E653D1 /* StorableConditions.swift in Sources */,
 				33C1A19221C8E240003003F5 /* Anytime.swift in Sources */,
 				33F67343238382FC00F55861 /* DetailsConstants.swift in Sources */,
-				338E491422814097007FF826 /* LocDetailWithLabelCell.swift in Sources */,
 				336FAA14237A0659003E2ECF /* ObjectDetails.swift in Sources */,
 				33900D12229678E400E653D1 /* CareType.swift in Sources */,
 				33C1A181219AB573003003F5 /* Log.swift in Sources */,
@@ -839,7 +825,6 @@
 				33900D0A2295244A00E653D1 /* AnnualConditions.swift in Sources */,
 				33900D102296246F00E653D1 /* Defaults.swift in Sources */,
 				338E490D227C0F27007FF826 /* Wind.swift in Sources */,
-				338E48F222728534007FF826 /* EditLocDetailTextCell.swift in Sources */,
 				33AC0CF721CE18FB00F52D55 /* Season.swift in Sources */,
 				33900D0C2295247A00E653D1 /* SeasonalConditions.swift in Sources */,
 				33C1A11A2193AD48003003F5 /* AppDelegate.swift in Sources */,
@@ -852,7 +837,6 @@
 				33C1A19421C8E277003003F5 /* Date.swift in Sources */,
 				33C1A15A219411CD003003F5 /* Location.swift in Sources */,
 				33AC0CE921CC82C300F52D55 /* Fertilize.swift in Sources */,
-				338E48F6227285E3007FF826 /* EditLocDetailWithSwitchCell.swift in Sources */,
 				33C1A19821C8E39D003003F5 /* TimeOfYear.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

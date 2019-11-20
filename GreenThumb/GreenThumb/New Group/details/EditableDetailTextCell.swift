@@ -40,8 +40,7 @@ class EditableDetailTextCell: UITableViewCell {
         detailTitleLabel.text = label
         detailValueTextField.text = detail
         detailTitleLabel.font = DetailsConstants.Table.Cell.Font.titleLabel
-        detailTitleLabel.textColor = DetailsConstants.Table.Cell.Color.label
-        detailTitleLabel.sizeToFit()
+        detailTitleLabel.textColor = DetailsConstants.Table.Cell.Color.text
         detailTitleLabel.sizeToFit()
     }
     
@@ -51,14 +50,14 @@ class EditableDetailTextCell: UITableViewCell {
         if flag {
             tf.isEnabled = true
             tf.backgroundColor = UIColor.white
-            tf.textColor = UIColor.darkText
+            tf.textColor = DetailsConstants.Table.Cell.Color.textField
             tf.borderStyle = .roundedRect
             
         }
         else {
             tf.isEnabled = false
             tf.backgroundColor = DetailsConstants.Table.Cell.Color.background
-            tf.textColor = DetailsConstants.Table.Cell.Color.label
+            tf.textColor = DetailsConstants.Table.Cell.Color.text
             tf.borderStyle = .none
         }
     }

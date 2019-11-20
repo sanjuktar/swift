@@ -19,6 +19,7 @@ class DetailsTableController<DetailType:ObjectDetail>: NSObject, DetailsTableVie
         let controller = DetailsTableController<DetailType>(object, parent)
         parent.table!.dataSource = controller
         parent.table!.delegate = controller
+        parent.table?.backgroundColor = DetailsConstants.Table.backgroundColor
         return controller
     }
     
@@ -58,6 +59,6 @@ class DetailsTableController<DetailType:ObjectDetail>: NSObject, DetailsTableVie
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: false)
-        parent.selectedRow(indexPath)
+        parent.selectedTableRow(indexPath)
     }
 }

@@ -15,8 +15,9 @@ class ImageDetailCell: UITableViewCell {
     static func get(_ detailsVC: DetailsViewController, _ image: UIImage? = nil, _ editMode: Bool = false) -> ImageDetailCell {
         detailsVC.table?.register(UINib(nibName: "ImageDetailCell", bundle: nil), forCellReuseIdentifier: ReuseId.imageDetailCell)
         let cell = detailsVC.table?.dequeueReusableCell(withIdentifier: ReuseId.imageDetailCell) as! ImageDetailCell
-        cell.cameraButton.isHidden = !editMode
         cell.backgroundColor = DetailsConstants.Table.Cell.Color.background
+        cell.cameraButton.isHidden = !editMode
+        cell.imgView.image = image != nil ? image : UIImage(imageLiteralResourceName: "noImage")
         return cell
     }
 }

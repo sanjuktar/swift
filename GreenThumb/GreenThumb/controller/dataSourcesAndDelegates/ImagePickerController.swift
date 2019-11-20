@@ -45,5 +45,14 @@ class ImagePickerController: NSObject, UIImagePickerControllerDelegate {
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
         parent.dismiss(animated: true, completion: nil)
     }
+    
+    /*@IBAction func takePicture(_ sender: Any) {
+        imagePicker.snapPicture(sender)
+    }
+    
+    func imagePickerController(_ picker: UIImagePickerController,
+                                       didFinishPickingMediaWithInfo info: [String : AnyObject]) {
+        imagePicker.didPickImage(plantImageTableCell!.imgView, info)
+    }*/
 }
 

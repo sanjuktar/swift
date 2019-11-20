@@ -82,13 +82,10 @@ class Plant: IdedObj {
     var name: String {
         return names.use
     }
-    var imageData: Data? {
-        return (image == nil ? nil : image!.jpegData(compressionQuality: 0.5))
-    }
     var description: String {
         return name
     }
-    var copy: Plant? {
+    var clone: Plant? {
         var p = Plant(names, location: location, image: image, care: care)
         p.id = id
         return p
@@ -125,7 +122,7 @@ class Plant: IdedObj {
         try container.encode(id, forKey: .id)
         try container.encode(names, forKey: .names)
         try container.encode(location, forKey: .location)
-        try container.encode(imageData, forKey: .image)
+        try container.encode(image?.imageData, forKey: .image)
         try container.encode(care, forKey: .care)
     }
     

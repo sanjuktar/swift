@@ -39,8 +39,8 @@ class DetailTextFieldDelegate<DetailType:ObjectDetail>: NSObject, TextFieldDeleg
     func reset() {
         textFields.removeAll()
     }
-        
-    func addToTextFields(_ textField: UITextField, detail: DetailType) {
+    
+    func add(textField: UITextField, edits detail: DetailType) {
         if let field = textFieldFor(detail) {
             textFields.remove(at: (textFields.index(forKey: field))!)
         }

@@ -8,12 +8,11 @@
 
 import UIKit
 
-let noNameTitle = "Plant Details"
-
 class PlantDetailsViewController: DetailsViewController {
     @IBOutlet weak var _editSaveButton: UIBarButtonItem!
     @IBOutlet weak var detailsTable: UITableView!
-    
+
+    static let noNameTitle = "Plant Details"
     static var returnToPlantListSegue = "unwindEditPlantToList"
     static var careDetailsSegue = "plantDetailsToCareSegue"
     
@@ -47,10 +46,10 @@ class PlantDetailsViewController: DetailsViewController {
         setEditMode(editMode)
         editSaveButton?.isEnabled = PlantDetail.validate(plant!)
         table = detailsTable
-        table!.allowsSelection = true
+        //table!.allowsSelection = true
         tableController = DetailsTableController<PlantDetail>.setup(plant!, self)
         textController = DetailTextFieldDelegate<PlantDetail>(plant!, self)
-        title = !plant!.name.isEmpty ? plant?.name : noNameTitle
+        title = !plant!.name.isEmpty ? plant?.name : PlantDetailsViewController.noNameTitle
     }
     
     override func shouldPerformSegue(withIdentifier identifier: String, sender: Any?) -> Bool {
@@ -107,7 +106,7 @@ class PlantDetailsViewController: DetailsViewController {
         self.present(controller, animated: true)
     }
     
-    override func selectedRow(_ indexPath: IndexPath) {
+    override func selectedTableRow(_ indexPath: IndexPath) {
         guard let detail = PlantDetail.item(indexPath.section, indexPath.row) else {return}
         if detail.isCare {
             performSegue(withIdentifier: PlantDetailsViewController.careDetailsSegue, sender: self)
@@ -123,16 +122,7 @@ class PlantDetailsViewController: DetailsViewController {
     }
     
     override func objectChanged() {
-        title = name.isEmpty ? noNameTitle : name
+        title = name.isEmpty ? PlantDetailsViewController.noNameTitle : name
         editSaveButton?.isEnabled = PlantDetail.validate(plant!)
-    }
-    
-    @IBAction func takePicture(_ sender: Any) {
-        imagePicker.snapPicture(sender)
-    }
-    
-    private func imagePickerController(_ picker: UIImagePickerController,
-                                       didFinishPickingMediaWithInfo info: [String : AnyObject]) {
-        imagePicker.didPickImage(plantImageTableCell!.imgView, info)
     }
 }

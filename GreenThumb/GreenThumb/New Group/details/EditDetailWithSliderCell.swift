@@ -9,26 +9,45 @@
 import UIKit
 
 class EditDetailWithSliderCell: UITableViewCell {
-    @IBOutlet weak var titleLabel: UILabel!
-    @IBOutlet weak var slider: UISlider!
-    var options: [String]?
+    @IBOutlet weak var detailNameLabel: UILabel!
+    @IBOutlet weak var detailValueSlider: UISlider!
     
-    static func getCell(_ title: String, values: [String], pos: Int? = nil, table: UITableView, editMode: Bool = false, minImage: UIImage? = nil, maxImage: UIImage? = nil) -> EditDetailWithSliderCell {
-        let cell = table.dequeueReusableCell(withIdentifier: "editDetailWithSliderCell") as! EditDetailWithSliderCell
-        cell.titleLabel.text = title
+    @IBAction func sliderValueChanged(_ sender: Any) {
+        if let slider = sender as? UISlider {
+            parent?.sliderValueChanged(slider)
+        }
+    }
+    
+    var parent: DetailsViewController?
+    
+    static func get(_ title: String, values: [String], pos: Int? = nil, parent: DetailsViewController , minImage: UIImage? = nil, maxImage: UIImage? = nil) -> EditDetailWithSliderCell {
+        let table = parent.table
+        table!.register(UINib(nibName: "EditDetailWithSliderCell", bundle: nil), forCellReuseIdentifier: ReuseId.editDetailWithSliderCell)
+        let cell = table!.dequeueReusableCell(withIdentifier: ReuseId.editDetailWithSliderCell) as! EditDetailWithSliderCell
+        cell.parent = parent
+        
+        cell.backgroundColor = DetailsConstants.Table.Cell.Color.background
+        cell.detailNameLabel.textColor = DetailsConstants.Table.Cell.Color.text
+        cell.detailNameLabel.font = DetailsConstants.Table.Cell.Font.titleLabel
+        cell.selectionStyle = .none
+        
+        cell.detailNameLabel.text = title
+        cell.detailNameLabel.sizeToFit()
+        
         if minImage != nil {
-            cell.slider?.minimumValueImage = minImage
+            cell.detailValueSlider.minimumValueImage = minImage
         }
         if maxImage != nil {
-            cell.slider?.maximumValueImage = maxImage
+            cell.detailValueSlider.maximumValueImage = maxImage
         }
         if pos != nil && pos! < values.count {
-            cell.slider.value = Float(pos!)/Float(values.count)
+            cell.detailValueSlider.value = Float(pos!)/Float(values.count)
         }
         let value = values[pos ?? values.count/2]
-        cell.slider.setThumbnailText(value)
-        cell.slider.isEnabled = editMode
+        cell.detailValueSlider.setThumbnailText(value)
+        cell.detailValueSlider.isEnabled = parent.editMode
         //cell.slider.isContinuous = false
+        
         return cell
     }
 }

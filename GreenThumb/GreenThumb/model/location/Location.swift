@@ -15,6 +15,7 @@ class Location: IdedObj, CustomStringConvertible {
         case version
         case id
         case name
+        case image
         case conditionsUsed
         case conditions
     }
@@ -23,10 +24,14 @@ class Location: IdedObj, CustomStringConvertible {
     var version: String
     var id: UniqueId
     var name: String
+    var image: UIImage?
     var conditions: AnnualConditions
     var conditionsUsed: [ConditionsType]
     var description: String {
         return name
+    }
+    var plants: [UniqueId] {
+        return Plant.manager?.plants(at: id) ?? []
     }
     
     static func == (lhs: Location, rhs: Location) -> Bool {
@@ -38,6 +43,8 @@ class Location: IdedObj, CustomStringConvertible {
         version = try container.decode(String.self, forKey: .version)
         id = try container.decode(UniqueId.self, forKey: .id)
         name = try container.decode(String.self, forKey: .name)
+        let data = try container.decode(Data?.self, forKey: .image)
+        image = data == nil ? nil : UIImage(data: data!)
         conditionsUsed = try container.decode([ConditionsType].self, forKey: .conditionsUsed)
         conditions = try container.decode(AnnualConditions.self, forKey: .conditions)
     }
@@ -46,6 +53,7 @@ class Location: IdedObj, CustomStringConvertible {
         version = Defaults.version
         self.id = (Location.manager?.newId())!
         self.name = name
+        self.image = nil
         if conditions != nil {
             self.conditions = conditions!
             conditionsUsed = ((conditions?.isOutdoors ?? false) ? ConditionsType.outdoorTypes : ConditionsType.indoorTypes)
@@ -61,6 +69,7 @@ class Location: IdedObj, CustomStringConvertible {
         try container.encode(version, forKey: .version)
         try container.encode(id, forKey: .id)
         try container.encode(name, forKey: .name)
+        try container.encode(image?.imageData, forKey: .image)
         try container.encode(conditionsUsed, forKey: .conditionsUsed)
         try container.encode(conditions, forKey: .conditions)
     }

@@ -158,7 +158,7 @@ enum PlantDetail: String, Codable, ObjectDetail {
         }
     }
     
-    func modify(_ obj: Plant, with value: Any) -> Bool {
+    func modify(_ obj: Plant, with value: Any?) -> Bool {
         switch self {
         case .image:
             if let image = value as? UIImage {
@@ -212,8 +212,7 @@ enum PlantDetail: String, Codable, ObjectDetail {
             return EditableDetailTextCell.getWithDisclosure(parent, label, value(for: obj!) as! String)
         default:
             let cell = EditableDetailTextCell.get(parent, label, value(for: obj!) as! String, editMode: editMode)
-            (parent.textController as! DetailTextFieldDelegate<PlantDetail>).textFields[cell.detailValueTextField] = self
-            cell.detailValueTextField.delegate = parent.textController
+            (parent.textController as! DetailTextFieldDelegate<PlantDetail>).add(textField: cell.detailValueTextField, edits: self)
             return cell
         }
     }

@@ -11,11 +11,13 @@ import UIKit
 class DetailsViewController: UIViewController {
     var tableController: DetailsTableViewController?
     var textController: TextFieldDelegate?
+    var sliderController: SliderDelegate?
     var imagePicker: ImagePickerController {
         return ImagePickerController(self)
     }
     var editSaveButton: UIBarButtonItem?
     var table: UITableView?
+    var log: Log?
     var output: Output?
     var editMode: Bool = false
     var keyboardHandler: UIViewController {
@@ -40,18 +42,17 @@ class DetailsViewController: UIViewController {
     func objectChanged() {
     }
     
-    func selectedRow(_ indexPath: IndexPath) {
+    func selectedTableRow(_ indexPath: IndexPath) {
     }
     
     func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
         return true
     }
     
-    func hightlight(at indexPath: IndexPath) -> Bool {
+    func hightlightTableRow(at indexPath: IndexPath) -> Bool {
         return false
     }
     
-    func map(textField: UITextField, to value: Any) {
-        return
+    func sliderValueChanged(_ slider: UISlider) {
     }
 }

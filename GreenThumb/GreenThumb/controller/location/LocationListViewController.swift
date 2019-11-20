@@ -15,25 +15,15 @@ class LocationListViewController: UIViewController, UITableViewDelegate, UITable
     @IBOutlet weak var editButton: UIBarButtonItem!
     
     @IBAction func unwindToLocationList(segue: UIStoryboardSegue) {
-        if segue.source is LocationDetailsViewController {
+        if segue.identifier == LocationDetailsViewController.returnToLocationsListSegue {
             let source = segue.source as! LocationDetailsViewController
-            if !((locations?.contains(source.location!.id))!) {
-                do {
-                    try Location.manager?.add(source.location!)
-                } catch {
-                    output?.out(.error, "Unable to add location \(source.location!) - \(error.localizedDescription)")
-                    return
-                }
+            guard source.location != nil else {return}
+            self.locTable.reloadData()
+            do {
+                try Location.manager?.add(source.location!)
+            } catch {
+                output?.output(.error, "Unable to save changes: \(error.localizedDescription)")
             }
-            else {
-                do {
-                    try source.location?.updatePersisted()
-                } catch {
-                    output?.out(.error, "Unable to update location \(source.location!) - \(error.localizedDescription)")
-                    return
-                }
-            }
-            locTable.reloadData()
         }
     }
     
