@@ -8,9 +8,8 @@
 
 import UIKit
 
-class LocationListViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
-    
-    @IBOutlet weak var locTable: UITableView!
+class LocationListViewController: CollectionViewController {
+    @IBOutlet weak var locCollection: CollectionView!
     @IBOutlet weak var addButton: UIBarButtonItem!
     @IBOutlet weak var editButton: UIBarButtonItem!
     
@@ -18,7 +17,7 @@ class LocationListViewController: UIViewController, UITableViewDelegate, UITable
         if segue.identifier == LocationDetailsViewController.returnToLocationsListSegue {
             let source = segue.source as! LocationDetailsViewController
             guard source.location != nil else {return}
-            self.locTable.reloadData()
+            self.collection!.reloadData()
             do {
                 try Location.manager?.add(source.location!)
             } catch {
@@ -27,44 +26,44 @@ class LocationListViewController: UIViewController, UITableViewDelegate, UITable
         }
     }
     
-    var output: MessageWindow?
+    static var locDetailsSegue = "locListToDetailsSegue"
+    static var addLocationSegue = "addLocationSegue"
+    
     var locations: [UniqueId]? {
         return Location.manager?.ids
     }
-    var selectedLocation: UniqueId? {
-        if let indexPath = locTable.indexPathForSelectedRow {
-            return locations?[indexPath.row]
-        }
-        return nil
-    }
     
     override func viewDidLoad() {
+        collection = locCollection
         super.viewDidLoad()
-        output = MessageWindow(self)
-        locTable.delegate = self
-        locTable.dataSource = self
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "locationDetailsSegue" {
+        if segue.identifier == LocationListViewController.locDetailsSegue {
             let dest = segue.destination as! LocationDetailsViewController
             dest.editMode = false
-            dest.location = Location.manager!.get((selectedLocation)!)!.clone()
+            let locId = locations?[(collection?.indexPathsForSelectedItems![0].row)!]
+            dest.location = Location.manager!.get(locId!)!.clone()
         }
-        else if segue.identifier == "addLocationSegue" {
+        else if segue.identifier == LocationListViewController.addLocationSegue {
             let dest = segue.destination as! LocationDetailsViewController
             dest.editMode = true
             dest.location = Location("")
         }
     }
     
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return (section == 0 ? locations?.count ?? 0 : 0)
+    override func nItemsInSection(_ section: Int) -> Int {
+        return locations?.count ?? 0
     }
     
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "locationListCell")
-        cell?.textLabel?.text = Location.manager!.get(locations![indexPath.row])!.name
-        return cell!
+    override func cell(at indexPath: IndexPath) -> UICollectionViewCell {
+        guard let loc = Location.manager?.get(locations![indexPath.row]) else {
+            return CollectionViewCell.get(self, "location(?)", UIImage.noImage(), indexPath)
+        }
+        return CollectionViewCell.get(self, loc.name, loc.image ?? UIImage.noImage(), indexPath)
+    }
+    
+    override func itemSelected(_ indexPath: IndexPath) {
+        performSegue(withIdentifier: LocationListViewController.locDetailsSegue, sender: self)
     }
 }
