@@ -35,6 +35,7 @@ class PlantsListViewController: CollectionViewController {
     override func viewDidLoad() {
         collection = plantCollection
         super.viewDidLoad()
+        navigationItem
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {

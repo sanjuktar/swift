@@ -19,12 +19,20 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         AppDelegate.current = self
         Defaults.create()
+        setupAppearance()
         setupSeasons()
         setupLocations()
         setupActions()
         setupCare()
         setupPlants()
         return true
+    }
+    
+    func setupAppearance() {
+        let appearance = UINavigationBar.appearance()
+        appearance.tintColor = ColorConstants.NavigationBar.background
+        appearance.barTintColor = ColorConstants.NavigationBar.buttonText
+        //appearance.titleTextAttributes = []
     }
     
     func setupSeasons() {
