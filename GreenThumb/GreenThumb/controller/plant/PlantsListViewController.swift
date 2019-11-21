@@ -8,15 +8,15 @@
 
 import UIKit
 
-class PlantsListViewController: UIViewController {
+class PlantsListViewController: CollectionViewController {
     @IBOutlet weak var addButton: UIBarButtonItem!
-    @IBOutlet weak var plantCollection: UICollectionView!
+    @IBOutlet weak var plantCollection: CollectionView!
     
     @IBAction func unwindToPlantsList(segue: UIStoryboardSegue) {
-        if segue.identifier == "unwindEditPlantToList" {
+        if segue.identifier == PlantDetailsViewController.returnToPlantListSegue {
             let source = segue.source as! PlantDetailsViewController
             guard source.plant != nil else {return}
-            plantCollection.reloadData()
+            collection?.reloadData()
             do {
                 try Plant.manager?.add(source.plant!)
             } catch {
@@ -25,49 +25,46 @@ class PlantsListViewController: UIViewController {
         }
     }
     
-    var output: Output?
+    static var segueToPlantDetails = "plantListToDetailsSegue"
+    static var addNewPlantSegue = "addNewPlantSegue"
+    
     var plants: [UniqueId]? {
         return Plant.manager?.ids
     }
     
     override func viewDidLoad() {
+        collection = plantCollection
         super.viewDidLoad()
-        output = MessageWindow(self)
-        plantCollection.delegate = self
-        plantCollection.dataSource = self
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "viewPlantDetailsSegue" {
+        if segue.identifier == PlantsListViewController.segueToPlantDetails {
             let dest = segue.destination as! PlantDetailsViewController
             dest.plant = Plant.manager!.get(selectedPlant()!)?.clone
         }
-        else if segue.identifier == "addNewPlantSegue" {
+        else if segue.identifier == PlantsListViewController.addNewPlantSegue {
             let dest = segue.destination as! PlantDetailsViewController
             dest.editMode = true
             dest.plant = Plant()
         }
     }
     
-    private func location(_ indexPath: IndexPath) -> UniqueId {
-        return UnknownLocation.id
-    }
-}
-
-extension PlantsListViewController: UICollectionViewDelegate, UICollectionViewDataSource {
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+    override func nItemsInSection(_ section: Int) -> Int {
         return plants?.count ?? 0
     }
     
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = plantCollection.dequeueReusableCell(withReuseIdentifier: "plantListCell", for: indexPath) as! PlantListCell
-        let plant: Plant = Plant.manager!.get(plants![indexPath.row])!
-        cell.nameLabel.text = plant.name
-        cell.image.image = (plant.image != nil) ? plant.image : UIImage(imageLiteralResourceName: "noImage")
-        return cell
+    override func cell(at indexPath: IndexPath) -> UICollectionViewCell {
+        guard let plant = Plant.manager?.get(plants![indexPath.row]) else {
+            return CollectionViewCell.get(self, "unknown plant", UIImage.noImage(), indexPath)
+        }
+        return CollectionViewCell.get(self, plant.name, plant.image ?? UIImage.noImage(), indexPath)
+    }
+    
+    override func itemSelected(_ indexPath: IndexPath) {
+        performSegue(withIdentifier: PlantsListViewController.segueToPlantDetails, sender: self)
     }
     
     func selectedPlant() -> UniqueId? {
-        return plants?[ plantCollection.indexPathsForSelectedItems![0].row]
+        return plants?[ (collection?.indexPathsForSelectedItems![0].row)!]
     }
 }

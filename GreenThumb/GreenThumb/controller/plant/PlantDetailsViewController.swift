@@ -46,7 +46,6 @@ class PlantDetailsViewController: DetailsViewController {
         setEditMode(editMode)
         editSaveButton?.isEnabled = PlantDetail.validate(plant!)
         table = detailsTable
-        //table!.allowsSelection = true
         tableController = DetailsTableController<PlantDetail>.setup(plant!, self)
         textController = DetailTextFieldDelegate<PlantDetail>(plant!, self)
         title = !plant!.name.isEmpty ? plant?.name : PlantDetailsViewController.noNameTitle

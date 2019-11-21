@@ -18,9 +18,6 @@ extension Anytime {
     var name: String {
         return anytime
     }
-    var description: String {
-        return anytime
-    }
     
     static func ==(_ lhs: Anytime, _ rhs: Anytime) -> Bool {
         return lhs.equals(rhs)
@@ -35,6 +32,9 @@ class AnyTimeEver: Anytime {
         }
         return instance!
     }
+    var description: String{
+        return anytime + " ever"
+    }    
     var name: String {
         return "\(anytime)Ever"
     }

@@ -17,7 +17,7 @@ class ImageDetailCell: UITableViewCell {
         let cell = detailsVC.table?.dequeueReusableCell(withIdentifier: ReuseId.imageDetailCell) as! ImageDetailCell
         cell.backgroundColor = DetailsConstants.Table.Cell.Color.background
         cell.cameraButton.isHidden = !editMode
-        cell.imgView.image = image != nil ? image : UIImage(imageLiteralResourceName: "noImage")
+        cell.imgView.image = image != nil ? image : UIImage.noImage()
         return cell
     }
 }

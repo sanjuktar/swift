@@ -92,12 +92,16 @@
 		33F673312380ABB200F55861 /* EditableDetailTextCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 33F673302380ABB200F55861 /* EditableDetailTextCell.xib */; };
 		33F673332380C31200F55861 /* ImageDetailCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 33F673322380C31200F55861 /* ImageDetailCell.xib */; };
 		33F6733623835C4900F55861 /* ReuseId.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33F6733523835C4900F55861 /* ReuseId.swift */; };
-		33F6733D2383676700F55861 /* PlantListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33F6733C2383676700F55861 /* PlantListCell.swift */; };
 		33F6733F2383810B00F55861 /* ColorConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33F6733E2383810B00F55861 /* ColorConstants.swift */; };
 		33F673412383819C00F55861 /* FontConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33F673402383819C00F55861 /* FontConstants.swift */; };
 		33F67343238382FC00F55861 /* DetailsConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33F67342238382FC00F55861 /* DetailsConstants.swift */; };
 		33F6734B2384A01900F55861 /* EditDetailWithSliderCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 33F6734A2384A01900F55861 /* EditDetailWithSliderCell.xib */; };
 		33F6734D238524E500F55861 /* DetailsSliderController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33F6734C238524E500F55861 /* DetailsSliderController.swift */; };
+		33F6734F23853A8700F55861 /* DetailsTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33F6734E23853A8700F55861 /* DetailsTableView.swift */; };
+		33F6735323853D1800F55861 /* CollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33F6735123853D1800F55861 /* CollectionViewCell.swift */; };
+		33F6735423853D1800F55861 /* CollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 33F6735223853D1800F55861 /* CollectionViewCell.xib */; };
+		33F6735623853E9F00F55861 /* CollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33F6735523853E9F00F55861 /* CollectionView.swift */; };
+		33F673592385D61900F55861 /* CollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33F673582385D61800F55861 /* CollectionViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -209,12 +213,16 @@
 		33F673302380ABB200F55861 /* EditableDetailTextCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = EditableDetailTextCell.xib; sourceTree = "<group>"; };
 		33F673322380C31200F55861 /* ImageDetailCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ImageDetailCell.xib; sourceTree = "<group>"; };
 		33F6733523835C4900F55861 /* ReuseId.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReuseId.swift; sourceTree = "<group>"; };
-		33F6733C2383676700F55861 /* PlantListCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlantListCell.swift; sourceTree = "<group>"; };
 		33F6733E2383810B00F55861 /* ColorConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorConstants.swift; sourceTree = "<group>"; };
 		33F673402383819C00F55861 /* FontConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FontConstants.swift; sourceTree = "<group>"; };
 		33F67342238382FC00F55861 /* DetailsConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailsConstants.swift; sourceTree = "<group>"; };
 		33F6734A2384A01900F55861 /* EditDetailWithSliderCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = EditDetailWithSliderCell.xib; sourceTree = "<group>"; };
 		33F6734C238524E500F55861 /* DetailsSliderController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailsSliderController.swift; sourceTree = "<group>"; };
+		33F6734E23853A8700F55861 /* DetailsTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailsTableView.swift; sourceTree = "<group>"; };
+		33F6735123853D1800F55861 /* CollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionViewCell.swift; sourceTree = "<group>"; };
+		33F6735223853D1800F55861 /* CollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CollectionViewCell.xib; sourceTree = "<group>"; };
+		33F6735523853E9F00F55861 /* CollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionView.swift; sourceTree = "<group>"; };
+		33F673582385D61800F55861 /* CollectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -250,7 +258,7 @@
 			path = details;
 			sourceTree = "<group>";
 		};
-		336FAA16237A0686003E2ECF /* details */ = {
+		336FAA16237A0686003E2ECF /* detailsTable */ = {
 			isa = PBXGroup;
 			children = (
 				336FAA18237A0686003E2ECF /* EditableDetailTextCell.swift */,
@@ -259,18 +267,19 @@
 				33F6734A2384A01900F55861 /* EditDetailWithSliderCell.xib */,
 				336FAA1A237A0686003E2ECF /* ImageDetailCell.swift */,
 				33F673322380C31200F55861 /* ImageDetailCell.xib */,
+				33F6734E23853A8700F55861 /* DetailsTableView.swift */,
 			);
-			path = details;
+			path = detailsTable;
 			sourceTree = "<group>";
 		};
 		336FAA21237A758C003E2ECF /* dataSourcesAndDelegates */ = {
 			isa = PBXGroup;
 			children = (
+				33F67327237E6CEC00F55861 /* KeyboardHandler.swift */,
 				336FAA22237A75C3003E2ECF /* ImagePickerController.swift */,
 				33F67321237E522000F55861 /* DetailsTableController.swift */,
 				33F67325237E531600F55861 /* DetailTextFieldDelegate.swift */,
 				33F6734C238524E500F55861 /* DetailsSliderController.swift */,
-				336FAA26237A7BA9003E2ECF /* DetailsViewController.swift */,
 			);
 			path = dataSourcesAndDelegates;
 			sourceTree = "<group>";
@@ -437,7 +446,7 @@
 		33C1A1492193BDBC003003F5 /* controller */ = {
 			isa = PBXGroup;
 			children = (
-				33F67327237E6CEC00F55861 /* KeyboardHandler.swift */,
+				33F673572385D5A800F55861 /* viewControllers */,
 				336FAA21237A758C003E2ECF /* dataSourcesAndDelegates */,
 				336FAA11237A0658003E2ECF /* details */,
 				338E48EB227282F5007FF826 /* location */,
@@ -518,9 +527,9 @@
 		33C1A16B2199497F003003F5 /* view */ = {
 			isa = PBXGroup;
 			children = (
-				33F6733B238366DD00F55861 /* plant */,
+				33F6735023853CDB00F55861 /* collection */,
+				336FAA16237A0686003E2ECF /* detailsTable */,
 				33F673292380A84B00F55861 /* storyboards */,
-				336FAA16237A0686003E2ECF /* details */,
 				338E490E227FE0D2007FF826 /* uikit */,
 			);
 			name = view;
@@ -610,12 +619,23 @@
 			path = constants;
 			sourceTree = "<group>";
 		};
-		33F6733B238366DD00F55861 /* plant */ = {
+		33F6735023853CDB00F55861 /* collection */ = {
 			isa = PBXGroup;
 			children = (
-				33F6733C2383676700F55861 /* PlantListCell.swift */,
+				33F6735123853D1800F55861 /* CollectionViewCell.swift */,
+				33F6735223853D1800F55861 /* CollectionViewCell.xib */,
+				33F6735523853E9F00F55861 /* CollectionView.swift */,
 			);
-			path = plant;
+			path = collection;
+			sourceTree = "<group>";
+		};
+		33F673572385D5A800F55861 /* viewControllers */ = {
+			isa = PBXGroup;
+			children = (
+				336FAA26237A7BA9003E2ECF /* DetailsViewController.swift */,
+				33F673582385D61800F55861 /* CollectionViewController.swift */,
+			);
+			path = viewControllers;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -726,6 +746,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				33C1A1262193AD4B003003F5 /* LaunchScreen.storyboard in Resources */,
+				33F6735423853D1800F55861 /* CollectionViewCell.xib in Resources */,
 				33C1A1232193AD4B003003F5 /* Assets.xcassets in Resources */,
 				33F673332380C31200F55861 /* ImageDetailCell.xib in Resources */,
 				33F6734B2384A01900F55861 /* EditDetailWithSliderCell.xib in Resources */,
@@ -761,6 +782,7 @@
 				33900D162298919C00E653D1 /* ConditionsType.swift in Sources */,
 				33AC0CE421CC820B00F52D55 /* Action.swift in Sources */,
 				33C1A17D219AB501003003F5 /* Output.swift in Sources */,
+				33F6734F23853A8700F55861 /* DetailsTableView.swift in Sources */,
 				338E48EF22728334007FF826 /* LocationDetailsViewController.swift in Sources */,
 				33F6734D238524E500F55861 /* DetailsSliderController.swift in Sources */,
 				33AC0CE021CC7FE900F52D55 /* CareActions.swift in Sources */,
@@ -769,6 +791,7 @@
 				33AC0CFC21D321E300F52D55 /* Plant.Manager.swift in Sources */,
 				33AC0CF121CC839600F52D55 /* SeasonalSchedule.swift in Sources */,
 				336FAA27237A7BA9003E2ECF /* DetailsViewController.swift in Sources */,
+				33F673592385D61900F55861 /* CollectionViewController.swift in Sources */,
 				33C1A17F219AB52F003003F5 /* OutputTypeList.swift in Sources */,
 				336FAA23237A75C3003E2ECF /* ImagePickerController.swift in Sources */,
 				33AC0CE221CC80A500F52D55 /* Quantity.swift in Sources */,
@@ -791,7 +814,6 @@
 				338E4905227C0ABB007FF826 /* LightExposure.swift in Sources */,
 				338E4907227C0B00007FF826 /* Conditions.swift in Sources */,
 				33AC0CF321CC855D00F52D55 /* CareDetail.swift in Sources */,
-				33F6733D2383676700F55861 /* PlantListCell.swift in Sources */,
 				33C1A1672199419C003003F5 /* String.swift in Sources */,
 				33C1A187219FBAE7003003F5 /* PlantDetail.swift in Sources */,
 				338E4900227BAFD5007FF826 /* UIImage.swift in Sources */,
@@ -824,11 +846,13 @@
 				33900D1A229922F800E653D1 /* StorableTime.swift in Sources */,
 				33900D0A2295244A00E653D1 /* AnnualConditions.swift in Sources */,
 				33900D102296246F00E653D1 /* Defaults.swift in Sources */,
+				33F6735323853D1800F55861 /* CollectionViewCell.swift in Sources */,
 				338E490D227C0F27007FF826 /* Wind.swift in Sources */,
 				33AC0CF721CE18FB00F52D55 /* Season.swift in Sources */,
 				33900D0C2295247A00E653D1 /* SeasonalConditions.swift in Sources */,
 				33C1A11A2193AD48003003F5 /* AppDelegate.swift in Sources */,
 				33F67326237E531600F55861 /* DetailTextFieldDelegate.swift in Sources */,
+				33F6735623853E9F00F55861 /* CollectionView.swift in Sources */,
 				338E490B227C0E88007FF826 /* Humidity.swift in Sources */,
 				33AC0CEB21CC82E600F52D55 /* Light.swift in Sources */,
 				338DBF8C21E983DE006F5BA1 /* IdGenerator.swift in Sources */,

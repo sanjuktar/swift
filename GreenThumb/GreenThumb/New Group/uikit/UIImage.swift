@@ -13,6 +13,10 @@ extension UIImage {
         return jpegData(compressionQuality: 0.5)
     }
     
+    static func noImage() -> UIImage {
+        return UIImage(imageLiteralResourceName: "noImage")
+    }
+    
     static func getRectangle(_ size: CGSize, _ color: UIColor) -> UIImage {
         let rect = CGRect(origin: .zero, size: size)
         UIGraphicsBeginImageContextWithOptions(rect.size, false, 0.0)

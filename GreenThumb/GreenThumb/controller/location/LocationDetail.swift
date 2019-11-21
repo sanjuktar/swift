@@ -56,7 +56,7 @@ enum LocationDetail: String, Codable, ObjectDetail {
         return false
     }
     var cellHeight: CGFloat {
-        return DetailsConstants.Table.Cell.Height.detailCell
+        return self == .image ? DetailsConstants.Table.Cell.Height.imageCell : DetailsConstants.Table.Cell.Height.detailCell
     }
     
     static func update(_ location: Location, _ condition: Conditions, _ slider: UISlider) throws {
