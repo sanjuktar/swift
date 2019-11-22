@@ -11,16 +11,18 @@ import UIKit
 class CollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var imageView: UIImageView!
     @IBOutlet weak var nameLabel: UILabel!
+    @IBOutlet weak var deleteButton: UIButton!
     
-    static func get(_ parent: CollectionViewController, _ label: String, _ image: UIImage, _ indexPath: IndexPath) -> CollectionViewCell {
+    static func get(_ parent: CollectionViewController, _ label: String, _ image: UIImage, _ indexPath: IndexPath, _ editMode: Bool) -> CollectionViewCell {
         parent.collection?.register(UINib(nibName: "CollectionViewCell", bundle: nil), forCellWithReuseIdentifier: ReuseId.collectionCell)
         let cell = parent.collection?.dequeueReusableCell(withReuseIdentifier: ReuseId.collectionCell, for: indexPath) as! CollectionViewCell
         
+        cell.deleteButton.isHidden = !editMode
         cell.nameLabel.text = label
-        cell.imageView.image = image
         cell.nameLabel.sizeToFit()
-        cell.imageView.sizeToFit()
         cell.center(horizontally: cell.nameLabel)
+        cell.imageView.image = image
+        cell.imageView.sizeToFit()
         
         return cell
     }

@@ -85,7 +85,7 @@ class Location: IdedObj, CustomStringConvertible {
     }
     
     func unpersist() throws {
-        try Location.manager?.remove(self)
+        try Location.manager?.remove(id)
     }
     
     func updateDetailsUsed(_ isOutside: Bool) {

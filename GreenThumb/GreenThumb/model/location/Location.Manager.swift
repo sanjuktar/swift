@@ -12,6 +12,11 @@ import UIKit
 extension Location {
     class Manager: IdedObjManager<Location> {
         static var defaultName = "Location.Manager"
+        var knownLocations: [UniqueId] {
+            var locs = ids
+            locs.remove(at: locs.firstIndex(of: UnknownLocation.id)!)
+            return locs
+        }
         
         static func load(name: String = defaultName) throws -> Manager {
             return try (Documents.instance?.retrieve(name, as: Manager.self))!

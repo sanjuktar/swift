@@ -107,12 +107,12 @@ class IdedObjManager<T:IdedObj>: Storable, CustomStringConvertible {
         try commit()
     }
     
-    func remove(_ obj: T) throws {
-        if let pos = ids.firstIndex(of: obj.id) {
+    func remove(_ id: UniqueId) throws {
+        if let pos = ids.firstIndex(of: id) {
             ids.remove(at: pos)
-            objs.removeValue(forKey: obj.id)
+            objs.removeValue(forKey: id)
         }
-        try Documents.instance?.remove(obj.id)
+        try Documents.instance?.remove(id)
         try commit()
         
     }

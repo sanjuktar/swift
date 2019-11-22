@@ -38,7 +38,11 @@
                         <viewLayoutGuide key="safeArea" id="PQr-Ze-W5v"/>
                     </view>
                     <navigationItem key="navigationItem" title="Plants" id="bMv-HD-xXY">
-                        <barButtonItem key="leftBarButtonItem" systemItem="edit" id="wKe-4e-chl"/>
+                        <barButtonItem key="leftBarButtonItem" systemItem="edit" id="wKe-4e-chl">
+                            <connections>
+                                <action selector="editButtonPressed:" destination="9pv-A4-QxB" id="qPK-KX-Qya"/>
+                            </connections>
+                        </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="Shu-Lm-UXb">
                             <connections>
                                 <segue destination="yIE-sa-XHw" kind="show" identifier="addNewPlantSegue" id="0Bh-rz-49X"/>
@@ -46,6 +50,7 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="_editButton" destination="wKe-4e-chl" id="c3g-kl-qzT"/>
                         <outlet property="addButton" destination="Shu-Lm-UXb" id="awk-pl-bi6"/>
                         <outlet property="plantCollection" destination="ODh-iQ-fNG" id="Tvo-ks-LaQ"/>
                         <segue destination="yIE-sa-XHw" kind="show" identifier="plantListToDetailsSegue" id="lIi-E8-IBp"/>
@@ -279,7 +284,11 @@
                         <viewLayoutGuide key="safeArea" id="RKO-Gh-Ac1"/>
                     </view>
                     <navigationItem key="navigationItem" title="Locations" id="Ga6-hd-Kel">
-                        <barButtonItem key="leftBarButtonItem" systemItem="edit" id="v1R-cl-pNu"/>
+                        <barButtonItem key="leftBarButtonItem" systemItem="edit" id="v1R-cl-pNu">
+                            <connections>
+                                <action selector="editButtonPressed:" destination="AIc-sm-DZV" id="bmO-pg-RNw"/>
+                            </connections>
+                        </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="icG-Q7-2kf">
                             <connections>
                                 <segue destination="v1v-ZL-dr7" kind="show" identifier="addLocationSegue" id="hqA-sA-Kt2"/>
@@ -288,8 +297,8 @@
                     </navigationItem>
                     <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
+                        <outlet property="_editButton" destination="v1R-cl-pNu" id="mwP-2P-VfF"/>
                         <outlet property="addButton" destination="icG-Q7-2kf" id="Oqh-Gl-h8Z"/>
-                        <outlet property="editButton" destination="v1R-cl-pNu" id="wQl-xo-gMJ"/>
                         <outlet property="locCollection" destination="SRA-TR-f2A" id="EAP-kr-ZPx"/>
                         <segue destination="v1v-ZL-dr7" kind="show" identifier="locListToDetailsSegue" id="maX-sf-Hvz"/>
                     </connections>

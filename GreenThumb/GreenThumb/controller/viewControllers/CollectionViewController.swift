@@ -12,13 +12,16 @@ class CollectionViewController: UIViewController, UICollectionViewDelegate, UICo
     var collection: CollectionView?
     var log: Log?
     var output: Output?
+    var editMode: Bool = false
 
     override func viewDidLoad() {
         super.viewDidLoad()
         output = MessageWindow(self)
         log = AppDelegate.current?.log
+        setEditMode(false)
         collection?.delegate = self
         collection?.dataSource = self
+        collection?.allowsMultipleSelection = false
         collection?.reloadData()
     }
     
@@ -34,6 +37,31 @@ class CollectionViewController: UIViewController, UICollectionViewDelegate, UICo
         itemSelected(indexPath)
     }
     
+    func editButtonPressed() {
+        if !editMode {
+            setEditMode(true)
+            collection?.reloadData()
+            return
+        }
+        setEditMode(false)
+        guard let items = collection?.indexPathsForSelectedItems else {return}
+        items.map{deleteObject(at: $0)}
+        collection?.reloadData()
+    }
+    
+    func setEditMode(_ flag: Bool) {
+        if flag {
+            editButtonItem.title = "Done"
+            collection?.allowsMultipleSelection = true
+            editMode = true
+        }
+        else {
+            editButtonItem.title = "Edit"
+            collection?.allowsMultipleSelection = false
+            editMode = false
+        }
+    }
+    
     func nItemsInSection(_ section: Int) -> Int {
         fatalError("Needs override!!!!!!!")
     }
@@ -43,6 +71,10 @@ class CollectionViewController: UIViewController, UICollectionViewDelegate, UICo
     }
     
     func itemSelected(_ indexPath: IndexPath) {
+        fatalError("Needs override!!!!!!!")
+    }
+    
+    func deleteObject(at indexPath: IndexPath) {
         fatalError("Needs override!!!!!!!")
     }
 }

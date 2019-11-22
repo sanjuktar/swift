@@ -11,7 +11,11 @@ import UIKit
 class LocationListViewController: CollectionViewController {
     @IBOutlet weak var locCollection: CollectionView!
     @IBOutlet weak var addButton: UIBarButtonItem!
-    @IBOutlet weak var editButton: UIBarButtonItem!
+    @IBOutlet weak var _editButton: UIBarButtonItem!
+    
+    @IBAction func editButtonPressed(_ sender: Any) {
+        editButtonPressed()
+    }
     
     @IBAction func unwindToLocationList(segue: UIStoryboardSegue) {
         if segue.identifier == LocationDetailsViewController.returnToLocationsListSegue {
@@ -30,7 +34,10 @@ class LocationListViewController: CollectionViewController {
     static var addLocationSegue = "addLocationSegue"
     
     var locations: [UniqueId]? {
-        return Location.manager?.ids
+        return Location.manager?.knownLocations
+    }
+    var selectedLocation: UniqueId? {
+        locations?[(collection?.indexPathsForSelectedItems![0].row)!]
     }
     
     override func viewDidLoad() {
@@ -41,9 +48,8 @@ class LocationListViewController: CollectionViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == LocationListViewController.locDetailsSegue {
             let dest = segue.destination as! LocationDetailsViewController
-            dest.editMode = false
-            let locId = locations?[(collection?.indexPathsForSelectedItems![0].row)!]
-            dest.location = Location.manager!.get(locId!)!.clone()
+            //dest.editMode = false
+            dest.location = Location.manager!.get(selectedLocation!)!.clone()
         }
         else if segue.identifier == LocationListViewController.addLocationSegue {
             let dest = segue.destination as! LocationDetailsViewController
@@ -58,12 +64,23 @@ class LocationListViewController: CollectionViewController {
     
     override func cell(at indexPath: IndexPath) -> UICollectionViewCell {
         guard let loc = Location.manager?.get(locations![indexPath.row]) else {
-            return CollectionViewCell.get(self, "location(?)", UIImage.noImage(), indexPath)
+            return CollectionViewCell.get(self, "location(?)", UIImage.noImage(), indexPath, false)
         }
-        return CollectionViewCell.get(self, loc.name, loc.image ?? UIImage.noImage(), indexPath)
+        return CollectionViewCell.get(self, loc.name, loc.image ?? UIImage.noImage(), indexPath, editMode)
     }
     
     override func itemSelected(_ indexPath: IndexPath) {
-        performSegue(withIdentifier: LocationListViewController.locDetailsSegue, sender: self)
+        if !editMode {
+            performSegue(withIdentifier: LocationListViewController.locDetailsSegue, sender: self)
+        }
+    }
+    
+    override func deleteObject(at indexPath: IndexPath) {
+        let id = locations![indexPath.row]
+        do {
+            try Location.manager?.remove(id)
+        } catch {
+            output?.out(.error, "Unable to delete \(Location.manager?.get(id)?.name ?? id).")
+        }
     }
 }

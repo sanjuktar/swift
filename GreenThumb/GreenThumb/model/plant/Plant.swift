@@ -131,7 +131,7 @@ class Plant: IdedObj {
     }
     
     func unpersist() throws {
-        try Plant.manager?.remove(self)
+        try Plant.manager?.remove(id)
     }
     
     private static func image(from data: Data?) -> UIImage? {

@@ -116,7 +116,7 @@ class Season: TimeWindow, IdedObj {
     }
     
     func unpersist() throws {
-        try Season.manager?.remove(self)
+        try Season.manager?.remove(id)
     }
     
     func contains(_ date: Date) -> Bool {

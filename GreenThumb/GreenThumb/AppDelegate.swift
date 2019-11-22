@@ -68,6 +68,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         } catch {
             log!.out(.error, "Unable to load list of locations: \(error.localizedDescription)")
             Location.manager = Location.Manager()
+        }
+        if Location.manager?.get(UnknownLocation.obj.id) == nil {
             do {
                 try Location.manager?.add(UnknownLocation.obj)
             } catch {

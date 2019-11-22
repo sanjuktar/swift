@@ -9,8 +9,13 @@
 import UIKit
 
 class PlantsListViewController: CollectionViewController {
+    @IBOutlet weak var _editButton: UIBarButtonItem!
     @IBOutlet weak var addButton: UIBarButtonItem!
     @IBOutlet weak var plantCollection: CollectionView!
+    
+    @IBAction func editButtonPressed(_ sender: Any) {
+        editButtonPressed()
+    }
     
     @IBAction func unwindToPlantsList(segue: UIStoryboardSegue) {
         if segue.identifier == PlantDetailsViewController.returnToPlantListSegue {
@@ -35,7 +40,6 @@ class PlantsListViewController: CollectionViewController {
     override func viewDidLoad() {
         collection = plantCollection
         super.viewDidLoad()
-        navigationItem
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -56,16 +60,28 @@ class PlantsListViewController: CollectionViewController {
     
     override func cell(at indexPath: IndexPath) -> UICollectionViewCell {
         guard let plant = Plant.manager?.get(plants![indexPath.row]) else {
-            return CollectionViewCell.get(self, "unknown plant", UIImage.noImage(), indexPath)
+            return CollectionViewCell.get(self, "unknown plant", UIImage.noImage(), indexPath, false)
         }
-        return CollectionViewCell.get(self, plant.name, plant.image ?? UIImage.noImage(), indexPath)
+        return CollectionViewCell.get(self, plant.name, plant.image ?? UIImage.noImage(), indexPath, editMode)
     }
     
     override func itemSelected(_ indexPath: IndexPath) {
-        performSegue(withIdentifier: PlantsListViewController.segueToPlantDetails, sender: self)
+        if !editMode {
+            performSegue(withIdentifier: PlantsListViewController.segueToPlantDetails, sender: self)
+            return
+        }
+    }
+    
+    override func deleteObject(at indexPath: IndexPath) {
+        let id = plants![indexPath.row]
+        do {
+            try Plant.manager?.remove(id)
+        } catch {
+            output?.out(.error, "Unable to delete \(Plant.manager?.get(id)?.name ?? id).")
+        }
     }
     
     func selectedPlant() -> UniqueId? {
-        return plants?[ (collection?.indexPathsForSelectedItems![0].row)!]
+        return plants?[(collection?.indexPathsForSelectedItems![0].row)!]
     }
 }
