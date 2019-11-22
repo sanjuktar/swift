@@ -19,7 +19,7 @@ class AllYear: Season {
             do {
                 try Season.manager?.add(instance!)
             } catch {
-                AppDelegate.current?.log!.out(.error, "Unable to add \(instance!) to \(Season.manager)")
+                AppDelegate.current?.log!.out(.error, "Unable to add \(instance!) to \(Season.manager!)")
             }
         }
         return instance!
@@ -47,7 +47,7 @@ class RestOfTheYear: Season {
             do {
                 try RestOfTheYear.manager?.add(instance!)
             } catch {
-                AppDelegate.current?.log?.out(.error, "Unable to add \(instance!) to \(Season.manager)")
+                AppDelegate.current?.log?.out(.error, "Unable to add \(instance!) to \(Season.manager!)")
             }
         }
         return instance!

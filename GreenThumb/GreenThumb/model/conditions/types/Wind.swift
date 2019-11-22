@@ -67,7 +67,7 @@ class Wind: Conditions {
         switch value! {
         case .drafty(let isWarm):
             return "\(value!.name)(\(isWarm ? "warm" : "cold"))"
-        @unknown default: return value!.name
+        default: return value!.name
         }
     }
     

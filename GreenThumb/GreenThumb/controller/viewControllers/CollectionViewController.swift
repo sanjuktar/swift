@@ -45,7 +45,7 @@ class CollectionViewController: UIViewController, UICollectionViewDelegate, UICo
         }
         setEditMode(false)
         guard let items = collection?.indexPathsForSelectedItems else {return}
-        items.map{deleteObject(at: $0)}
+        let _ = items.map{deleteObject(at: $0)}
         collection?.reloadData()
     }
     

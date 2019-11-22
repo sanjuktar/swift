@@ -86,7 +86,7 @@ class Plant: IdedObj {
         return name
     }
     var clone: Plant? {
-        var p = Plant(names, location: location, image: image, care: care)
+        let p = Plant(names, location: location, image: image, care: care)
         p.id = id
         return p
     }

@@ -60,7 +60,7 @@ class AnyTimeEver: Anytime {
 }
 
 class AnyTimeOfDay: Anytime {
-    var date: Date?
+    var date: Date
     var name: String {
         return "\(anytime)\(date)"
     }
@@ -68,17 +68,17 @@ class AnyTimeOfDay: Anytime {
         return "\(anytime) on \(date)"
     }
     var value: Date {
-        return date ?? TimeOfDay.end.value
+        return date
     }
     
-    init(on: Date? = nil) {
+    init(on: Date) {
         self.date = on
     }
     
     func equals(_ time: Anytime) -> Bool {
         switch time {
         case is AnyTimeEver:
-            return date == nil
+            return false
         case is AnyTimeOfDay:
             return date == (time as! AnyTimeOfDay).date
         case is AnyTimeOfYear:
@@ -90,7 +90,7 @@ class AnyTimeOfDay: Anytime {
 }
 
 class AnyTimeOfYear: Anytime {
-    var year: Int?
+    var year: Int
     var name: String {
         return "\(anytime)\(year)"
     }
@@ -101,16 +101,16 @@ class AnyTimeOfYear: Anytime {
         return TimeOfYear.end.value
     }
     
-    init(_ inYear: Int? = nil) {
+    init(_ inYear: Int) {
         self.year = inYear
     }
     
     func equals(_ time: Anytime) -> Bool {
         switch time {
         case is AnyTimeEver:
-            return year == nil
+            return false
         case is AnyTimeOfDay:
-            return year == nil && (time as! AnyTimeOfDay).date == nil
+            return false
         case is AnyTimeOfYear:
             return year == (time as! AnyTimeOfYear).year
         default:

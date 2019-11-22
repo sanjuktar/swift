@@ -73,7 +73,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             do {
                 try Location.manager?.add(UnknownLocation.obj)
             } catch {
-                log!.out(.error, "Error adding \(UnknownLocation.obj.name) to \(Location.manager): \(error.localizedDescription)")
+                log!.out(.error, "Error adding \(UnknownLocation.obj.name) to \(Location.manager!): \(error)")
             }
         }
         Defaults.initLocations()

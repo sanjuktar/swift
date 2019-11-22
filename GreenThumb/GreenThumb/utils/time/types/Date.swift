@@ -8,7 +8,7 @@
 
 import Foundation
 
-extension Date :Time, CustomStringConvertible {
+extension Date: Time {
     static var formatter = Date.getFormatter(.medium)
     static var shortFormatter = Date.getFormatter(.short)
     var description: String {
