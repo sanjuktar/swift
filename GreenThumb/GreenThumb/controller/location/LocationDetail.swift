@@ -52,7 +52,7 @@ enum LocationDetail: String, Codable, ObjectDetail {
     var description: String {
         return rawValue
     }
-    var seguesToDetails: Bool {
+    var segueOnSelection: Bool {
         return false
     }
     var cellHeight: CGFloat {
@@ -127,7 +127,7 @@ enum LocationDetail: String, Codable, ObjectDetail {
         return !obj.name.isEmpty
     }
     
-    func cell(_ controller: DetailsViewController, obj: Location?, editMode: Bool) -> UITableViewCell {
+    func cell(_ controller: EditableTableViewController, obj: Location?, editMode: Bool) -> UITableViewCell {
         var cell: UITableViewCell?
         switch self {
         case .name:

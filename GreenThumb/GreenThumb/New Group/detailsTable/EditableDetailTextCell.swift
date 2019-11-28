@@ -14,16 +14,16 @@ class EditableDetailTextCell: UITableViewCell {
     
     var seguesOnSelect = false
     
-    static func get(_ detailsVC: DetailsViewController, _ label: String, _ detail: String, editMode: Bool = true) -> EditableDetailTextCell {
-        detailsVC.table?.register(UINib(nibName: "EditableDetailTextCell", bundle: nil), forCellReuseIdentifier: ReuseId.editDetailTextCell)
-        let cell = detailsVC.table!.dequeueReusableCell(withIdentifier: ReuseId.editDetailTextCell) as! EditableDetailTextCell
+    static func get(_ controller: EditableTableViewController, _ label: String, _ detail: String, editMode: Bool) -> EditableDetailTextCell {
+        controller.table?.register(UINib(nibName: "EditableDetailTextCell", bundle: nil), forCellReuseIdentifier: ReuseId.editDetailTextCell)
+        let cell = controller.table!.dequeueReusableCell(withIdentifier: ReuseId.editDetailTextCell) as! EditableDetailTextCell
         cell.customize(label, detail)
         cell.setEditMode(editMode)
-        cell.detailValueTextField.delegate = detailsVC.textController
+        cell.detailValueTextField.delegate = controller.textController
         return cell
     }
     
-    static func getWithDisclosure(_ detailsVC: DetailsViewController, _ label: String, _ detail: String) -> EditableDetailTextCell {
+    static func getWithDisclosure(_ detailsVC: EditableTableViewController, _ label: String, _ detail: String) -> EditableDetailTextCell {
         detailsVC.table?.register(UINib(nibName: "EditableDetailTextCell", bundle: nil), forCellReuseIdentifier: ReuseId.editDetailTextCell)
         let cell = detailsVC.table!.dequeueReusableCell(withIdentifier: ReuseId.editDetailTextCell) as! EditableDetailTextCell
         cell.customize(label, detail)
@@ -50,7 +50,7 @@ class EditableDetailTextCell: UITableViewCell {
         if flag {
             tf.isEnabled = true
             tf.backgroundColor = UIColor.white
-            tf.textColor = DetailsConstants.Table.Cell.Color.textField
+            tf.textColor = DetailsConstants.Table.Cell.Color.textFieldText
             tf.borderStyle = .roundedRect
             
         }

@@ -8,14 +8,11 @@
 
 import UIKit
 
-protocol DetailsTableViewController: UITableViewDataSource, UITableViewDelegate {
-}
-
-class DetailsTableController<DetailType:ObjectDetail>: NSObject, DetailsTableViewController {
-    var parent: DetailsViewController
+class DetailsTableController<DetailType:ObjectDetail>: NSObject, TableController {
+    var parent: EditableTableViewController
     var detailsObject: DetailType.ObjectType
     
-    static func setup(_ object: DetailType.ObjectType, _ parent: DetailsViewController) -> DetailsTableController<DetailType> {
+    static func setup(_ object: DetailType.ObjectType, _ parent: EditableTableViewController) -> DetailsTableController<DetailType> {
         let controller = DetailsTableController<DetailType>(object, parent)
         parent.table!.dataSource = controller
         parent.table!.delegate = controller
@@ -23,7 +20,7 @@ class DetailsTableController<DetailType:ObjectDetail>: NSObject, DetailsTableVie
         return controller
     }
     
-    private init(_ object: DetailType.ObjectType, _ parent: DetailsViewController) {
+    private init(_ object: DetailType.ObjectType, _ parent: EditableTableViewController) {
         detailsObject = object
         self.parent = parent
         super.init()
@@ -54,7 +51,7 @@ class DetailsTableController<DetailType:ObjectDetail>: NSObject, DetailsTableVie
     
     func tableView(_ tableView: UITableView, willSelectRowAt indexPath: IndexPath) -> IndexPath? {
         guard let detail = DetailType.item(indexPath.section, indexPath.row) else {return nil}
-        return (detail.seguesToDetails ? indexPath : nil)
+        return (detail.segueOnSelection ? indexPath : nil)
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {

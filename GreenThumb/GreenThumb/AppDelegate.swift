@@ -21,7 +21,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         Defaults.create()
         setupAppearance()
         setupSeasons()
-        setupLocations()
+        Location.Manager.setup() // setupLocations()
         setupActions()
         setupCare()
         setupPlants()

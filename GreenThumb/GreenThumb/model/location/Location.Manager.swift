@@ -22,6 +22,26 @@ extension Location {
             return try (Documents.instance?.retrieve(name, as: Manager.self))!
         }
         
+        static func setup() {
+            let log = AppDelegate.current?.log
+            var manager: Location.Manager?
+            do {
+                manager = try Location.Manager.load()
+            } catch {
+                log!.out(.error, "Unable to load list of locations: \(error.localizedDescription)")
+                manager = Location.Manager()
+            }
+            if manager?.get(UnknownLocation.id) == nil {
+                do {
+                    try manager?.add(UnknownLocation.obj)
+                } catch {
+                    log!.out(.error, "Error adding \(UnknownLocation.obj.name) to \(manager!): \(error)")
+                }
+            }
+            Location.manager = manager
+            Defaults.initLocations()
+        }
+        
         required init(from decoder: Decoder) throws {
             try super.init(from: decoder)
         }

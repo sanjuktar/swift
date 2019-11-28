@@ -13,8 +13,9 @@ class DetailsConstants {
         class Cell {
             class Color {
                 static var background = ColorConstants.Table.background
-                static var text: UIColor = ColorConstants.Table.text
-                static var textField: UIColor = ColorConstants.Table.textField
+                static var text = ColorConstants.Table.text
+                static var textFieldText = ColorConstants.TextField.text
+                static var textFieldBg = ColorConstants.TextField.background
             }
             class Font {
                 static var titleLabel = FontConstants.Table.Cell.titleLabel

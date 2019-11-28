@@ -8,15 +8,12 @@
 
 import UIKit
 
-protocol SliderDelegate {
-}
-
 class DetailsSliderController<DetailType:ObjectDetail>: NSObject, SliderDelegate {
-    var parent: DetailsViewController?
+    var parent: EditableTableViewController?
     var object: DetailType.ObjectType?
     var details: [UISlider:DetailType] = [:]
     
-    init(_ obj: DetailType.ObjectType, _ parent: DetailsViewController) {
+    init(_ obj: DetailType.ObjectType, _ parent: EditableTableViewController) {
         self.parent = parent
         object = obj
     }

@@ -18,9 +18,9 @@ class EditDetailWithSliderCell: UITableViewCell {
         }
     }
     
-    var parent: DetailsViewController?
+    var parent: EditableTableViewController?
     
-    static func get(_ title: String, values: [String], pos: Int? = nil, parent: DetailsViewController , minImage: UIImage? = nil, maxImage: UIImage? = nil) -> EditDetailWithSliderCell {
+    static func get(_ title: String, values: [String], pos: Int? = nil, parent: EditableTableViewController , minImage: UIImage? = nil, maxImage: UIImage? = nil) -> EditDetailWithSliderCell {
         let table = parent.table
         table!.register(UINib(nibName: "EditDetailWithSliderCell", bundle: nil), forCellReuseIdentifier: ReuseId.editDetailWithSliderCell)
         let cell = table!.dequeueReusableCell(withIdentifier: ReuseId.editDetailWithSliderCell) as! EditDetailWithSliderCell

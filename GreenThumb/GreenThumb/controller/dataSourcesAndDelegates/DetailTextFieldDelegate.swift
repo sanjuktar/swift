@@ -8,16 +8,12 @@
 
 import UIKit
 
-protocol TextFieldDelegate: UITextFieldDelegate {
-    func reset()
-}
-
 class DetailTextFieldDelegate<DetailType:ObjectDetail>: NSObject, TextFieldDelegate {
     var textFields: [UITextField : DetailType] = [:]
     var detailsObject: DetailType.ObjectType
-    var parent: DetailsViewController?
+    var parent: EditableTableViewController?
     
-    init(_ object: DetailType.ObjectType, _ parentVC: DetailsViewController) {
+    init(_ object: DetailType.ObjectType, _ parentVC: EditableTableViewController) {
         detailsObject = object
         parent = parentVC
     }

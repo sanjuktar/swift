@@ -42,8 +42,15 @@ enum PlantDetail: String, Codable, ObjectDetail {
     var description: String {
         return rawValue
     }
-    var seguesToDetails: Bool {
-        return isCare
+    var segueOnSelection: Bool {
+        switch self {
+        case .location:
+            return true
+        case let detail where detail.careType != nil:
+            return true
+        default:
+            return false
+        }
     }
     var cellHeight: CGFloat {
         switch self {
@@ -61,22 +68,26 @@ enum PlantDetail: String, Codable, ObjectDetail {
         default: return false
         }
     }
-    var isCare: Bool {
-        switch self {
-        case .water: return true
-        case .light: return true
-        case .fertilize: return true
-        case .pestControl: return true
-        case .prune: return true
-        case .repot: return true
-        default:
-            return false
-        }
-    }
     var isStringConvertable: Bool {
         switch self {
         case .image: return false
         default: return true
+        }
+    }
+    var careType: CareType? {
+        switch self {
+        case .ignore: return nil
+        case .image: return nil
+        case .location: return nil
+        case .nickname: return nil
+        case .commonName: return nil
+        case .scientificName: return nil
+        case .water: return .water
+        case .light: return .light
+        case .fertilize: return .fertilize
+        case .pestControl: return .pestControl
+        case .prune: return .prune
+        case .repot: return nil
         }
     }
     
@@ -136,17 +147,17 @@ enum PlantDetail: String, Codable, ObjectDetail {
         case .location:
             return Location.manager!.get(plant.location)!.name
         case .water:
-            return CareDetail.water.data(plant.care)
+            return CareDetail.water.value(for: plant.care)
         case .light:
-            return CareDetail.light.data(plant.care)
+            return CareDetail.light.value(for: plant.care)
         case .fertilize:
-            return CareDetail.fertilize.data(plant.care)
+            return CareDetail.fertilize.value(for: plant.care)
         case .pestControl:
-            return CareDetail.pestControl.data(plant.care)
+            return CareDetail.pestControl.value(for: plant.care)
         case .prune:
-            return CareDetail.prune.data(plant.care)
+            return CareDetail.prune.value(for: plant.care)
         case .repot:
-            return CareDetail.repot.data(plant.care)
+            return CareDetail.repot.value(for: plant.care)
         }
     }
     
@@ -203,12 +214,14 @@ enum PlantDetail: String, Codable, ObjectDetail {
         return true
     }
     
-    func cell(_ parent: DetailsViewController, obj: Plant?, editMode: Bool) -> UITableViewCell {
+    func cell(_ parent: EditableTableViewController, obj: Plant?, editMode: Bool) -> UITableViewCell {
         let label = "\(rawValue): "
         switch self {
         case .image:
             return ImageDetailCell.get(parent, obj?.image, editMode)
-        case let detail where detail.seguesToDetails:
+        case .location where !editMode:
+            return EditableDetailTextCell.getWithDisclosure(parent, label, value(for: obj!) as! String)
+        case let detail where detail.careType != nil:
             return EditableDetailTextCell.getWithDisclosure(parent, label, value(for: obj!) as! String)
         default:
             let cell = EditableDetailTextCell.get(parent, label, value(for: obj!) as! String, editMode: editMode)

@@ -1,5 +1,5 @@
 //
-//  DetailsViewController.swift
+//  EditableTableViewController.swift
 //  GreenThumb
 //
 //  Created by Sanjukta Roy on 11/11/19.
@@ -8,8 +8,8 @@
 
 import UIKit
 
-class DetailsViewController: UIViewController {
-    var tableController: DetailsTableViewController?
+class EditableTableViewController: UIViewController {
+    var tableController: TableController?
     var textController: TextFieldDelegate?
     var sliderController: SliderDelegate?
     var imagePicker: ImagePickerController {
@@ -26,6 +26,8 @@ class DetailsViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        log = AppDelegate.current?.log
+        output = MessageWindow(self)
         textController?.reset()
     }
     

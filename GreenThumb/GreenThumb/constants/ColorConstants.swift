@@ -23,6 +23,10 @@ class ColorConstants {
     class Table {
         static var background = fromRgb(224, 235, 218)
         static var text = fromRgb(99, 50, 191)
-        static var textField = UIColor.darkText
+    }
+    
+    class TextField {
+        static var text = UIColor.darkText
+        static var background = UIColor.white
     }
 }

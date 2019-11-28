@@ -8,7 +8,7 @@
 
 import UIKit
 
-class DetailsTableView: UITableView {
+class TableView: UITableView {
     override func awakeFromNib() {
         super.awakeFromNib()
         backgroundColor = ColorConstants.Table.background

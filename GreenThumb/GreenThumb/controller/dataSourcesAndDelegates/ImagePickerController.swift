@@ -13,12 +13,12 @@ fileprivate func convertFromUIImagePickerControllerInfoKey(_ input: UIImagePicke
 }
 
 class ImagePickerController: NSObject, UIImagePickerControllerDelegate {
-    var parent: DetailsViewController
+    var parent: EditableTableViewController
     var imagePicker: UIImagePickerController {
         return UIImagePickerController()
     }
     
-    init(_ parent: DetailsViewController) {
+    init(_ parent: EditableTableViewController) {
         self.parent = parent
     }
     

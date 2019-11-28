@@ -8,7 +8,7 @@
 
 import UIKit
 
-class LocationDetailsViewController: DetailsViewController {
+class LocationDetailsViewController: EditableTableViewController {
     @IBOutlet weak var _editSaveButton: UIBarButtonItem!
     @IBOutlet weak var detailsTable: UITableView!
     static var returnToLocationsListSegue = "unwindFromLocationDetailsToList"
@@ -17,8 +17,6 @@ class LocationDetailsViewController: DetailsViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        log = AppDelegate.current?.log
-        output = MessageWindow(self)
         table = detailsTable
         editSaveButton = _editSaveButton
         tableController = DetailsTableController<LocationDetail>.setup(location!, self)

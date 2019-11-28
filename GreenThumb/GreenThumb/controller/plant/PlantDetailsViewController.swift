@@ -8,13 +8,14 @@
 
 import UIKit
 
-class PlantDetailsViewController: DetailsViewController {
+class PlantDetailsViewController: EditableTableViewController {
     @IBOutlet weak var _editSaveButton: UIBarButtonItem!
     @IBOutlet weak var detailsTable: UITableView!
 
     static let noNameTitle = "Plant Details"
     static var returnToPlantListSegue = "unwindEditPlantToList"
     static var careDetailsSegue = "plantDetailsToCareSegue"
+    static var locationDetailsSegue = "plantDetailsToLocationSegue"
     
     var plant: Plant?
     var plantImageTableCell: ImageDetailCell?
@@ -60,10 +61,11 @@ class PlantDetailsViewController: DetailsViewController {
                 return false
             }
             return true
+        case PlantDetailsViewController.locationDetailsSegue:
+            return true
         case PlantDetailsViewController.careDetailsSegue:
-            let indexPath = table?.indexPathForSelectedRow
-            if let detail = PlantDetail.item(indexPath!.section, indexPath!.row) {
-                return detail.seguesToDetails
+            if let detail = sender as? PlantDetail {
+                return detail.careType != nil
             }
             return false
         default:
@@ -72,17 +74,20 @@ class PlantDetailsViewController: DetailsViewController {
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == PlantDetailsViewController.returnToPlantListSegue {
+        switch segue.identifier {
+        case PlantDetailsViewController.returnToPlantListSegue:
             if editMode {
                 if !PlantDetail.validate(plant!) {
                     plant = nil
                     return
                 }
             }
-        }
-        if segue.identifier == PlantDetailsViewController.careDetailsSegue {
-            let dest = segue.destination as! CareDetailsViewController
-            dest.care = plant?.care
+        case PlantDetailsViewController.locationDetailsSegue:
+            (segue.destination as! LocationDetailsViewController).location = sender as? Location
+        case PlantDetailsViewController.careDetailsSegue:
+            (segue.destination as! ScheduleViewController).schedule = sender as? SeasonalSchedule
+        default:
+            break
         }
     }
     
@@ -107,8 +112,13 @@ class PlantDetailsViewController: DetailsViewController {
     
     override func selectedTableRow(_ indexPath: IndexPath) {
         guard let detail = PlantDetail.item(indexPath.section, indexPath.row) else {return}
-        if detail.isCare {
-            performSegue(withIdentifier: PlantDetailsViewController.careDetailsSegue, sender: self)
+        switch detail {
+        case .location:
+            performSegue(withIdentifier: PlantDetailsViewController.locationDetailsSegue, sender: Location.manager!.get(plant!.location))
+        case let d where d.careType != nil:
+            performSegue(withIdentifier: PlantDetailsViewController.careDetailsSegue, sender: plant?.care.schedule[detail.careType!])
+        default:
+            break
         }
     }
     
