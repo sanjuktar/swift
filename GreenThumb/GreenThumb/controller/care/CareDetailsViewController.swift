@@ -18,6 +18,7 @@ class CareDetailsViewController: EditableTableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        log = AppDelegate.current?.log
         table = detailsTable
         setEditMode(editMode)
         tableController = DetailsTableController<CareDetail>.setup(care!, self)

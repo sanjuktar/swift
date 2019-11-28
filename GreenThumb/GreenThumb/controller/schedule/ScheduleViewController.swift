@@ -19,6 +19,7 @@ class ScheduleViewController: EditableTableViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        log = AppDelegate.current?.log
         table = detailsTable
         title = "Care Schedule"
         for cellType in reuseIds {

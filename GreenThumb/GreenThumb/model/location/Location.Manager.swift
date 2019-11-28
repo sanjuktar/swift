@@ -12,6 +12,8 @@ import UIKit
 extension Location {
     class Manager: IdedObjManager<Location> {
         static var defaultName = "Location.Manager"
+        static var log: Log?
+        
         var knownLocations: [UniqueId] {
             var locs = ids
             locs.remove(at: locs.firstIndex(of: UnknownLocation.id)!)
@@ -23,8 +25,7 @@ extension Location {
         }
         
         static func setup() {
-            let log = AppDelegate.current?.log
-            var manager: Location.Manager?
+            log = AppDelegate.current?.log
             do {
                 manager = try Location.Manager.load()
             } catch {
@@ -38,7 +39,6 @@ extension Location {
                     log!.out(.error, "Error adding \(UnknownLocation.obj.name) to \(manager!): \(error)")
                 }
             }
-            Location.manager = manager
             Defaults.initLocations()
         }
         

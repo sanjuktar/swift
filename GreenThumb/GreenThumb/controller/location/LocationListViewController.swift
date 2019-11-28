@@ -42,6 +42,7 @@ class LocationListViewController: CollectionViewController {
     
     override func viewDidLoad() {
         collection = locCollection
+        log = Location.manager?.log
         super.viewDidLoad()
     }
     

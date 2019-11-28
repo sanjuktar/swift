@@ -39,6 +39,7 @@ class PlantsListViewController: CollectionViewController {
     
     override func viewDidLoad() {
         collection = plantCollection
+        log = Plant.Manager.log
         super.viewDidLoad()
     }
     

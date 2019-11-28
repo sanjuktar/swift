@@ -17,6 +17,7 @@ class LocationDetailsViewController: EditableTableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        log = Location.manager?.log
         table = detailsTable
         editSaveButton = _editSaveButton
         tableController = DetailsTableController<LocationDetail>.setup(location!, self)

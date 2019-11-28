@@ -20,11 +20,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         AppDelegate.current = self
         Defaults.create()
         setupAppearance()
-        setupSeasons()
-        Location.Manager.setup() // setupLocations()
+        Season.Manager.setup()
+        Location.Manager.setup()
         setupActions()
         setupCare()
-        setupPlants()
+        Plant.Manager.setup()
         return true
     }
     
@@ -35,69 +35,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         //appearance.titleTextAttributes = []
     }
     
-    func setupSeasons() {
-        do {
-            Season.manager = try Season.Manager.load()
-        } catch {
-            log?.out(.error, "Unable to load seasons list: \(error.localizedDescription). Using defaults.")
-            Season.manager = Season.Manager()
-            var season: Season? = AllYear.obj
-            do {
-                try Season.manager!.add(season!)
-            } catch {
-                log?.out(.error, "Unable to add \(AllYear.obj.name) to \(Season.manager!): \(error.localizedDescription)")
-            }
-            season = RestOfTheYear.obj
-            do {
-                try Season.manager!.add(season!)
-            } catch {
-                log?.out(.error, "Unable to add \(RestOfTheYear.obj.name)) to \(Season.manager!): \(error.localizedDescription)")
-            }
-            do {
-                try Season.manager!.commit()
-            } catch {
-                log?.out(.error, "Unable to store default seasons list to be used later.")
-            }
-        }
-        Defaults.initSeasonal()
-    }
-    
-    func setupLocations() {
-        do {
-            Location.manager = try Location.Manager.load()
-        } catch {
-            log!.out(.error, "Unable to load list of locations: \(error.localizedDescription)")
-            Location.manager = Location.Manager()
-        }
-        if Location.manager?.get(UnknownLocation.obj.id) == nil {
-            do {
-                try Location.manager?.add(UnknownLocation.obj)
-            } catch {
-                log!.out(.error, "Error adding \(UnknownLocation.obj.name) to \(Location.manager!): \(error)")
-            }
-        }
-        Defaults.initLocations()
-    }
-    
     func setupActions() {
     }
     
     func setupCare() {
         Defaults.initCare()
-    }
-    
-    func setupPlants() {
-        do {
-            Plant.manager = try Plant.Manager.load()
-        } catch {
-            log?.out(.error, "Unable to load list of plants: \(error.localizedDescription)")
-            Plant.manager = Plant.Manager()
-            do {
-                try Plant.manager?.commit()
-            } catch {
-                log?.out(.error, "Unable to save new plants manager.")
-            }
-        }
     }
 }
 

@@ -43,6 +43,7 @@ class PlantDetailsViewController: EditableTableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        log = Plant.manager?.log
         editSaveButton = _editSaveButton
         setEditMode(editMode)
         editSaveButton?.isEnabled = PlantDetail.validate(plant!)
@@ -114,7 +115,12 @@ class PlantDetailsViewController: EditableTableViewController {
         guard let detail = PlantDetail.item(indexPath.section, indexPath.row) else {return}
         switch detail {
         case .location:
-            performSegue(withIdentifier: PlantDetailsViewController.locationDetailsSegue, sender: Location.manager!.get(plant!.location))
+            if editMode {
+                showLocationPopup((textController as! DetailTextFieldDelegate<PlantDetail>).textFieldFor(detail)!)
+            }
+            else {
+                performSegue(withIdentifier: PlantDetailsViewController.locationDetailsSegue, sender: Location.manager!.get(plant!.location))
+            }
         case let d where d.careType != nil:
             performSegue(withIdentifier: PlantDetailsViewController.careDetailsSegue, sender: plant?.care.schedule[detail.careType!])
         default:

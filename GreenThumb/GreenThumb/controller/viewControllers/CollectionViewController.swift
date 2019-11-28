@@ -17,7 +17,6 @@ class CollectionViewController: UIViewController, UICollectionViewDelegate, UICo
     override func viewDidLoad() {
         super.viewDidLoad()
         output = MessageWindow(self)
-        log = AppDelegate.current?.log
         setEditMode(false)
         collection?.delegate = self
         collection?.dataSource = self

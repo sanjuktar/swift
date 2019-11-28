@@ -26,7 +26,6 @@ class EditableTableViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        log = AppDelegate.current?.log
         output = MessageWindow(self)
         textController?.reset()
     }

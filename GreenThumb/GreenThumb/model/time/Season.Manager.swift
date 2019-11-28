@@ -16,9 +16,33 @@ extension Season {
         }
         
         static var defaultName: String = "Season.Manager"
+        static var log: Log?
         
         static func load(name: String = defaultName) throws -> Manager {
             return try (Documents.instance?.retrieve(name, as: Manager.self))!
+        }
+        
+        static func setup(name: String = defaultName) {
+            log = AppDelegate.current?.log
+            do {
+                manager = try Season.Manager.load(name: name)
+            } catch {
+                log?.out(.error, "Unable to load seasons list: \(error). Using defaults.")
+                manager = Season.Manager()
+            }
+            var season: Season? = AllYear.obj
+            do {
+                try manager!.add(season!)
+            } catch {
+                log?.out(.error, "Unable to add \(AllYear.obj) to \(manager!): \(error)")
+            }
+            season = RestOfTheYear.obj
+            do {
+                try manager!.add(season!)
+            } catch {
+                log?.out(.error, "Unable to add \(RestOfTheYear.obj)) to \(manager!): \(error)")
+            }
+            Defaults.initSeasonal()
         }
         
         static func find(_ date: Date, in seasons: [UniqueId]) -> Season {
