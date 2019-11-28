@@ -9,10 +9,10 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
-        <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" restorationIdentifier="imageDetailTableCell" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="imageDetailTableCell" rowHeight="175" id="k0V-Ks-MyK" customClass="ImageDetailCell" customModule="GreenThumb" customModuleProvider="target">
+        <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" restorationIdentifier="editableImageCell" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="editableImageCell" rowHeight="175" id="k0V-Ks-MyK" customClass="EditableImageCell" customModule="GreenThumb" customModuleProvider="target">
             <rect key="frame" x="0.0" y="0.0" width="444" height="199"/>
             <autoresizingMask key="autoresizingMask"/>
-            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" restorationIdentifier="imageDetailCell" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="k0V-Ks-MyK" id="5S0-Xp-t1y" customClass="ImageDetailCell" customModule="GreenThumb" customModuleProvider="target">
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" restorationIdentifier="imageDetailCell" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="k0V-Ks-MyK" id="5S0-Xp-t1y" customClass="EditableImageCell" customModule="GreenThumb" customModuleProvider="target">
                 <rect key="frame" x="0.0" y="0.0" width="444" height="199"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>

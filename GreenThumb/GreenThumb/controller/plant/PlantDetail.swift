@@ -218,13 +218,13 @@ enum PlantDetail: String, Codable, ObjectDetail {
         let label = "\(rawValue): "
         switch self {
         case .image:
-            return ImageDetailCell.get(parent, obj?.image, editMode)
+            return EditableImageCell.get(parent, obj?.image, editMode)
         case .location where !editMode:
-            return EditableDetailTextCell.getWithDisclosure(parent, label, value(for: obj!) as! String)
+            return EditableTextCell.getWithDisclosure(parent, label, value(for: obj!) as! String)
         case let detail where detail.careType != nil:
-            return EditableDetailTextCell.getWithDisclosure(parent, label, value(for: obj!) as! String)
+            return EditableTextCell.getWithDisclosure(parent, label, value(for: obj!) as! String)
         default:
-            let cell = EditableDetailTextCell.get(parent, label, value(for: obj!) as! String, editMode: editMode)
+            let cell = EditableTextCell.get(parent, label, value(for: obj!) as! String, editMode: editMode)
             (parent.textController as! DetailTextFieldDelegate<PlantDetail>).add(textField: cell.detailValueTextField, edits: self)
             return cell
         }

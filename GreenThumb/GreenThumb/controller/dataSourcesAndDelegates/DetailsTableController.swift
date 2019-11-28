@@ -40,7 +40,7 @@ class DetailsTableController<DetailType:ObjectDetail>: NSObject, TableController
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let detail = DetailType.item(indexPath.section, indexPath.row) else {
-            return EditableDetailTextCell.get(parent, "", DetailType.unknownValue, editMode: false)
+            return EditableTextCell.get(parent, "", DetailType.unknownValue, editMode: false)
         }
         return detail.cell(parent, obj: detailsObject, editMode: parent.editMode)
     }

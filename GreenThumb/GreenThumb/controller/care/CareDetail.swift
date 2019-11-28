@@ -177,7 +177,7 @@ enum CareDetail: String, Codable, ObjectDetail {
         case .ignore:
             fatalError("Ignore care detail!")
         case .name:
-            return EditableDetailTextCell.get(controller, label, value(for: obj!) as! String, editMode: editMode)
+            return EditableTextCell.get(controller, label, value(for: obj!) as! String, editMode: editMode)
         case .water:
             fallthrough
         case .light:
@@ -191,9 +191,9 @@ enum CareDetail: String, Codable, ObjectDetail {
         case .move:
             fallthrough
         case .repot:
-            return EditableDetailTextCell.getWithDisclosure(controller, label, value(for: obj!) as! String)
+            return EditableTextCell.getWithDisclosure(controller, label, value(for: obj!) as! String)
         case .notes:
-            return EditableNotesCell.get(controller, nil, value(for: obj!) as! String, editMode)
+            return EditableLongTextCell.get(controller, nil, value(for: obj!) as! String, editMode)
         }
     }
     

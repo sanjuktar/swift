@@ -1,5 +1,5 @@
 //
-//  EditableNotesCell.swift
+//  EditableLongTextCell.swift
 //  GreenThumb
 //
 //  Created by Sanjukta Roy on 11/21/19.
@@ -8,13 +8,13 @@
 
 import UIKit
 
-class EditableNotesCell: UITableViewCell {
+class EditableLongTextCell: UITableViewCell {
     @IBOutlet weak var textView: UITextView!
     @IBOutlet weak var nameLabel: UILabel!
     
-    static func get(_ controller: EditableTableViewController, _ label: String?, _ text: String, _ editMode: Bool) -> EditableNotesCell {
-        controller.table?.register(UINib(nibName: "EditableNotesCell", bundle: nil), forCellReuseIdentifier: ReuseId.editableNotesCell)
-        let cell = controller.table?.dequeueReusableCell(withIdentifier: ReuseId.editableNotesCell) as! EditableNotesCell
+    static func get(_ controller: EditableTableViewController, _ label: String?, _ text: String, _ editMode: Bool) -> EditableLongTextCell {
+        controller.table?.register(UINib(nibName: "EditableLongTextCell", bundle: nil), forCellReuseIdentifier: ReuseId.editableLongTextCell)
+        let cell = controller.table?.dequeueReusableCell(withIdentifier: ReuseId.editableLongTextCell) as! EditableLongTextCell
         
         if label == nil || label!.isEmpty {
             cell.nameLabel.removeFromSuperview()

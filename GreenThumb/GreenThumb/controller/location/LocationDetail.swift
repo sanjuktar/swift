@@ -131,54 +131,54 @@ enum LocationDetail: String, Codable, ObjectDetail {
         var cell: UITableViewCell?
         switch self {
         case .name:
-            cell = EditableDetailTextCell.get(controller, rawValue, value(for: obj!) as! String, editMode: editMode)
+            cell = EditableTextCell.get(controller, rawValue, value(for: obj!) as! String, editMode: editMode)
         case .image:
-            cell = ImageDetailCell.get(controller, obj?.image, editMode)
+            cell = EditableImageCell.get(controller, obj?.image, editMode)
         case .plants:
-            cell = EditableDetailTextCell.get(controller, rawValue, value(for: obj!) as! String, editMode: false)
+            cell = EditableTextCell.get(controller, rawValue, value(for: obj!) as! String, editMode: false)
         case .inOrOut:
             let value = InOrOut.Values(rawValue: obj!.conditions.value(.inOrOut).name)!
-            cell = EditDetailWithSliderCell.get(
+            cell = EditableSliderCell.get(
                 rawValue,
                 values: InOrOut.values.map{$0.rawValue},
                 pos: InOrOut.values.firstIndex(of: value),
                 parent: controller)
         case .light:
             let value = LightExposure.Values(rawValue: obj!.conditions.value(.light).name)
-            cell = EditDetailWithSliderCell.get(
+            cell = EditableSliderCell.get(
                 rawValue,
                 values: LightExposure.values.map{$0.rawValue},
                 pos: LightExposure.values.firstIndex(of: value!)!,
                 parent: controller)
         case .rain:
             let value = Rain.Values(rawValue: obj!.conditions.value(.rain).name)
-            cell = EditDetailWithSliderCell.get(
+            cell = EditableSliderCell.get(
                 rawValue,
                 values: Rain.values.map{$0.rawValue},
                 pos: Rain.values.firstIndex(of: value!),
                 parent: controller)
         case .wind:
             let value = Wind.Values.get(obj!.conditions.value(.wind).name)
-            cell = EditDetailWithSliderCell.get(
+            cell = EditableSliderCell.get(
                 rawValue,
                 values: Wind.values.map{$0.name},
                 pos: Wind.values.firstIndex(of: value!),
                 parent: controller)
         case .humidity:
             let value = Humidity.Values(rawValue: obj!.conditions.value(.humidity).name)
-            cell = EditDetailWithSliderCell.get(
+            cell = EditableSliderCell.get(
                 rawValue,
                 values: Humidity.values.map{$0.rawValue},
                 pos: Humidity.values.firstIndex(of: value!),
                 parent: controller)
         }
-        if let c = cell as? EditableDetailTextCell {
+        if let c = cell as? EditableTextCell {
             (controller.textController as! DetailTextFieldDelegate<LocationDetail>).add(textField: c.detailValueTextField, edits: self)
         }
-        else if let c = cell as? EditDetailWithSliderCell {
+        else if let c = cell as? EditableSliderCell {
             (controller.sliderController as! DetailsSliderController<LocationDetail>).add(slider: c.detailValueSlider, edits: self)
         }
-        return cell ?? EditableDetailTextCell.get(controller, "", "Unknown value", editMode: false)
+        return cell ?? EditableTextCell.get(controller, "", "Unknown value", editMode: false)
     }
     
     func modify(_ obj: Location, with value: Any?) -> Bool {

@@ -10,11 +10,10 @@ import Foundation
 
 struct ReuseId {
     // Details Table
-    static var detailsTableCell = "detailsTableCell"
-    static var editDetailTextCell = "editDetailTextCell"
-    static var imageDetailCell = "imageDetailTableCell"
-    static var editDetailWithSliderCell = "editDetailWithSliderCell"
-    static var editableNotesCell = "editableNotesCell"
+    static var editableTextCell = "editableTextCell"
+    static var editableImageCell = "editableImageCell"
+    static var editableSliderCell = "editableSliderCell"
+    static var editableLongTextCell = "editableLongTextCell"
     
     // Schedule Table
     static var frequencyBySeasonCell = "frequencyBySeasonCell"

@@ -18,7 +18,7 @@ class PlantDetailsViewController: EditableTableViewController {
     static var locationDetailsSegue = "plantDetailsToLocationSegue"
     
     var plant: Plant?
-    var plantImageTableCell: ImageDetailCell?
+    var plantImageTableCell: EditableImageCell?
     var textFields: [UITextField:PlantDetail] {
         return (textController as! DetailTextFieldDelegate<PlantDetail>).textFields
     }

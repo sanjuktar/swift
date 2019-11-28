@@ -1,5 +1,5 @@
 //
-//  EditableDetailTextCell.swift
+//  EditableTextCell.swift
 //  GreenThumb
 //
 //  Created by Sanjukta Roy on 11/11/18.
@@ -8,24 +8,24 @@
 
 import UIKit
 
-class EditableDetailTextCell: UITableViewCell {
+class EditableTextCell: UITableViewCell {
     @IBOutlet weak var detailTitleLabel: UILabel!
     @IBOutlet weak var detailValueTextField: UITextField!
     
     var seguesOnSelect = false
     
-    static func get(_ controller: EditableTableViewController, _ label: String, _ detail: String, editMode: Bool) -> EditableDetailTextCell {
-        controller.table?.register(UINib(nibName: "EditableDetailTextCell", bundle: nil), forCellReuseIdentifier: ReuseId.editDetailTextCell)
-        let cell = controller.table!.dequeueReusableCell(withIdentifier: ReuseId.editDetailTextCell) as! EditableDetailTextCell
+    static func get(_ controller: EditableTableViewController, _ label: String, _ detail: String, editMode: Bool) -> EditableTextCell {
+        controller.table?.register(UINib(nibName: "EditableTextCell", bundle: nil), forCellReuseIdentifier: ReuseId.editableTextCell)
+        let cell = controller.table!.dequeueReusableCell(withIdentifier: ReuseId.editableTextCell) as! EditableTextCell
         cell.customize(label, detail)
         cell.setEditMode(editMode)
         cell.detailValueTextField.delegate = controller.textController
         return cell
     }
     
-    static func getWithDisclosure(_ detailsVC: EditableTableViewController, _ label: String, _ detail: String) -> EditableDetailTextCell {
-        detailsVC.table?.register(UINib(nibName: "EditableDetailTextCell", bundle: nil), forCellReuseIdentifier: ReuseId.editDetailTextCell)
-        let cell = detailsVC.table!.dequeueReusableCell(withIdentifier: ReuseId.editDetailTextCell) as! EditableDetailTextCell
+    static func getWithDisclosure(_ detailsVC: EditableTableViewController, _ label: String, _ detail: String) -> EditableTextCell {
+        detailsVC.table?.register(UINib(nibName: "EditableTextCell", bundle: nil), forCellReuseIdentifier: ReuseId.editableTextCell)
+        let cell = detailsVC.table!.dequeueReusableCell(withIdentifier: ReuseId.editableTextCell) as! EditableTextCell
         cell.customize(label, detail)
         cell.accessoryType = .disclosureIndicator
         cell.setEditMode(false)

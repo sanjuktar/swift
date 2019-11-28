@@ -1,5 +1,5 @@
 //
-//  EditLocDetailWithSliderCell.swift
+//  EditableSliderCell.swift
 //  GreenThumb
 //
 //  Created by Sanjukta Roy on 4/25/19.
@@ -8,7 +8,7 @@
 
 import UIKit
 
-class EditDetailWithSliderCell: UITableViewCell {
+class EditableSliderCell: UITableViewCell {
     @IBOutlet weak var detailNameLabel: UILabel!
     @IBOutlet weak var detailValueSlider: UISlider!
     
@@ -20,10 +20,10 @@ class EditDetailWithSliderCell: UITableViewCell {
     
     var parent: EditableTableViewController?
     
-    static func get(_ title: String, values: [String], pos: Int? = nil, parent: EditableTableViewController , minImage: UIImage? = nil, maxImage: UIImage? = nil) -> EditDetailWithSliderCell {
+    static func get(_ title: String, values: [String], pos: Int? = nil, parent: EditableTableViewController , minImage: UIImage? = nil, maxImage: UIImage? = nil) -> EditableSliderCell {
         let table = parent.table
-        table!.register(UINib(nibName: "EditDetailWithSliderCell", bundle: nil), forCellReuseIdentifier: ReuseId.editDetailWithSliderCell)
-        let cell = table!.dequeueReusableCell(withIdentifier: ReuseId.editDetailWithSliderCell) as! EditDetailWithSliderCell
+        table!.register(UINib(nibName: "EditableSliderCell", bundle: nil), forCellReuseIdentifier: ReuseId.editableSliderCell)
+        let cell = table!.dequeueReusableCell(withIdentifier: ReuseId.editableSliderCell) as! EditableSliderCell
         cell.parent = parent
         
         cell.backgroundColor = DetailsConstants.Table.Cell.Color.background

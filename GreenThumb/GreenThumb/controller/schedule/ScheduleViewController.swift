@@ -36,7 +36,7 @@ class ScheduleViewController: EditableTableViewController {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if indexPath.row == 0 {
-            return EditableDetailTextCell.get(self, "Name:", schedule!.name , editMode: editMode)
+            return EditableTextCell.get(self, "Name:", schedule!.name , editMode: editMode)
         }
         return FrequencyBySeasonCell.get(self, AllYear.obj, 1, 1, .weeks, startDate: nil, endDate: nil)
     }
