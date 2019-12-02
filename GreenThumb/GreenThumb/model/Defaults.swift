@@ -9,6 +9,7 @@
 import Foundation
 
 class Defaults {
+    
     static var filename: String = "defaults"
     static var version: String {
         return "v0.1"

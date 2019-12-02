@@ -24,7 +24,7 @@ class FrequencyBySeasonCell: UITableViewCell {
         cell.seasonLabel.text = season.name
         cell.seasonLabel.textColor = ColorConstants.Table.text
         cell.nTextField.text = "\(nX)"
-        cell.timeUnitTextField.text = "\(timeX)"
+        cell.timeMultiplierTextField.text = "\(timeX)"
         cell.timeUnitTextField.text = "\(timeUnit)"
         if startDate != nil {
             cell.specificStartSwitch.isOn = true

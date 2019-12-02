@@ -105,7 +105,7 @@
 		33F6735D2387C88400F55861 /* EditableLongTextCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 33F6735B2387C88400F55861 /* EditableLongTextCell.xib */; };
 		33F6735F2388C3FC00F55861 /* ScheduleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33F6735E2388C3FC00F55861 /* ScheduleViewController.swift */; };
 		33F67365238916BB00F55861 /* FrequencyBySeasonCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33F67363238916BB00F55861 /* FrequencyBySeasonCell.swift */; };
-		33F67366238916BB00F55861 /* FrequencyBySeasonCellTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 33F67364238916BB00F55861 /* FrequencyBySeasonCellTableViewCell.xib */; };
+		33F67366238916BB00F55861 /* FrequencyBySeasonCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 33F67364238916BB00F55861 /* FrequencyBySeasonCell.xib */; };
 		33F6736B238A036300F55861 /* TableController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33F6736A238A036300F55861 /* TableController.swift */; };
 		33F6736D238A093900F55861 /* SliderDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33F6736C238A093900F55861 /* SliderDelegate.swift */; };
 		33F6736F238A097000F55861 /* TextFieldDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33F6736E238A097000F55861 /* TextFieldDelegate.swift */; };
@@ -234,7 +234,7 @@
 		33F6735B2387C88400F55861 /* EditableLongTextCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = EditableLongTextCell.xib; sourceTree = "<group>"; };
 		33F6735E2388C3FC00F55861 /* ScheduleViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleViewController.swift; sourceTree = "<group>"; };
 		33F67363238916BB00F55861 /* FrequencyBySeasonCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FrequencyBySeasonCell.swift; sourceTree = "<group>"; };
-		33F67364238916BB00F55861 /* FrequencyBySeasonCellTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = FrequencyBySeasonCellTableViewCell.xib; sourceTree = "<group>"; };
+		33F67364238916BB00F55861 /* FrequencyBySeasonCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = FrequencyBySeasonCell.xib; sourceTree = "<group>"; };
 		33F6736A238A036300F55861 /* TableController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableController.swift; sourceTree = "<group>"; };
 		33F6736C238A093900F55861 /* SliderDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SliderDelegate.swift; sourceTree = "<group>"; };
 		33F6736E238A097000F55861 /* TextFieldDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextFieldDelegate.swift; sourceTree = "<group>"; };
@@ -293,6 +293,7 @@
 		336FAA21237A758C003E2ECF /* dataSourcesAndDelegates */ = {
 			isa = PBXGroup;
 			children = (
+				338E4917228814A0007FF826 /* AlwaysPresentAsPopover.swift */,
 				33F6736A238A036300F55861 /* TableController.swift */,
 				33F6736E238A097000F55861 /* TextFieldDelegate.swift */,
 				33F6736C238A093900F55861 /* SliderDelegate.swift */,
@@ -474,7 +475,6 @@
 				338E48EB227282F5007FF826 /* location */,
 				33C1A17321995249003003F5 /* care */,
 				33C1A17221995231003003F5 /* plant */,
-				338E4917228814A0007FF826 /* AlwaysPresentAsPopover.swift */,
 			);
 			path = controller;
 			sourceTree = "<group>";
@@ -665,7 +665,7 @@
 			isa = PBXGroup;
 			children = (
 				33F67363238916BB00F55861 /* FrequencyBySeasonCell.swift */,
-				33F67364238916BB00F55861 /* FrequencyBySeasonCellTableViewCell.xib */,
+				33F67364238916BB00F55861 /* FrequencyBySeasonCell.xib */,
 			);
 			path = schedule;
 			sourceTree = "<group>";
@@ -790,7 +790,7 @@
 				33F6735423853D1800F55861 /* CollectionViewCell.xib in Resources */,
 				33C1A1232193AD4B003003F5 /* Assets.xcassets in Resources */,
 				33F673332380C31200F55861 /* EditableImageCell.xib in Resources */,
-				33F67366238916BB00F55861 /* FrequencyBySeasonCellTableViewCell.xib in Resources */,
+				33F67366238916BB00F55861 /* FrequencyBySeasonCell.xib in Resources */,
 				33F6734B2384A01900F55861 /* EditableSliderCell.xib in Resources */,
 				33F673312380ABB200F55861 /* EditableTextCell.xib in Resources */,
 				33C1A1212193AD48003003F5 /* Main.storyboard in Resources */,

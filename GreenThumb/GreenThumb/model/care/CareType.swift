@@ -29,4 +29,16 @@ enum CareType: String, ActionType, Storable, CaseIterable {
     var description: String {
         return rawValue
     }
+    
+    static func get(_ action: Action) -> CareType {
+        switch action {
+        case is Water: return .water
+        case is Fertilize: return .fertilize
+        case is Light: return .light
+        case is Pruning: return .prune
+        case is Move: return .move
+        case is PestControl: return .pestControl
+        default: return .none
+        }
+    }
 }

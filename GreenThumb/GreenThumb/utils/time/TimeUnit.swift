@@ -8,15 +8,22 @@
 
 import Foundation
 
-enum TimeUnit : String, CaseIterable, CustomStringConvertible {
+enum TimeUnit : String, CaseIterable, CustomStringConvertible, Storable {
     case seconds = "seconds"
     case minutes = "minutes"
     case hours = "hours"
     case days = "days"
     case weeks = "weeks"
     case months = "months"
-    
+    case years = "years"
+
     static var defaut: TimeUnit = TimeUnit.days
+    var version: String {
+        return Defaults.version
+    }
+    var name: String {
+        return rawValue
+    }
     var description: String {
         return rawValue
     }
@@ -34,6 +41,8 @@ enum TimeUnit : String, CaseIterable, CustomStringConvertible {
             return 1.weeks
         case .months:
             return 1.months
+        case .years:
+            return 1.years
         }
     }
     var singleName: String {
@@ -53,7 +62,7 @@ enum TimeUnit : String, CaseIterable, CustomStringConvertible {
             if unit.duration == time {
                 return unit.singleName
             }
-         }
+        }
         var current = Int(time)
         var units: [String] = []
         for unit in TimeUnit.allCases.reversed() {
@@ -74,6 +83,7 @@ enum TimeUnit : String, CaseIterable, CustomStringConvertible {
         case 1.days: self = .days
         case 1.weeks: self = .weeks
         case 1.months: self = .months
+        case 1.years: self = .years
         default:
             throw GenericError("Unable to initialize time unit of \(unit) seconds")
         }

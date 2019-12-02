@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ScheduleViewController: EditableTableViewController {
+class ScheduleViewController: EditableTableViewController, TableController {
     @IBOutlet weak var detailsTable: UITableView!
     @IBOutlet weak var _editSaveButton: UIBarButtonItem!
     
@@ -21,6 +21,8 @@ class ScheduleViewController: EditableTableViewController {
         super.viewDidLoad()
         log = AppDelegate.current?.log
         table = detailsTable
+        table?.delegate = self
+        table?.dataSource = self
         title = "Care Schedule"
         for cellType in reuseIds {
             table?.register(UINib(nibName: cellType.key, bundle: nil), forCellReuseIdentifier: cellType.value)
@@ -32,13 +34,23 @@ class ScheduleViewController: EditableTableViewController {
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 0//schedule?.seasons.count ?? 0
+        return (schedule?.seasons.count ?? 0) + 1
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if indexPath.row == 0 {
             return EditableTextCell.get(self, "Name:", schedule!.name , editMode: editMode)
         }
-        return FrequencyBySeasonCell.get(self, AllYear.obj, 1, 1, .weeks, startDate: nil, endDate: nil)
+        let timetable = schedule!.timetable
+        let season = Season.manager?.get((schedule?.seasons[indexPath.row-1]) ?? AllYear.id)
+        let freq = timetable[season!.id]?.freq ?? Defaults.care[CareType.get(timetable[season!.id]!.action)]?.freq
+        return FrequencyBySeasonCell.get(self, season!, freq!.nTimes, freq!.timeUnitX, freq!.timeUnit, startDate: nil, endDate: nil)
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        if indexPath.row == 0 {
+            return DetailsConstants.Table.Cell.Height.detailCell
+        }
+        return 200
     }
 }
