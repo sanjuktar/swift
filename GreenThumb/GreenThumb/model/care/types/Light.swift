@@ -9,31 +9,34 @@
 import Foundation
 
 class Light: Action {
-    enum LightKey: String, CodingKey {
+    /*enum LightKey: String, CodingKey {
         case quantity
-    }
+    }*/
     
     var quantity: LightExposure?
-    override var type: ActionType {
+    var version: String
+    var name: String
+    var type: ActionType {
         return CareType.light
     }
-    override var description: String {
+    var description: String {
         return quantity!.name
     }
     
-    required init(from decoder: Decoder) throws {
+    /*required init(from decoder: Decoder) throws {
         try super.init(from: decoder)
         quantity = try decoder.container(keyedBy: LightKey.self).decode(LightExposure.self, forKey: .quantity)
-    }
+    }*/
     
-    init(_ quantity: LightExposure = LightExposure()) {
-        super.init()
+    init(name: String = "", _ quantity: LightExposure = LightExposure()) {
+        version = Defaults.version
+        self.name = name
         self.quantity = quantity
     }
     
-    override func encode(to encoder: Encoder) throws {
+    /*override func encode(to encoder: Encoder) throws {
         try super.encode(to: encoder)
         var container = encoder.container(keyedBy: LightKey.self)
         try container.encode(quantity, forKey: .quantity)
-    }
+    }*/
 }

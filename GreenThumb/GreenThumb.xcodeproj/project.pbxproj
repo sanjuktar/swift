@@ -110,6 +110,8 @@
 		33F6736D238A093900F55861 /* SliderDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33F6736C238A093900F55861 /* SliderDelegate.swift */; };
 		33F6736F238A097000F55861 /* TextFieldDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33F6736E238A097000F55861 /* TextFieldDelegate.swift */; };
 		33F67371238F6FC500F55861 /* EditableImageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33F67370238F6FC500F55861 /* EditableImageCell.swift */; };
+		33F67375239710C400F55861 /* ActionCategory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33F67374239710C300F55861 /* ActionCategory.swift */; };
+		33F67377239710ED00F55861 /* NoAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33F67376239710ED00F55861 /* NoAction.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -239,6 +241,8 @@
 		33F6736C238A093900F55861 /* SliderDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SliderDelegate.swift; sourceTree = "<group>"; };
 		33F6736E238A097000F55861 /* TextFieldDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextFieldDelegate.swift; sourceTree = "<group>"; };
 		33F67370238F6FC500F55861 /* EditableImageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditableImageCell.swift; sourceTree = "<group>"; };
+		33F67374239710C300F55861 /* ActionCategory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionCategory.swift; sourceTree = "<group>"; };
+		33F67376239710ED00F55861 /* NoAction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoAction.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -394,11 +398,11 @@
 		33AC0CE521CC821100F52D55 /* action */ = {
 			isa = PBXGroup;
 			children = (
+				33F673782397110F00F55861 /* scheduling */,
 				33AC0CE321CC820B00F52D55 /* Action.swift */,
+				33F67374239710C300F55861 /* ActionCategory.swift */,
+				33F67376239710ED00F55861 /* NoAction.swift */,
 				33900D07229517A500E653D1 /* StorableAction.swift */,
-				33AC0CEC21CC832B00F52D55 /* ActionFrequency.swift */,
-				33AC0CEE21CC836300F52D55 /* Timetable.swift */,
-				33AC0CF021CC839600F52D55 /* SeasonalSchedule.swift */,
 			);
 			name = action;
 			sourceTree = "<group>";
@@ -437,8 +441,8 @@
 			children = (
 				33F6733423835C3200F55861 /* constants */,
 				33C1A168219941A4003003F5 /* utils */,
-				33C1A1492193BDBC003003F5 /* controller */,
 				33C1A14A2193BDC8003003F5 /* model */,
+				33C1A1492193BDBC003003F5 /* controller */,
 				33C1A16B2199497F003003F5 /* view */,
 				33C1A1192193AD48003003F5 /* AppDelegate.swift */,
 				33C1A1222193AD4B003003F5 /* Assets.xcassets */,
@@ -678,6 +682,16 @@
 			path = schedule;
 			sourceTree = "<group>";
 		};
+		33F673782397110F00F55861 /* scheduling */ = {
+			isa = PBXGroup;
+			children = (
+				33AC0CEC21CC832B00F52D55 /* ActionFrequency.swift */,
+				33AC0CEE21CC836300F52D55 /* Timetable.swift */,
+				33AC0CF021CC839600F52D55 /* SeasonalSchedule.swift */,
+			);
+			name = scheduling;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -883,6 +897,7 @@
 				33900D062295173F00E653D1 /* StorableConditions.swift in Sources */,
 				33F67371238F6FC500F55861 /* EditableImageCell.swift in Sources */,
 				33C1A19221C8E240003003F5 /* Anytime.swift in Sources */,
+				33F67375239710C400F55861 /* ActionCategory.swift in Sources */,
 				33F67343238382FC00F55861 /* DetailsConstants.swift in Sources */,
 				336FAA14237A0659003E2ECF /* ObjectDetails.swift in Sources */,
 				33900D12229678E400E653D1 /* CareType.swift in Sources */,
@@ -905,6 +920,7 @@
 				338DBF8C21E983DE006F5BA1 /* IdGenerator.swift in Sources */,
 				338E48ED22728317007FF826 /* LocationListViewController.swift in Sources */,
 				33F6735C2387C88400F55861 /* EditableLongTextCell.swift in Sources */,
+				33F67377239710ED00F55861 /* NoAction.swift in Sources */,
 				33900D08229517A500E653D1 /* StorableAction.swift in Sources */,
 				33C1A19421C8E277003003F5 /* Date.swift in Sources */,
 				33C1A15A219411CD003003F5 /* Location.swift in Sources */,

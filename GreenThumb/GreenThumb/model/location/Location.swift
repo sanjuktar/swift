@@ -30,6 +30,9 @@ class Location: IdedObj, CustomStringConvertible {
     var description: String {
         return name
     }
+    var isValid: Bool {
+        return LocationDetail.validate(self)
+    }
     var plants: [UniqueId] {
         return Plant.manager?.plants(at: id) ?? []
     }

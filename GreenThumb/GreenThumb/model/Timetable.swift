@@ -10,10 +10,10 @@ import Foundation
 
 class Timetable: Storable, CustomStringConvertible {
     enum CodingKeys: String, CodingKey {
-        case version
-        case name
-        case action
-        case frequency
+        case version = "version"
+        case name = "name"
+        case action = "action"
+        case frequency = "frequency"
     }
     
     var version: String
@@ -28,7 +28,7 @@ class Timetable: Storable, CustomStringConvertible {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         version = try container.decode(String.self, forKey: .version)
         name = try container.decode(String.self, forKey: .name)
-        action = try container.decode(StorableAction.self, forKey: .action).action
+        action = try container.decode(StorableAction.self, forKey: .action).action!
         freq = try container.decode(ActionFrequency.self, forKey: .frequency)
     }
     

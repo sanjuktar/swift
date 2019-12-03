@@ -39,11 +39,17 @@ class ScheduleViewController: EditableTableViewController, TableController {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if indexPath.row == 0 {
-            return EditableTextCell.get(self, "Name:", schedule!.name , editMode: editMode)
+            return EditableTextCell.get(self, "Name:", schedule!.name, editMode: editMode)
         }
         let timetable = schedule!.timetable
         let season = Season.manager?.get((schedule?.seasons[indexPath.row-1]) ?? AllYear.id)
-        let freq = timetable[season!.id]?.freq ?? Defaults.care[CareType.get(timetable[season!.id]!.action)]?.freq
+        var freq = timetable[season!.id]?.freq
+        if freq == nil {
+            if !editMode {
+                return EditableTextCell.get(self, "Name:", "Unable to determine schedule.", editMode: editMode)
+            }
+            freq = ActionFrequency(nTimes: 0, timeUnitX: 0, timeUnit: .weeks)
+        }
         return FrequencyBySeasonCell.get(self, season!, freq!.nTimes, freq!.timeUnitX, freq!.timeUnit, startDate: nil, endDate: nil)
     }
     

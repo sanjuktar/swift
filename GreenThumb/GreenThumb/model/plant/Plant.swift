@@ -85,10 +85,11 @@ class Plant: IdedObj {
     var description: String {
         return name
     }
-    var clone: Plant? {
-        let p = Plant(names, location: location, image: image, care: care)
-        p.id = id
-        return p
+    var isValid: Bool {
+        return PlantDetail.validate(self)
+    }
+    var clone: Plant {
+        return Plant(self)
     }
     
     required init(from: Decoder) throws {
@@ -101,6 +102,15 @@ class Plant: IdedObj {
             location = Defaults.location
         }
         care = try container.decode(CareInstructions.self, forKey: .care)
+        if care.schedule.isEmpty {
+            care.schedule = Defaults.care!
+            AppDelegate.current?.log?.out(.error, "Unable to load care schedule for \(name). Using defaults.")
+            do {
+                try persist()
+            } catch {
+                AppDelegate.current?.log?.out(.error, "Unable to save \(name) with new default care schedule.")
+            }
+        }
         let data = try container.decode(Data?.self, forKey: .image)
         image = Plant.image(from: data)
     }
@@ -114,6 +124,16 @@ class Plant: IdedObj {
         self.location = location
         self.image = image
         self.care = care
+        //care.name = names.use
+    }
+    
+    private init(_ plant: Plant) {
+        version = plant.version
+        id = plant.id
+        names = plant.names
+        location = plant.location
+        image = plant.image
+        care = plant.care
     }
     
     func encode(to encoder: Encoder) throws {

@@ -35,13 +35,10 @@ class SeasonalSchedule: Storable {
         timetable = try container.decode([UniqueId:Timetable].self, forKey: .timetable)
     }
     
-    init(_ name: String = "", care: CareType) {
+    init(_ name: String = "", care: CareType, timetable: [UniqueId:Timetable]? = nil) {
         version = Defaults.version
         self.name = name
-        timetable = [UniqueId:Timetable]()
-        for season in Defaults.seasonal.seasonsList {
-            timetable[season] = Defaults.care[care]
-        }
+        self.timetable = timetable != nil ? timetable! : Defaults.care![care]!.timetable
     }
     
     func encode(to encoder: Encoder) throws {

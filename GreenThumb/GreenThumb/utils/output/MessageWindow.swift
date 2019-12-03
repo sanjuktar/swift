@@ -25,7 +25,7 @@ class MessageWindow : Output {
     }
     
     func out(_ type: OutputType, _ message: String) {
-        switch OutputType(type.rawValue) {
+        switch type {// OutputType(type.rawValue) {
         case .info: showMessage(message)
         case .debug: showMessage(message, "Debug")
         case .error: showMessage(message, "ERROR!")

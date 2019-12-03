@@ -18,12 +18,18 @@ extension Plant {
             return try (Documents.instance?.retrieve(name, as: Plant.Manager.self))!
         }
         
-        static func setup(name: String = defaultName) {
+        static func setup(name: String = defaultName, output: Output? = nil) {
             log = AppDelegate.current?.log
             do {
                 manager = try Manager.load(name: name)
             } catch {
-                log?.out(.error, "Unable to load list of plants: \(error)")
+                if manager != nil && manager!.isValid {
+                    output?.out(.error, error.localizedDescription)
+                    log?.out(.error, error.localizedDescription)
+                    return
+                }
+                output?.out(.error, "Unable to load list of plants.")
+                log?.out(.error, "Unable to load list of plants: \(error).")
                 manager = Manager()
                 do {
                     try manager?.commit()

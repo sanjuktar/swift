@@ -11,8 +11,8 @@ import UIKit
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
     static var current: AppDelegate?
-    var window: UIWindow?
     var log: Log? = Log("GreenThumb")
+    var window: UIWindow?
     var docs: Documents? = Documents()
     var cache: Cache?
     

@@ -77,7 +77,9 @@ class Season: TimeWindow, IdedObj {
     var desc: String {
         return description
     }
-    
+    var isValid: Bool {
+        return true
+    }
     var dateInterval: DateInterval {
         return DateInterval(start: start.value, end: end.value)
     }

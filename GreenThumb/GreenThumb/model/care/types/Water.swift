@@ -58,28 +58,30 @@ class Water: Action {
         }
     }
     
+    var version: String
+    var name: String
     var quantity: Quantity = .soak
-    override var type: ActionType {
+    var type: ActionType {
         return CareType.water
     }
-    override var description: String {
+    var description: String {
         return quantity.description
     }
     
-    required init(from decoder: Decoder) throws {
-        try super.init(from: decoder)
+    /*required init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
         quantity = try container.decode(Quantity.self)
-    }
+    }*/
     
-    init(_ quantity: Quantity) {
-        super.init()
+    init(name: String = "", _ quantity: Quantity) {
+        self.version = Defaults.version
+        self.name = name
         self.quantity = quantity
     }
     
-    override func encode(to encoder: Encoder) throws {
+    /*override func encode(to encoder: Encoder) throws {
         try super.encode(to: encoder)
         var container = encoder.singleValueContainer()
 //        try container.encode(quantity)
-    }
+    }*/
 }

@@ -27,6 +27,20 @@ class IdedObjManager<T:IdedObj>: Storable, CustomStringConvertible {
     var description: String {
         return name
     }
+    var isValid: Bool {
+        if version.isEmpty || name.isEmpty || ids.count != objs.count {
+            return false
+        }
+        for id in ids {
+            if let obj = objs[id] {
+                if obj.isValid {
+                    continue
+                }
+            }
+            return false
+        }
+        return true
+    }
     
     required init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
@@ -36,15 +50,36 @@ class IdedObjManager<T:IdedObj>: Storable, CustomStringConvertible {
         idGenerator = try container.decode(IdGenerator.self, forKey: .idGenerator)
         ids = try container.decode([UniqueId].self, forKey: .objIds)
         objs = [:]
+        var recovered: [UniqueId] = []
+        var nFail = 0
         log?.out(.info, "Loading \(str)")
         for id in ids {
             do {
                 objs[id] = try Documents.instance?.retrieve(id, as: T.self)
-                //log?.out(.info, "Loaded \(id)")
             } catch {
                 AppDelegate.current?.log?.out(.error, "Unable to load and add object \(id) to \(self).")
+                if let obj = objs[id] {
+                    if obj.isValid {
+                        recovered.append(obj.name)
+                    }
+                    else {
+                        objs.removeValue(forKey: id)
+                    }
+                    continue
+                }
                 ids.remove(at: ids.firstIndex(of: id)!)
+                nFail += 1
             }
+        }
+        var errMsg = ""
+        if !recovered.isEmpty {
+            errMsg += " [\(recovered.joined(separator: ", "))] recovered with defaults. "
+        }
+        if nFail != 0 {
+            errMsg += " Unable to recover \(nFail)."
+        }
+        if !errMsg.isEmpty {
+            throw GenericError("Error loading objects to \(self).\(errMsg)")
         }
     }
     
@@ -68,23 +103,6 @@ class IdedObjManager<T:IdedObj>: Storable, CustomStringConvertible {
     func newId() -> UniqueId {
         return idGenerator.newId()
     }
-    
-    /*func replaceId(from: UniqueId, to: UniqueId) throws {
-        if from != to {
-            return
-        }
-        guard let pos = ids.firstIndex(of: from) else {
-            throw GenericError("Unable to replace id \(from) to \(to)", specs: "Id \(from) not found.")
-        }
-        if let _ = objs[to] {
-            throw GenericError("Object matching id \(to) found in \(name). Unable to change id for object \(to).")
-        }
-        var obj = objs[from]
-        obj?.id = to
-        ids[pos] = to
-        objs[to] = obj
-        objs[from] = nil
-    }*/
     
     func commit() throws {
         do {

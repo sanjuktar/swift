@@ -9,6 +9,8 @@
 import Foundation
 import UIKit
 
+typealias CareSchedule = [CareType:SeasonalSchedule]
+
 class CareInstructions: Storable {
     enum CodingKeys: String, CodingKey {
         case version
@@ -18,10 +20,13 @@ class CareInstructions: Storable {
     }
     var version: String
     var name: String
-    var schedule: [CareType:SeasonalSchedule]
+    var schedule: CareSchedule
     var notes: String
     var description: String {
         return name
+    }
+    var isValid: Bool {
+        return CareDetail.validate(self)
     }
     
     required init(from decoder: Decoder) throws {
@@ -32,6 +37,7 @@ class CareInstructions: Storable {
             schedule = try container.decode([CareType:SeasonalSchedule].self, forKey: .schedule)
         } catch {
             schedule = [:]
+            AppDelegate.current?.log?.out(.error, "Unable to load plant care schedule.: \(error)")
         }
         notes = try container.decode(String.self, forKey: .notes)
     }
@@ -40,8 +46,9 @@ class CareInstructions: Storable {
         version = Defaults.version
         self.name = name
         schedule = [:]
+        let str = name.isEmpty ? "" : " for \(name)"
         for care in CareType.inUseList {
-            schedule[care] = SeasonalSchedule(care: care)
+            schedule[care] = SeasonalSchedule("\(care)\(str)", care: care)
         }
         notes = ""
     }

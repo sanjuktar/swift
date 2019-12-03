@@ -9,28 +9,49 @@
 import Foundation
 
 class Move: Action {
-    override var description: String {
+    var version: String
+    var name: String
+    var description: String {
         return "move"
     }
-    override var type: ActionType {
+    var type: ActionType {
         return CareType.move
+    }
+    
+    init(_ name: String = "") {
+        version = Defaults.version
+        self.name = name
     }
 }
 
 class PestControl: Action {
-    override var description: String {
+    var version: String
+    var name: String
+    var description: String {
         return "pest control"
     }
-    override var type: ActionType {
+    var type: ActionType {
         return CareType.pestControl
+    }
+    
+    init(_ name: String = "") {
+        version = Defaults.version
+        self.name = name
     }
 }
 
 class Pruning: Action {
-    override var description: String {
+    var version: String
+    var name: String
+    var description: String {
         return "prune"
     }
-    override var type: ActionType {
+    var type: ActionType {
         return CareType.prune
+    }
+    
+    init(_ name: String = "") {
+        version = Defaults.version
+        self.name = name
     }
 }
