@@ -68,20 +68,9 @@ class Water: Action {
         return quantity.description
     }
     
-    /*required init(from decoder: Decoder) throws {
-        let container = try decoder.singleValueContainer()
-        quantity = try container.decode(Quantity.self)
-    }*/
-    
     init(name: String = "", _ quantity: Quantity) {
         self.version = Defaults.version
         self.name = name
         self.quantity = quantity
     }
-    
-    /*override func encode(to encoder: Encoder) throws {
-        try super.encode(to: encoder)
-        var container = encoder.singleValueContainer()
-//        try container.encode(quantity)
-    }*/
 }

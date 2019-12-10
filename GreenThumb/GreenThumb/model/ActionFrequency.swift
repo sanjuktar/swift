@@ -49,7 +49,7 @@ class ActionFrequency: Storable, CustomStringConvertible, Equatable {
                lhs.window == rhs.window
     }
     
-    init(_ name: String = "", nTimes: Int,
+    init(_ name: String = "", nTimes: Int = 1,
          timeUnitX: Int = 1, timeUnit: TimeUnit = TimeUnit.defaut,
          window: TimeWindow? = Always.obj) {
         version = Defaults.version

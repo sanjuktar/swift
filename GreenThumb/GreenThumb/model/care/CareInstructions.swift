@@ -46,10 +46,7 @@ class CareInstructions: Storable {
         version = Defaults.version
         self.name = name
         schedule = [:]
-        let str = name.isEmpty ? "" : " for \(name)"
-        for care in CareType.inUseList {
-            schedule[care] = SeasonalSchedule("\(care)\(str)", care: care)
-        }
+        schedule = Defaults.care!
         notes = ""
     }
     

@@ -72,6 +72,7 @@ enum CareType: String, ActionType, Storable, CaseIterable {
     }
     
     func encode(action: Action, _ container: inout KeyedEncodingContainer<StorableAction.CodingKeys>) throws {
+        try action.encode(to: container.superEncoder())
         switch self {
         case CareType.none:
             try container.encode(action as! NoAction, forKey: .action)

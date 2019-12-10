@@ -83,6 +83,14 @@ class IdedObjManager<T:IdedObj>: Storable, CustomStringConvertible {
         }
     }
     
+    init(_ name: String, _ idGenerator: IdGenerator) {
+        version = Defaults.version
+        self.name = name
+        self.idGenerator = idGenerator
+        ids = []
+        objs = [:]
+    }
+    
     init(_ name: String, _ idPrefix: String, _ lastId: Int = 0, objects: [T] = []) {
         version = Defaults.version
         self.name = name

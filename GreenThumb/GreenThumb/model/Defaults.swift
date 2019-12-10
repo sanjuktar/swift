@@ -86,20 +86,33 @@ class Defaults {
         for care in (CareType.seasonal + CareType.nonSeasonal) {
             switch care {
             case .none:
-                inUse?.care![.none] = SeasonalSchedule(care: .none, timetable: [:])
+                inUse?.care![.none] = SeasonalSchedule([
+                    AllYear.id:Timetable(NoAction(), ActionFrequency.never)
+                ])
             case .water:
-                inUse?.care![.water] = SeasonalSchedule(care: .water, timetable:
-                    [AllYear.id:Timetable(Water(Water.Quantity.soak), ActionFrequency.weekly.times(2))])
+                inUse?.care![.water] = SeasonalSchedule([
+                    AllYear.id:Timetable(Water(Water.Quantity.soak), ActionFrequency.weekly.times(2))
+                ])
             case .fertilize:
-                inUse?.care![care] = SeasonalSchedule(care: .fertilize, timetable: [AllYear.id:Timetable(Fertilize("kelp fertilizer", Volume.any), ActionFrequency.monthly)])
+                inUse?.care![care] = SeasonalSchedule([
+                    AllYear.id:Timetable(Fertilize("kelp fertilizer", Volume.any), ActionFrequency.monthly)
+                ])
             case .light:
-                inUse?.care![care] = SeasonalSchedule(care: .light, timetable: [AllYear.id:Timetable(Light(LightExposure()), ActionFrequency.daily.times(6))])
+                inUse?.care![care] = SeasonalSchedule([
+                    AllYear.id:Timetable(Light(LightExposure()), ActionFrequency.daily)
+                ])
             case .prune:
-                inUse?.care![care] = SeasonalSchedule(care: .prune, timetable: [AllYear.id:Timetable(Pruning(), ActionFrequency.yearly)])
+                inUse?.care![care] = SeasonalSchedule([
+                    AllYear.id:Timetable(Pruning(), ActionFrequency.yearly)
+                ])
             case .move:
-                inUse?.care![care] = SeasonalSchedule(care: .move, timetable: [AllYear.id:Timetable(Move(), ActionFrequency.never)])
+                inUse?.care![care] = SeasonalSchedule([
+                    AllYear.id:Timetable(Move(), ActionFrequency.never)
+                ])
             case .pestControl:
-                inUse?.care![care] = SeasonalSchedule(care: .pestControl, timetable: [AllYear.id:Timetable(PestControl(), ActionFrequency.monthly.times(2))])
+                inUse?.care![care] = SeasonalSchedule([
+                    AllYear.id:Timetable(PestControl(), ActionFrequency.monthly.times(2))
+                ])
             }
         }
     }

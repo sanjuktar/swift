@@ -17,8 +17,8 @@ class IdGenerator: Codable {
         self.currentId = startId
     }
     
-    func newId() -> UniqueId {
+    func newId(_ extraInfo: String = "") -> UniqueId {
         currentId += 1
-        return "\(prefix)\(currentId-1)"
+        return "\(prefix)\(extraInfo)\(currentId-1)"
     }
 }
