@@ -11,7 +11,7 @@ import UIKit
 class TableView: UITableView {
     override func awakeFromNib() {
         super.awakeFromNib()
-        backgroundColor = ColorConstants.Table.background
+        backgroundColor = UIColor.clear
         separatorStyle = .none
     }
 }

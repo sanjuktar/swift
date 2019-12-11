@@ -147,17 +147,17 @@ enum PlantDetail: String, Codable, ObjectDetail {
         case .location:
             return Location.manager!.get(plant.location)!.name
         case .water:
-            return CareDetail.water.value(for: plant.care)
+            return CareDetail.water.value(for: plant.preferences.care)
         case .light:
-            return CareDetail.light.value(for: plant.care)
+            return CareDetail.light.value(for: plant.preferences.care)
         case .fertilize:
-            return CareDetail.fertilize.value(for: plant.care)
+            return CareDetail.fertilize.value(for: plant.preferences.care)
         case .pestControl:
-            return CareDetail.pestControl.value(for: plant.care)
+            return CareDetail.pestControl.value(for: plant.preferences.care)
         case .prune:
-            return CareDetail.prune.value(for: plant.care)
+            return CareDetail.prune.value(for: plant.preferences.care)
         case .repot:
-            return CareDetail.repot.value(for: plant.care)
+            return CareDetail.repot.value(for: plant.preferences.care)
         }
     }
     

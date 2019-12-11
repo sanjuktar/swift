@@ -1,5 +1,5 @@
 //
-//  PlantPreferences.Manager.swift
+//  Plant.Preferences.Manager.swift
 //  GreenThumb
 //
 //  Created by Sanjukta Roy on 12/3/19.
@@ -8,13 +8,13 @@
 
 import Foundation
 
-extension PlantPreferences {
-    class Manager: IdedObjManager<PlantPreferences> {
-        static var defaultName = "PlantType.Manager"
+extension Plant.Preferences {
+    class Manager: IdedObjManager<Plant.Preferences> {
+        static var defaultName = "Plant.Preferences.Manager"
         static var log: Log?
         
-        static func load(name: String = defaultName) throws -> PlantPreferences.Manager {
-            return try (Documents.instance?.retrieve(name, as: PlantPreferences.Manager.self))!
+        static func load(name: String = defaultName) throws -> Plant.Preferences.Manager {
+            return try (Documents.instance?.retrieve(name, as: Plant.Preferences.Manager.self))!
         }
         
         static func setup(name: String = defaultName, output: Output? = nil) {
@@ -28,8 +28,8 @@ extension PlantPreferences {
                     log?.out(.error, error.localizedDescription)
                 }
                 else {
-                    output?.out(.error, "Unable to load list of plant types.")
-                    log?.out(.error, "Unable to load list of plant types: \(error).")
+                    output?.out(.error, "Unable to load plant types. Using defaults.")
+                    log?.out(.error, "Using defaults because unable to load list of plant types: \(error).")
                     manager = Manager()
                     flag = true
                 }
@@ -37,7 +37,7 @@ extension PlantPreferences {
             for type in PlantType.allCases {
                 if manager!.ids.firstIndex(of: type.name) == nil {
                     do {
-                        try manager!.add(PlantPreferences(type.name, care: type.care, preferedConditions: type.prefers, avoidConditions: type.avoid))
+                        try manager!.add(Plant.Preferences(type.name, care: type.care, preferedConditions: type.prefers, avoidConditions: type.avoid))
                         flag = true
                     } catch {
                         log?.output(.error, "Unable to add plant type \"\(type.name)\"")
@@ -58,7 +58,16 @@ extension PlantPreferences {
         }
         
         init(_ name: String = Manager.defaultName) {
-            super.init(name, ProvidedIds("PlantType"))
+            super.init(name, "Plant.Preferences")
+            //super.init(name, ProvidedIds("Plant.Preferences"))
+        }
+        
+        func defaults(_ type: PlantType) -> Plant.Preferences {
+            let generator = idGenerator as! ProvidedIds
+            if let preferences = get(generator.id(for: type.name)) {
+                return preferences
+            }
+            return get(generator.id(for: PlantType.none.name))!
         }
     }
 }

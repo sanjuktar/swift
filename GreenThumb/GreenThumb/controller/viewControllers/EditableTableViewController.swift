@@ -28,6 +28,7 @@ class EditableTableViewController: UIViewController {
         super.viewDidLoad()
         output = MessageWindow(self)
         textController?.reset()
+        view.backgroundColor = ColorConstants.Table.background
     }
     
     func setEditMode(_ flag: Bool) {

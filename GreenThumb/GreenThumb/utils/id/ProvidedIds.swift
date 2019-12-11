@@ -17,7 +17,11 @@ class ProvidedIds: IdGenerator {
         super.init(prefix, 0)
     }
     
-    override func newId(_ extraInfo: String = "") -> UniqueId {
-        return "\(prefix)\(extraInfo)"
+    override func newId(_ name: String = "") -> UniqueId {
+        return id(for: name)
+    }
+    
+    func id(for name: String) -> UniqueId {
+        return "\(prefix)\(name)"
     }
 }

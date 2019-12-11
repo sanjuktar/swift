@@ -12,7 +12,7 @@ class DetailsConstants {
     class Table {
         class Cell {
             class Color {
-                static var background = ColorConstants.Table.background
+                static var background = UIColor.clear
                 static var text = ColorConstants.Table.text
                 static var textFieldText = ColorConstants.TextField.text
                 static var textFieldBg = ColorConstants.TextField.background

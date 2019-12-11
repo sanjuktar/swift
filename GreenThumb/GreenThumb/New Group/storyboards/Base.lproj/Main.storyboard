@@ -291,7 +291,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" restorationIdentifier="locationDetailsTableView" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="18" sectionFooterHeight="18" translatesAutoresizingMaskIntoConstraints="NO" id="1aQ-yI-axm" customClass="TableView" customModule="GreenThumb" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="44" width="375" height="525"/>
+                                <rect key="frame" x="0.0" y="44" width="375" height="574"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                             </tableView>
                         </subviews>
@@ -415,7 +415,7 @@
         <image name="wateringCan" width="25" height="25"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="auS-hU-Xpj"/>
+        <segue reference="hqA-sA-Kt2"/>
         <segue reference="0Bh-rz-49X"/>
     </inferredMetricsTieBreakers>
 </document>

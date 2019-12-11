@@ -21,7 +21,7 @@ class ColorConstants {
     }
     
     class Table {
-        static var background = fromRgb(224, 235, 218)
+        static var background = UIColor(patternImage: UIImage(imageLiteralResourceName: "greenThumbBg2")) //fromRgb(224, 235, 218)
         static var text = fromRgb(99, 50, 191)
     }
     

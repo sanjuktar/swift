@@ -112,8 +112,8 @@
 		33F67371238F6FC500F55861 /* EditableImageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33F67370238F6FC500F55861 /* EditableImageCell.swift */; };
 		33F67375239710C400F55861 /* ActionCategory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33F67374239710C300F55861 /* ActionCategory.swift */; };
 		33F67377239710ED00F55861 /* NoAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33F67376239710ED00F55861 /* NoAction.swift */; };
-		33F6737C2397304900F55861 /* PlantPreferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33F6737B2397304900F55861 /* PlantPreferences.swift */; };
-		33F6737E239732F400F55861 /* PlantPreferences.Manager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33F6737D239732F400F55861 /* PlantPreferences.Manager.swift */; };
+		33F6737C2397304900F55861 /* Plant.Preferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33F6737B2397304900F55861 /* Plant.Preferences.swift */; };
+		33F6737E239732F400F55861 /* Plant.Preferences.Manager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33F6737D239732F400F55861 /* Plant.Preferences.Manager.swift */; };
 		33F6738D239EEB8A00F55861 /* PlantType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33F6738C239EEB8A00F55861 /* PlantType.swift */; };
 		33F6738F239EFD3400F55861 /* ProvidedIds.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33F6738E239EFD3400F55861 /* ProvidedIds.swift */; };
 		33F67391239F00EB00F55861 /* Plant.Names.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33F67390239F00EB00F55861 /* Plant.Names.swift */; };
@@ -248,8 +248,8 @@
 		33F67370238F6FC500F55861 /* EditableImageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditableImageCell.swift; sourceTree = "<group>"; };
 		33F67374239710C300F55861 /* ActionCategory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionCategory.swift; sourceTree = "<group>"; };
 		33F67376239710ED00F55861 /* NoAction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoAction.swift; sourceTree = "<group>"; };
-		33F6737B2397304900F55861 /* PlantPreferences.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlantPreferences.swift; sourceTree = "<group>"; };
-		33F6737D239732F400F55861 /* PlantPreferences.Manager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlantPreferences.Manager.swift; sourceTree = "<group>"; };
+		33F6737B2397304900F55861 /* Plant.Preferences.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Plant.Preferences.swift; sourceTree = "<group>"; };
+		33F6737D239732F400F55861 /* Plant.Preferences.Manager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Plant.Preferences.Manager.swift; sourceTree = "<group>"; };
 		33F6738C239EEB8A00F55861 /* PlantType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlantType.swift; sourceTree = "<group>"; };
 		33F6738E239EFD3400F55861 /* ProvidedIds.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProvidedIds.swift; sourceTree = "<group>"; };
 		33F67390239F00EB00F55861 /* Plant.Names.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Plant.Names.swift; sourceTree = "<group>"; };
@@ -709,8 +709,8 @@
 		33F6737F239738EA00F55861 /* preferences */ = {
 			isa = PBXGroup;
 			children = (
-				33F6737B2397304900F55861 /* PlantPreferences.swift */,
-				33F6737D239732F400F55861 /* PlantPreferences.Manager.swift */,
+				33F6737B2397304900F55861 /* Plant.Preferences.swift */,
+				33F6737D239732F400F55861 /* Plant.Preferences.Manager.swift */,
 			);
 			path = preferences;
 			sourceTree = "<group>";
@@ -884,7 +884,7 @@
 				33F6736D238A093900F55861 /* SliderDelegate.swift in Sources */,
 				33C1A16F2199509B003003F5 /* GenericError.swift in Sources */,
 				33C1A14E2193BE3A003003F5 /* CareDetailsViewController.swift in Sources */,
-				33F6737C2397304900F55861 /* PlantPreferences.swift in Sources */,
+				33F6737C2397304900F55861 /* Plant.Preferences.swift in Sources */,
 				338DBF7F21E6CCC5006F5BA1 /* Volume.swift in Sources */,
 				338E4909227C0E52007FF826 /* Rain.swift in Sources */,
 				338DBF8A21E83A7D006F5BA1 /* IdedObjManager.swift in Sources */,
@@ -916,7 +916,7 @@
 				33F67328237E6CEC00F55861 /* KeyboardHandler.swift in Sources */,
 				33C1A19A21C8E3F3003003F5 /* TimeWindow.swift in Sources */,
 				336FAA1D237A0686003E2ECF /* EditableTextCell.swift in Sources */,
-				33F6737E239732F400F55861 /* PlantPreferences.Manager.swift in Sources */,
+				33F6737E239732F400F55861 /* Plant.Preferences.Manager.swift in Sources */,
 				33C1A14C2193BE28003003F5 /* PlantDetailsViewController.swift in Sources */,
 				33F6733623835C4900F55861 /* ReuseId.swift in Sources */,
 				33C1A18C21C8CECB003003F5 /* CareInstructions.swift in Sources */,

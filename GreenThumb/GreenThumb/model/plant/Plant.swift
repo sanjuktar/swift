@@ -15,7 +15,7 @@ class Plant: IdedObj {
         case id
         case names
         case location
-        case care
+        case preferences
         case image
     }
     
@@ -24,7 +24,7 @@ class Plant: IdedObj {
     var id: UniqueId
     var names: NameList
     var location: UniqueId
-    var care: CareInstructions
+    var preferences: Preferences
     var image: UIImage?
     var name: String {
         return names.use
@@ -48,30 +48,20 @@ class Plant: IdedObj {
         if Plant.manager?.get(location) == nil {
             location = Defaults.location
         }
-        care = try container.decode(CareInstructions.self, forKey: .care)
-        if care.schedule.isEmpty {
-            care.schedule = Defaults.care!
-            AppDelegate.current?.log?.out(.error, "Unable to load care schedule for \(name). Using defaults.")
-            do {
-                try persist()
-            } catch {
-                AppDelegate.current?.log?.out(.error, "Unable to save \(name) with new default care schedule.")
-            }
-        }
+        preferences = try container.decode(Preferences.self, forKey: .preferences)
         let data = try container.decode(Data?.self, forKey: .image)
         image = Plant.image(from: data)
     }
     
     init(_ names: NameList = NameList(), location: UniqueId = Defaults.location,
-         image: UIImage? = nil, care: CareInstructions = CareInstructions(),
+         image: UIImage? = nil, preferences: Preferences = Preferences(),
          preferedNameType: NameType = .nickname) {
         version = Defaults.version
         id = (Plant.manager?.newId())!
         self.names = names
         self.location = location
         self.image = image
-        self.care = care
-        //care.name = names.use
+        self.preferences = preferences
     }
     
     private init(_ plant: Plant) {
@@ -80,7 +70,7 @@ class Plant: IdedObj {
         names = plant.names
         location = plant.location
         image = plant.image
-        care = plant.care
+        preferences = plant.preferences
     }
     
     func encode(to encoder: Encoder) throws {
@@ -90,7 +80,7 @@ class Plant: IdedObj {
         try container.encode(names, forKey: .names)
         try container.encode(location, forKey: .location)
         try container.encode(image?.imageData, forKey: .image)
-        try container.encode(care, forKey: .care)
+        try container.encode(preferences, forKey: .preferences)
     }
     
     func persist() throws {
