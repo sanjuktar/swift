@@ -47,6 +47,8 @@ enum PlantDetail: String, Codable, ObjectDetail {
         switch self {
         case .location:
             return true
+        case .type:
+            return true
         case let detail where detail.careType != nil:
             return true
         default:
@@ -169,7 +171,7 @@ enum PlantDetail: String, Codable, ObjectDetail {
         switch self {
         case let detail where detail.isName: return obj.names.validate()
         case .location: return Location.manager?.get(obj.location) != nil
-        case .type: return Plant.Preferences.manager?.get(obj.id) != nil
+        case .type: return true//Plant.Preferences.manager?.get(obj.id) != nil
         default: return true
         }
     }

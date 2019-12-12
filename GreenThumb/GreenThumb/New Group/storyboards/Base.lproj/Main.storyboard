@@ -111,7 +111,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="300" height="200"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Select Location" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zfP-Cu-MIb">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Locations" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zfP-Cu-MIb">
                                 <rect key="frame" x="88" y="9" width="125" height="21"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
@@ -129,7 +129,7 @@
                                     <color key="titleColor" cocoaTouchSystemColor="darkTextColor"/>
                                 </state>
                                 <connections>
-                                    <segue destination="WIp-kN-cNq" kind="unwind" unwindAction="unwindToPlantDetailsWithSegue:" id="iSJ-LX-ySu"/>
+                                    <segue destination="WIp-kN-cNq" kind="unwind" identifier="unwindLocListToPlantDetails" unwindAction="locationListToPlantDetailsWithSegue:" id="iSJ-LX-ySu"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -145,7 +145,51 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="eRv-yI-KnQ" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <exit id="WIp-kN-cNq" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="3281.5999999999999" y="-37.781109445277366"/>
+            <point key="canvasLocation" x="3354" y="-209"/>
+        </scene>
+        <!--Types-->
+        <scene sceneID="JEi-yL-Win">
+            <objects>
+                <viewController storyboardIdentifier="plantTypeListPopover" title="Types" useStoryboardIdentifierAsRestorationIdentifier="YES" id="c4j-bh-2fl" customClass="PlantTypeListPopupViewController" customModule="GreenThumb" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="Vy2-c5-vSn">
+                        <rect key="frame" x="0.0" y="0.0" width="300" height="200"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Types" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="FI3-hD-0Sf">
+                                <rect key="frame" x="126.81666666686306" y="8" width="46" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4Q2-cU-Btu">
+                                <rect key="frame" x="92.905555555748833" y="165" width="111.99999999999977" height="26.999999999999986"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                                <state key="normal" title="Done">
+                                    <color key="titleColor" cocoaTouchSystemColor="darkTextColor"/>
+                                </state>
+                                <connections>
+                                    <segue destination="oHq-FO-Jvp" kind="unwind" identifier="unwindPlantTypesToDetails" unwindAction="plantTypeListToDetailsWithSegue:" id="1FD-Sg-agQ"/>
+                                </connections>
+                            </button>
+                            <pickerView contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="pZd-Rz-OVh">
+                                <rect key="frame" x="-2" y="37" width="300" height="120"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </pickerView>
+                        </subviews>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <viewLayoutGuide key="safeArea" id="QIs-fx-sn2"/>
+                    </view>
+                    <size key="freeformSize" width="300" height="200"/>
+                    <connections>
+                        <outlet property="pickerView" destination="pZd-Rz-OVh" id="TBd-cz-UDS"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="CA3-XK-S8b" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+                <exit id="oHq-FO-Jvp" userLabel="Exit" sceneMemberID="exit"/>
+            </objects>
+            <point key="canvasLocation" x="3353.5999999999999" y="43.178410794602705"/>
         </scene>
         <!--Care View Controller-->
         <scene sceneID="wg7-f3-ORb">

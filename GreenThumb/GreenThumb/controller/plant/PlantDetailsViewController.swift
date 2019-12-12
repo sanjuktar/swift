@@ -14,6 +14,8 @@ class PlantDetailsViewController: EditableTableViewController {
 
     static let noNameTitle = "Plant Details"
     static var returnToPlantListSegue = "unwindEditPlantToList"
+    static var returnFromLocationList = "unwindLocListToPlantDetails"
+    static var returnFromTypesList = "unwindPlantTypesToDetails"
     static var careDetailsSegue = "plantDetailsToCareSegue"
     static var locationDetailsSegue = "plantDetailsToLocationSegue"
     
@@ -22,13 +24,22 @@ class PlantDetailsViewController: EditableTableViewController {
     var textFields: [UITextField:PlantDetail] {
         return (textController as! DetailTextFieldDelegate<PlantDetail>).textFields
     }
-    
     var name: String {
         return plant?.name ?? ""
     }
     
-    @IBAction func unwindToPlantDetails(segue: UIStoryboardSegue) {
-        if let source = segue.source as? LocationListPopoverViewController {
+    @IBAction func locationListToPlantDetails(segue: UIStoryboardSegue) {
+        processUnwindSegue(segue: segue)
+    }
+    
+    @IBAction func plantTypeListToDetails(segue: UIStoryboardSegue) {
+        processUnwindSegue(segue: segue)
+    }
+    
+    func processUnwindSegue(segue: UIStoryboardSegue) {
+        switch segue.identifier {
+        case PlantDetailsViewController.returnFromLocationList:
+            let source = segue.source as! LocationListPopoverViewController
             let loc = source.location!.id
             plant?.location = loc
             for item in textFields {
@@ -38,6 +49,17 @@ class PlantDetailsViewController: EditableTableViewController {
                 }
             }
             return
+        case PlantDetailsViewController.returnFromTypesList:
+            let source = segue.source as! PlantTypeListPopupViewController
+            let type = source.type?.id
+            for item in textFields {
+                if item.value == .type {
+                    item.key.text = Plant.Preferences.manager!.get(type!)?.name
+                    editSaveButton!.isEnabled = PlantDetail.validate(plant!)
+                }
+            }
+            return
+        default: return
         }
     }
     
@@ -99,27 +121,22 @@ class PlantDetailsViewController: EditableTableViewController {
         }
     }
     
-    private func showLocationPopup(_ sender: UIView) {
-        let controller =  self.storyboard!.instantiateViewController(
-            withIdentifier: "locationListPopoverViewController")
-        (controller as! LocationListPopoverViewController).location = Location.manager!.get(plant!.location)
-        controller.preferredContentSize = CGSize(width: 300, height: 200)
-        let presentationController = AlwaysPresentAsPopover.configurePresentation(forController: controller)
-        presentationController.sourceView = sender
-        presentationController.sourceRect = sender.bounds
-        presentationController.permittedArrowDirections = [.down, .up]
-        self.present(controller, animated: true)
-    }
-    
     override func selectedTableRow(_ indexPath: IndexPath) {
         guard let detail = PlantDetail.item(indexPath.section, indexPath.row) else {return}
         switch detail {
         case .location:
             if editMode {
-                showLocationPopup((textController as! DetailTextFieldDelegate<PlantDetail>).textFieldFor(detail)!)
+                showPopup(detail)
             }
             else {
                 performSegue(withIdentifier: PlantDetailsViewController.locationDetailsSegue, sender: Location.manager!.get(plant!.location))
+            }
+        case .type:
+            if editMode {
+                showPopup(detail)
+            }
+            else {
+                // Show plant type details
             }
         case let d where d.careType != nil:
             performSegue(withIdentifier: PlantDetailsViewController.careDetailsSegue, sender: plant?.care?.schedule[detail.careType!])
@@ -129,15 +146,44 @@ class PlantDetailsViewController: EditableTableViewController {
     }
     
     override func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
-        if textFields[textField] == PlantDetail.location {
-            showLocationPopup(textField)
+        let detail = textFields[textField]
+        switch detail {
+        case .location:
+            fallthrough
+        case .type:
+            showPopup(detail!)
             return false
+        default:
+            return true
         }
-        return true
     }
     
     override func objectChanged() {
         title = name.isEmpty ? PlantDetailsViewController.noNameTitle : name
         editSaveButton?.isEnabled = PlantDetail.validate(plant!)
+    }
+    
+    private func showPopup(_ detail: PlantDetail, _ width: Int = 300, _ height: Int = 200) {
+        let storyboardIds: [PlantDetail:String] = [
+            .location:"locationListPopoverViewController",
+            .type:"plantTypeListPopover"
+        ]
+        let popup =  self.storyboard!.instantiateViewController(
+            withIdentifier: storyboardIds[detail]!)
+        switch detail {
+        case .location:
+            (popup as! LocationListPopoverViewController).location = Location.manager!.get(plant!.location)
+        case .type:
+            (popup as! PlantTypeListPopupViewController).type = Plant.Preferences.manager!.get(plant!.preferences)
+        default:
+            return
+        }
+        let sender = (textController as! DetailTextFieldDelegate<PlantDetail>).textFieldFor(detail)
+        popup.preferredContentSize = CGSize(width: width, height: height)
+        let presentationController = AlwaysPresentAsPopover.configurePresentation(forController: popup)
+        presentationController.sourceView = sender
+        presentationController.sourceRect = sender!.bounds
+        presentationController.permittedArrowDirections = [.down, .up]
+        self.present(popup, animated: true)
     }
 }

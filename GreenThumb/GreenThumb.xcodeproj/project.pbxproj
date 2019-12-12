@@ -117,6 +117,7 @@
 		33F6738D239EEB8A00F55861 /* PlantType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33F6738C239EEB8A00F55861 /* PlantType.swift */; };
 		33F6738F239EFD3400F55861 /* ProvidedIds.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33F6738E239EFD3400F55861 /* ProvidedIds.swift */; };
 		33F67391239F00EB00F55861 /* Plant.Names.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33F67390239F00EB00F55861 /* Plant.Names.swift */; };
+		33F6739323A1CB6000F55861 /* PlantTypeListPopupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33F6739223A1CB6000F55861 /* PlantTypeListPopupViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -253,6 +254,7 @@
 		33F6738C239EEB8A00F55861 /* PlantType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlantType.swift; sourceTree = "<group>"; };
 		33F6738E239EFD3400F55861 /* ProvidedIds.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProvidedIds.swift; sourceTree = "<group>"; };
 		33F67390239F00EB00F55861 /* Plant.Names.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Plant.Names.swift; sourceTree = "<group>"; };
+		33F6739223A1CB6000F55861 /* PlantTypeListPopupViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlantTypeListPopupViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -583,6 +585,7 @@
 				33C1A17021995229003003F5 /* PlantsListViewController.swift */,
 				33C1A186219FBAE7003003F5 /* PlantDetail.swift */,
 				33C1A14B2193BE28003003F5 /* PlantDetailsViewController.swift */,
+				33F6739223A1CB6000F55861 /* PlantTypeListPopupViewController.swift */,
 			);
 			path = plant;
 			sourceTree = "<group>";
@@ -944,6 +947,7 @@
 				33F67326237E531600F55861 /* DetailTextFieldDelegate.swift in Sources */,
 				33F6735623853E9F00F55861 /* CollectionView.swift in Sources */,
 				338E490B227C0E88007FF826 /* Humidity.swift in Sources */,
+				33F6739323A1CB6000F55861 /* PlantTypeListPopupViewController.swift in Sources */,
 				33AC0CEB21CC82E600F52D55 /* Light.swift in Sources */,
 				338DBF8C21E983DE006F5BA1 /* IdGenerator.swift in Sources */,
 				338E48ED22728317007FF826 /* LocationListViewController.swift in Sources */,

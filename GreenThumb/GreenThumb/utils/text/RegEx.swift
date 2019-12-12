@@ -23,7 +23,7 @@ struct Regex: ExpressibleByStringLiteral, Equatable {
         do {
             self.expression = try NSRegularExpression(pattern: stringLiteral, options: [])
         } catch {
-            print("Failed to parse \(stringLiteral) as a regular expression")
+            AppDelegate.current?.log?.out(.error, "Failed to parse \(stringLiteral) as a regular expression")
             self.expression = try! NSRegularExpression(pattern: ".*", options: [])
         }
     }
