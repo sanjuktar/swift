@@ -106,7 +106,7 @@
         <!--Location List Popover View Controller-->
         <scene sceneID="mu4-vx-T9m">
             <objects>
-                <viewController storyboardIdentifier="locationListPopoverViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="elt-4E-3wj" customClass="LocationListPopoverViewController" customModule="GreenThumb" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="locationListPopover" useStoryboardIdentifierAsRestorationIdentifier="YES" id="elt-4E-3wj" customClass="LocationListPopoverViewController" customModule="GreenThumb" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="QPj-Qt-dRX">
                         <rect key="frame" x="0.0" y="0.0" width="300" height="200"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>

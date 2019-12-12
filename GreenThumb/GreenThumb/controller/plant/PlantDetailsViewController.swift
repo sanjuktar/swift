@@ -40,24 +40,31 @@ class PlantDetailsViewController: EditableTableViewController {
         switch segue.identifier {
         case PlantDetailsViewController.returnFromLocationList:
             let source = segue.source as! LocationListPopoverViewController
-            let loc = source.location!.id
-            plant?.location = loc
+            let loc =  Location.manager!.get(Location.manager!.ids[source.selected])
+            guard loc != nil else {
+                output?.out(.error, "Unable to change location.")
+                return
+            }
             for item in textFields {
                 if item.value == .location {
-                    item.key.text =  Location.manager!.get(loc)!.name
-                    editSaveButton!.isEnabled = PlantDetail.validate(plant!)
+                    item.key.text =  loc!.name
                 }
             }
+            let _ = PlantDetail.location.modify(plant!, with: loc)
             return
         case PlantDetailsViewController.returnFromTypesList:
             let source = segue.source as! PlantTypeListPopupViewController
-            let type = source.type?.id
+            let type = Plant.Preferences.manager!.get(Plant.Preferences.manager!.ids[source.selected])
+            guard type != nil else {
+                output?.out(.error, "Unable to change plant type.")
+                return
+            }
             for item in textFields {
                 if item.value == .type {
-                    item.key.text = Plant.Preferences.manager!.get(type!)?.name
-                    editSaveButton!.isEnabled = PlantDetail.validate(plant!)
+                    item.key.text = type?.name
                 }
             }
+            let _ = PlantDetail.type.modify(plant!, with: type)
             return
         default: return
         }
@@ -163,27 +170,19 @@ class PlantDetailsViewController: EditableTableViewController {
         editSaveButton?.isEnabled = PlantDetail.validate(plant!)
     }
     
-    private func showPopup(_ detail: PlantDetail, _ width: Int = 300, _ height: Int = 200) {
-        let storyboardIds: [PlantDetail:String] = [
-            .location:"locationListPopoverViewController",
-            .type:"plantTypeListPopover"
-        ]
-        let popup =  self.storyboard!.instantiateViewController(
-            withIdentifier: storyboardIds[detail]!)
+    private func showPopup(_ detail: PlantDetail) {
+        let source = (textController as! DetailTextFieldDelegate<PlantDetail>).textFieldFor(detail)
         switch detail {
         case .location:
-            (popup as! LocationListPopoverViewController).location = Location.manager!.get(plant!.location)
+            LocationListPopoverViewController.show(
+                self, source!,
+                (Location.manager?.ids.firstIndex(of: plant!.location))!)
         case .type:
-            (popup as! PlantTypeListPopupViewController).type = Plant.Preferences.manager!.get(plant!.preferences)
+            PlantTypeListPopupViewController.show(
+                self, source!,
+                (Plant.Preferences.manager?.ids.firstIndex(of: plant!.preferences))!)
         default:
             return
         }
-        let sender = (textController as! DetailTextFieldDelegate<PlantDetail>).textFieldFor(detail)
-        popup.preferredContentSize = CGSize(width: width, height: height)
-        let presentationController = AlwaysPresentAsPopover.configurePresentation(forController: popup)
-        presentationController.sourceView = sender
-        presentationController.sourceRect = sender!.bounds
-        presentationController.permittedArrowDirections = [.down, .up]
-        self.present(popup, animated: true)
     }
 }

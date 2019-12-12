@@ -118,6 +118,7 @@
 		33F6738F239EFD3400F55861 /* ProvidedIds.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33F6738E239EFD3400F55861 /* ProvidedIds.swift */; };
 		33F67391239F00EB00F55861 /* Plant.Names.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33F67390239F00EB00F55861 /* Plant.Names.swift */; };
 		33F6739323A1CB6000F55861 /* PlantTypeListPopupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33F6739223A1CB6000F55861 /* PlantTypeListPopupViewController.swift */; };
+		33F6739723A1FEB200F55861 /* IdedObjValuePickerPopover.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33F6739623A1FEB200F55861 /* IdedObjValuePickerPopover.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -255,6 +256,7 @@
 		33F6738E239EFD3400F55861 /* ProvidedIds.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProvidedIds.swift; sourceTree = "<group>"; };
 		33F67390239F00EB00F55861 /* Plant.Names.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Plant.Names.swift; sourceTree = "<group>"; };
 		33F6739223A1CB6000F55861 /* PlantTypeListPopupViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlantTypeListPopupViewController.swift; sourceTree = "<group>"; };
+		33F6739623A1FEB200F55861 /* IdedObjValuePickerPopover.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IdedObjValuePickerPopover.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -318,6 +320,7 @@
 				33F67321237E522000F55861 /* DetailsTableController.swift */,
 				33F67325237E531600F55861 /* DetailTextFieldDelegate.swift */,
 				33F6734C238524E500F55861 /* DetailsSliderController.swift */,
+				33F6739623A1FEB200F55861 /* IdedObjValuePickerPopover.swift */,
 			);
 			path = dataSourcesAndDelegates;
 			sourceTree = "<group>";
@@ -943,6 +946,7 @@
 				33900D0C2295247A00E653D1 /* SeasonalConditions.swift in Sources */,
 				33F6738F239EFD3400F55861 /* ProvidedIds.swift in Sources */,
 				33C1A11A2193AD48003003F5 /* AppDelegate.swift in Sources */,
+				33F6739723A1FEB200F55861 /* IdedObjValuePickerPopover.swift in Sources */,
 				33F6735F2388C3FC00F55861 /* ScheduleViewController.swift in Sources */,
 				33F67326237E531600F55861 /* DetailTextFieldDelegate.swift in Sources */,
 				33F6735623853E9F00F55861 /* CollectionView.swift in Sources */,

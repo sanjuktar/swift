@@ -8,38 +8,31 @@
 
 import UIKit
 
-class LocationListPopoverViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource {
+class LocationListPopoverViewController: IdedObjValuePickerPopover<Location> {
     @IBOutlet weak var backButton: UIButton!
     @IBOutlet weak var pickerView: UIPickerView!
-    
-    var location: Location?
-    var locations: [UniqueId] {
-        return Location.manager!.ids
+    static var storyboardId: String {
+        return "locationListPopover"
+    }
+    override var storyboardId: String {
+        return LocationListPopoverViewController.storyboardId
+    }
+    override var manager: IdedObjManager<Location> {
+        return Location.manager!
+    }
+    override var picker: UIPickerView {
+        return pickerView
     }
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        pickerView.delegate = self
-        pickerView.dataSource = self
-        pickerView.selectRow(locations.firstIndex(of: location!.id) ?? 0, inComponent: 0, animated: false)
+    static func show(_ parent: UIViewController, _ source: UIView, _ selected: Int, width: Int = 300, height: Int = 200) {
+        let popup = (parent.storyboard!.instantiateViewController(withIdentifier: storyboardId) as! LocationListPopoverViewController)
+        popup.show(parent, source, selected, width: width, height: height)
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if (sender as? UIButton) == backButton {
-            location = Location.manager!.get(locations[pickerView.selectedRow(inComponent: 0)])
+        if segue.identifier == PlantDetailsViewController.returnFromLocationList {
+            selected = pickerView.selectedRow(inComponent: 0)
             return
         }
-    }
-    
-    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        return locations.count
-    }
-    
-    func numberOfComponents(in pickerView: UIPickerView) -> Int {
-        return 1
-    }
-    
-    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-        return Location.manager!.get(locations[row])?.name
     }
 }
