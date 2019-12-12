@@ -8,7 +8,7 @@
 
 import Foundation
 
-enum PlantType: String, Storable, CaseIterable {
+enum PlantType: String, Storable, CaseIterable, CustomStringConvertible {
     case none = "none"
     case succulent = "succulent"
     case cactus = "cactus"
@@ -18,6 +18,9 @@ enum PlantType: String, Storable, CaseIterable {
         return Defaults.version
     }
     var name: String {
+        return rawValue
+    }
+    var description: String {
         return rawValue
     }
     

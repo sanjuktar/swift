@@ -24,7 +24,7 @@ class Plant: IdedObj {
     var id: UniqueId
     var names: NameList
     var location: UniqueId
-    var preferences: Preferences
+    var preferences: UniqueId
     var image: UIImage?
     var name: String {
         return names.use
@@ -32,11 +32,23 @@ class Plant: IdedObj {
     var description: String {
         return name
     }
+    var care: CareInstructions? {
+        return prefObj?.care
+    }
+    var preferedConditions: SeasonalConditions? {
+        return prefObj?.prefered
+    }
+    var avoidConditions: SeasonalConditions? {
+        return prefObj?.avoid
+    }
     var isValid: Bool {
         return PlantDetail.validate(self)
     }
     var clone: Plant {
         return Plant(self)
+    }
+    private var prefObj: Preferences? {
+        return Preferences.manager?.get(preferences)
     }
     
     required init(from: Decoder) throws {
@@ -48,13 +60,15 @@ class Plant: IdedObj {
         if Plant.manager?.get(location) == nil {
             location = Defaults.location
         }
-        preferences = try container.decode(Preferences.self, forKey: .preferences)
+        preferences = try container.decode(UniqueId.self, forKey: .preferences)
         let data = try container.decode(Data?.self, forKey: .image)
         image = Plant.image(from: data)
     }
     
-    init(_ names: NameList = NameList(), location: UniqueId = Defaults.location,
-         image: UIImage? = nil, preferences: Preferences = Preferences(),
+    init(_ names: NameList = NameList(),
+         location: UniqueId = Defaults.location,
+         image: UIImage? = nil,
+         preferences: UniqueId = Preferences.manager!.defaults[.none]!,
          preferedNameType: NameType = .nickname) {
         version = Defaults.version
         id = (Plant.manager?.newId())!

@@ -20,6 +20,7 @@ enum PlantDetail: String, Codable, ObjectDetail {
     case ignore = "ignore"
     case image = "image"
     case location = "Location"
+    case type = "Type"
     // Names
     case nickname = "Nickname"
     case commonName = "Common"
@@ -33,7 +34,7 @@ enum PlantDetail: String, Codable, ObjectDetail {
     case repot = "Repot"
     
     static var details: [Section:[PlantDetail]] =
-        [.noHeading:[.image, .location],
+        [.noHeading:[.image, .location, .type],
          .names:[.nickname, .commonName, .scientificName],
          .care:CareType.inUseList.map{PlantDetail($0)}]
     static var sections: [String] {
@@ -79,6 +80,7 @@ enum PlantDetail: String, Codable, ObjectDetail {
         case .ignore: return nil
         case .image: return nil
         case .location: return nil
+        case .type: return nil
         case .nickname: return nil
         case .commonName: return nil
         case .scientificName: return nil
@@ -138,26 +140,28 @@ enum PlantDetail: String, Codable, ObjectDetail {
             fatalError("Invalid detail!!!!!")
         case .image:
             return plant.image
+        case .location:
+            return Location.manager!.get(plant.location)!.name
+        case .type:
+            return Plant.Preferences.manager?.get(plant.preferences)?.name
         case .nickname:
             return plant.names.nickname
         case .commonName:
             return plant.names.common
         case .scientificName:
             return plant.names.scientific
-        case .location:
-            return Location.manager!.get(plant.location)!.name
         case .water:
-            return CareDetail.water.value(for: plant.preferences.care)
+            return CareDetail.water.value(for: plant.care!)
         case .light:
-            return CareDetail.light.value(for: plant.preferences.care)
+            return CareDetail.light.value(for: plant.care!)
         case .fertilize:
-            return CareDetail.fertilize.value(for: plant.preferences.care)
+            return CareDetail.fertilize.value(for: plant.care!)
         case .pestControl:
-            return CareDetail.pestControl.value(for: plant.preferences.care)
+            return CareDetail.pestControl.value(for: plant.care!)
         case .prune:
-            return CareDetail.prune.value(for: plant.preferences.care)
+            return CareDetail.prune.value(for: plant.care!)
         case .repot:
-            return CareDetail.repot.value(for: plant.preferences.care)
+            return CareDetail.repot.value(for: plant.care!)
         }
     }
     
@@ -165,6 +169,7 @@ enum PlantDetail: String, Codable, ObjectDetail {
         switch self {
         case let detail where detail.isName: return obj.names.validate()
         case .location: return Location.manager?.get(obj.location) != nil
+        case .type: return Plant.Preferences.manager?.get(obj.id) != nil
         default: return true
         }
     }
@@ -182,8 +187,17 @@ enum PlantDetail: String, Codable, ObjectDetail {
             switch value {
             case let v where v is Location:
                 obj.location = (v as! Location).id
-            case let v where v is String:
-                obj.location = v as! String
+            case let v where v is UniqueId:
+                obj.location = v as! UniqueId
+            default:
+                return false
+            }
+        case .type:
+            switch value {
+            case let v where v is Plant.Preferences:
+                obj.preferences = (v as! Plant.Preferences).id
+            case let v where v is UniqueId:
+                obj.preferences = v as! UniqueId
             default:
                 return false
             }

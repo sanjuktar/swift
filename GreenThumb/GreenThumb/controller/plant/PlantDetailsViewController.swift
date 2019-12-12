@@ -122,7 +122,7 @@ class PlantDetailsViewController: EditableTableViewController {
                 performSegue(withIdentifier: PlantDetailsViewController.locationDetailsSegue, sender: Location.manager!.get(plant!.location))
             }
         case let d where d.careType != nil:
-            performSegue(withIdentifier: PlantDetailsViewController.careDetailsSegue, sender: plant?.preferences.care.schedule[detail.careType!])
+            performSegue(withIdentifier: PlantDetailsViewController.careDetailsSegue, sender: plant?.care?.schedule[detail.careType!])
         default:
             break
         }
