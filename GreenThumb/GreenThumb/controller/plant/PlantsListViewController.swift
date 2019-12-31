@@ -21,18 +21,24 @@ class PlantsListViewController: CollectionViewController {
         if segue.identifier == PlantDetailsViewController.returnToPlantListSegue {
             let source = segue.source as! PlantDetailsViewController
             guard source.plant != nil else {return}
-            collection?.reloadData()
             do {
                 try Plant.manager?.add(source.plant!)
             } catch {
                 output?.output(.error, "Unable to save changes: \(error.localizedDescription)")
             }
+            insertItems(collection?.indexPathsForSelectedItems)
         }
     }
     
     static var segueToPlantDetails = "plantListToDetailsSegue"
     static var addNewPlantSegue = "addNewPlantSegue"
     
+    override var emptyMessage: String {
+        return "No plants yet."
+    }
+    override var isEmpty: Bool {
+        return plants!.isEmpty
+    }
     var plants: [UniqueId]? {
         return Plant.manager?.ids
     }

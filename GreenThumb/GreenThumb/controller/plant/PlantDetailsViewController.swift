@@ -45,11 +45,7 @@ class PlantDetailsViewController: EditableTableViewController {
                 output?.out(.error, "Unable to change location.")
                 return
             }
-            for item in textFields {
-                if item.value == .location {
-                    item.key.text =  loc!.name
-                }
-            }
+            textField(for: .location)!.text = loc?.name
             let _ = PlantDetail.location.modify(plant!, with: loc)
             return
         case PlantDetailsViewController.returnFromTypesList:
@@ -59,11 +55,7 @@ class PlantDetailsViewController: EditableTableViewController {
                 output?.out(.error, "Unable to change plant type.")
                 return
             }
-            for item in textFields {
-                if item.value == .type {
-                    item.key.text = type?.name
-                }
-            }
+            textField(for: .type)?.text = type?.name
             let _ = PlantDetail.type.modify(plant!, with: type)
             return
         default: return
@@ -156,7 +148,8 @@ class PlantDetailsViewController: EditableTableViewController {
         let detail = textFields[textField]
         switch detail {
         case .location:
-            fallthrough
+            showPopup(detail!)
+            return false
         case .type:
             showPopup(detail!)
             return false
@@ -170,8 +163,12 @@ class PlantDetailsViewController: EditableTableViewController {
         editSaveButton?.isEnabled = PlantDetail.validate(plant!)
     }
     
+    private func textField(for detail: PlantDetail) -> UITextField? {
+        return (textController as! DetailTextFieldDelegate<PlantDetail>).textFieldFor(detail)
+    }
+    
     private func showPopup(_ detail: PlantDetail) {
-        let source = (textController as! DetailTextFieldDelegate<PlantDetail>).textFieldFor(detail)
+        let source = textField(for: detail)
         switch detail {
         case .location:
             LocationListPopoverViewController.show(

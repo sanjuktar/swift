@@ -96,12 +96,13 @@
                         <outlet property="detailsTable" destination="wZR-2L-mQm" id="GwO-Zo-jzU"/>
                         <segue destination="JR1-AQ-QHa" kind="show" identifier="plantDetailsToCareSegue" id="yeQ-Rd-foq"/>
                         <segue destination="v1v-ZL-dr7" kind="show" identifier="plantDetailsToLocationSegue" id="auS-hU-Xpj"/>
+                        <segue destination="3y9-NP-3IB" kind="show" identifier="plantDetailsToTypeDetails" id="7R8-W9-Ium"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="UQv-3f-1lJ" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <exit id="v9F-vz-8K2" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="2709.5999999999999" y="-36.431784107946029"/>
+            <point key="canvasLocation" x="2710" y="-36"/>
         </scene>
         <!--Location List Popover View Controller-->
         <scene sceneID="mu4-vx-T9m">
@@ -145,7 +146,7 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="eRv-yI-KnQ" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <exit id="WIp-kN-cNq" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="3354" y="-209"/>
+            <point key="canvasLocation" x="3466" y="-212"/>
         </scene>
         <!--Types-->
         <scene sceneID="JEi-yL-Win">
@@ -189,7 +190,61 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="CA3-XK-S8b" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
                 <exit id="oHq-FO-Jvp" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="3353.5999999999999" y="43.178410794602705"/>
+            <point key="canvasLocation" x="3466" y="52"/>
+        </scene>
+        <!--Plant Type-->
+        <scene sceneID="OLu-9L-f9m">
+            <objects>
+                <viewController storyboardIdentifier="plantTypeDetails" useStoryboardIdentifierAsRestorationIdentifier="YES" id="3y9-NP-3IB" customClass="PlantTypeDetailsViewController" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="M89-pi-PSg">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="M8i-n6-9R1">
+                                <rect key="frame" x="0.0" y="44" width="375" height="525"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                <prototypes>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" rowHeight="140" id="A5Q-yn-6Yp">
+                                        <rect key="frame" x="0.0" y="28" width="375" height="140"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="A5Q-yn-6Yp" id="oAI-pn-VO2">
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="140"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3kd-yR-tSR">
+                                                    <rect key="frame" x="15" y="11" width="42" height="21"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="1Gq-oq-taX">
+                                                    <rect key="frame" x="0.0" y="40" width="375" height="109"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                                </tableView>
+                                            </subviews>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </prototypes>
+                            </tableView>
+                        </subviews>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <constraints>
+                            <constraint firstItem="8Jo-Dk-mth" firstAttribute="trailing" secondItem="M8i-n6-9R1" secondAttribute="trailing" id="VYI-FZ-2X3"/>
+                            <constraint firstItem="8Jo-Dk-mth" firstAttribute="bottom" secondItem="M8i-n6-9R1" secondAttribute="bottom" id="Vo6-jU-fto"/>
+                            <constraint firstItem="M8i-n6-9R1" firstAttribute="top" secondItem="8Jo-Dk-mth" secondAttribute="top" id="itB-qt-qN2"/>
+                            <constraint firstItem="M8i-n6-9R1" firstAttribute="leading" secondItem="8Jo-Dk-mth" secondAttribute="leading" id="tOR-Ix-gIj"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="8Jo-Dk-mth"/>
+                    </view>
+                    <navigationItem key="navigationItem" title="Plant Type" id="ec4-8r-DBb">
+                        <barButtonItem key="rightBarButtonItem" systemItem="edit" id="yxb-QS-zCv"/>
+                    </navigationItem>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="r3Q-1g-DIe" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3525.5999999999999" y="554.57271364317842"/>
         </scene>
         <!--Care View Controller-->
         <scene sceneID="wg7-f3-ORb">
@@ -218,7 +273,22 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="4Nw-L8-lE0" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="978" y="709"/>
+            <point key="canvasLocation" x="977" y="1450"/>
+        </scene>
+        <!--View Controller-->
+        <scene sceneID="X81-FM-0rQ">
+            <objects>
+                <viewController id="aBv-SO-aPI" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="2dv-Lv-QNU">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <viewLayoutGuide key="safeArea" id="sXh-AM-gDT"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Y0v-nZ-PGe" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1874" y="715"/>
         </scene>
         <!--Care Schedule-->
         <scene sceneID="7CK-Y9-ePx">
@@ -252,7 +322,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="jjN-wl-YSh" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2710" y="707"/>
+            <point key="canvasLocation" x="2710" y="715"/>
         </scene>
         <!--Tab Bar Controller-->
         <scene sceneID="yl2-sM-qoP">
@@ -335,7 +405,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" restorationIdentifier="locationDetailsTableView" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="18" sectionFooterHeight="18" translatesAutoresizingMaskIntoConstraints="NO" id="1aQ-yI-axm" customClass="TableView" customModule="GreenThumb" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="44" width="375" height="574"/>
+                                <rect key="frame" x="0.0" y="44" width="375" height="525"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                             </tableView>
                         </subviews>
@@ -363,7 +433,7 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="OQW-Xz-RxB" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <exit id="0RF-LO-tm4" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="2709.5999999999999" y="-806.44677661169419"/>
+            <point key="canvasLocation" x="2710" y="-806"/>
         </scene>
         <!--Plants-->
         <scene sceneID="Yvf-hh-Y34">
@@ -401,7 +471,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="2pt-eW-Qcv" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-1" y="710"/>
+            <point key="canvasLocation" x="-2" y="1450"/>
         </scene>
         <!--Care Details View Controller-->
         <scene sceneID="XuZ-bA-hwe">
@@ -431,7 +501,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="2KV-zx-7EJ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1868" y="707"/>
+            <point key="canvasLocation" x="1868" y="1450"/>
         </scene>
         <!--Locations-->
         <scene sceneID="yha-7S-F4k">
@@ -459,7 +529,7 @@
         <image name="wateringCan" width="25" height="25"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="hqA-sA-Kt2"/>
+        <segue reference="auS-hU-Xpj"/>
         <segue reference="0Bh-rz-49X"/>
     </inferredMetricsTieBreakers>
 </document>

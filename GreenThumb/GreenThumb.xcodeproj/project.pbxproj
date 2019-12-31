@@ -119,6 +119,8 @@
 		33F67391239F00EB00F55861 /* Plant.Names.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33F67390239F00EB00F55861 /* Plant.Names.swift */; };
 		33F6739323A1CB6000F55861 /* PlantTypeListPopupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33F6739223A1CB6000F55861 /* PlantTypeListPopupViewController.swift */; };
 		33F6739723A1FEB200F55861 /* IdedObjValuePickerPopover.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33F6739623A1FEB200F55861 /* IdedObjValuePickerPopover.swift */; };
+		33F6739923A2C54000F55861 /* PlantTypeDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33F6739823A2C54000F55861 /* PlantTypeDetailsViewController.swift */; };
+		33F6739B23A2C8A700F55861 /* PlantTypeDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33F6739A23A2C8A700F55861 /* PlantTypeDetail.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -257,6 +259,8 @@
 		33F67390239F00EB00F55861 /* Plant.Names.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Plant.Names.swift; sourceTree = "<group>"; };
 		33F6739223A1CB6000F55861 /* PlantTypeListPopupViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlantTypeListPopupViewController.swift; sourceTree = "<group>"; };
 		33F6739623A1FEB200F55861 /* IdedObjValuePickerPopover.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IdedObjValuePickerPopover.swift; sourceTree = "<group>"; };
+		33F6739823A2C54000F55861 /* PlantTypeDetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlantTypeDetailsViewController.swift; sourceTree = "<group>"; };
+		33F6739A23A2C8A700F55861 /* PlantTypeDetail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlantTypeDetail.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -589,6 +593,8 @@
 				33C1A186219FBAE7003003F5 /* PlantDetail.swift */,
 				33C1A14B2193BE28003003F5 /* PlantDetailsViewController.swift */,
 				33F6739223A1CB6000F55861 /* PlantTypeListPopupViewController.swift */,
+				33F6739823A2C54000F55861 /* PlantTypeDetailsViewController.swift */,
+				33F6739A23A2C8A700F55861 /* PlantTypeDetail.swift */,
 			);
 			path = plant;
 			sourceTree = "<group>";
@@ -892,6 +898,7 @@
 				33C1A14E2193BE3A003003F5 /* CareDetailsViewController.swift in Sources */,
 				33F6737C2397304900F55861 /* Plant.Preferences.swift in Sources */,
 				338DBF7F21E6CCC5006F5BA1 /* Volume.swift in Sources */,
+				33F6739B23A2C8A700F55861 /* PlantTypeDetail.swift in Sources */,
 				338E4909227C0E52007FF826 /* Rain.swift in Sources */,
 				338DBF8A21E83A7D006F5BA1 /* IdedObjManager.swift in Sources */,
 				338E48FC22783310007FF826 /* LocationDetail.swift in Sources */,
@@ -922,6 +929,7 @@
 				33F67328237E6CEC00F55861 /* KeyboardHandler.swift in Sources */,
 				33C1A19A21C8E3F3003003F5 /* TimeWindow.swift in Sources */,
 				336FAA1D237A0686003E2ECF /* EditableTextCell.swift in Sources */,
+				33F6739923A2C54000F55861 /* PlantTypeDetailsViewController.swift in Sources */,
 				33F6737E239732F400F55861 /* Plant.Preferences.Manager.swift in Sources */,
 				33C1A14C2193BE28003003F5 /* PlantDetailsViewController.swift in Sources */,
 				33F6733623835C4900F55861 /* ReuseId.swift in Sources */,

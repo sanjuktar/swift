@@ -21,18 +21,24 @@ class LocationListViewController: CollectionViewController {
         if segue.identifier == LocationDetailsViewController.returnToLocationsListSegue {
             let source = segue.source as! LocationDetailsViewController
             guard source.location != nil else {return}
-            self.collection!.reloadData()
             do {
                 try Location.manager?.add(source.location!)
             } catch {
                 output?.output(.error, "Unable to save changes: \(error.localizedDescription)")
             }
+            insertItems(collection?.indexPathsForSelectedItems)
         }
     }
     
     static var locDetailsSegue = "locListToDetailsSegue"
     static var addLocationSegue = "addLocationSegue"
     
+    override var emptyMessage: String {
+        return "No named locations added."
+    }
+    override var isEmpty: Bool {
+        return locations!.isEmpty
+    }
     var locations: [UniqueId]? {
         return Location.manager?.knownLocations
     }

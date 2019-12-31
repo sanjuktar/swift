@@ -42,7 +42,7 @@ class LocationDetailsViewController: EditableTableViewController {
     }
     
     override func shouldPerformSegue(withIdentifier identifier: String, sender: Any?) -> Bool {
-        if sender is UIBarButtonItem && (sender as! UIBarButtonItem) == editSaveButton {
+        if identifier == LocationDetailsViewController.returnToLocationsListSegue {
             if editMode {
                 return LocationDetail.validate(location!)
             }

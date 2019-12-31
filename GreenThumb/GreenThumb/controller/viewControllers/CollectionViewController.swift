@@ -13,6 +13,12 @@ class CollectionViewController: UIViewController, UICollectionViewDelegate, UICo
     var log: Log?
     var output: Output?
     var editMode: Bool = false
+    var isEmpty: Bool {
+        return false
+    }
+    var emptyMessage: String {
+        return "No items"
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -22,6 +28,9 @@ class CollectionViewController: UIViewController, UICollectionViewDelegate, UICo
         collection?.dataSource = self
         collection?.allowsMultipleSelection = false
         collection?.reloadData()
+        if isEmpty {
+            showEmptyMessage()
+        }
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -45,6 +54,7 @@ class CollectionViewController: UIViewController, UICollectionViewDelegate, UICo
         setEditMode(false)
         guard let items = collection?.indexPathsForSelectedItems else {return}
         let _ = items.map{deleteObject(at: $0)}
+        isEmpty ? showEmptyMessage() : (collection?.backgroundView = nil)
         collection?.reloadData()
     }
     
@@ -59,6 +69,27 @@ class CollectionViewController: UIViewController, UICollectionViewDelegate, UICo
             collection?.allowsMultipleSelection = false
             editMode = false
         }
+    }
+    
+    func insertItems(_ indxs: [IndexPath]?) {
+        var indx: [IndexPath]
+        if indxs != nil {
+            indx = indxs!
+            collection?.deleteItems(at: indx)
+        }
+        else {
+            indx = [IndexPath(item: nItemsInSection(0), section: 0)]
+        }
+        collection?.insertItems(at: indx)
+        collection?.backgroundView = nil
+    }
+    
+    func showEmptyMessage() {
+        let label = UILabel()
+        label.text = emptyMessage
+        label.center = CGPoint(x: UIScreen.main.bounds.width/2, y: UIScreen.main.bounds.height/2)
+        label.textAlignment = .center
+        collection?.backgroundView = label
     }
     
     func nItemsInSection(_ section: Int) -> Int {
